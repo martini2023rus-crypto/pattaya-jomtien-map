@@ -20,3 +20,10 @@ https://martini2023rus-crypto.github.io/pattaya-jomtien-map/
   адрес: https://martini2023rus-crypto.github.io/pattaya-jomtien-map/board/
   Обновляется руками: правится файл, затем `git add board/index.html`, коммит и `git push`.
   `publish.ps1` эту папку не трогает.
+
+## Вторая страница: график саппорта мастеров
+
+`support/index.html` — статистика «когда пишут мастера» (журнал бота поддержки, 4 недели)
+и предложение по графику смен саппорта тремя шагами. Собирается Claude Code (сессия FatherBot),
+`publish.ps1` её не трогает: скрипт копирует только `index.html`.
+https://martini2023rus-crypto.github.io/pattaya-jomtien-map/support/

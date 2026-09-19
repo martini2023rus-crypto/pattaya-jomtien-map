@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Когда пишут мастера</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+:root{
+  --bg:#F5F7FA; --surface:#FFFFFF; --ink:#18212B; --ink-2:#4E5B6A; --muted:#8593A3; --line:#DCE3EA;
+  --heat-lo:#EDF3F8; --heat-hi:#0E4A7E; --accent:#0E4A7E; --frame:#C7572B; --frame-bg:rgba(199,87,43,.06);
+  --ink-on-dark:#F7FAFD; --ink-on-light:#18212B;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#12181F; --surface:#1A222B; --ink:#E9EEF3; --ink-2:#B4BFCA; --muted:#7D8A98; --line:#2B3641;
+  --heat-lo:#1F2B37; --heat-hi:#8FC3EE; --accent:#8FC3EE; --frame:#F08A5B; --frame-bg:rgba(240,138,91,.10);
+}}
+:root[data-theme="dark"]{
+  --bg:#12181F; --surface:#1A222B; --ink:#E9EEF3; --ink-2:#B4BFCA; --muted:#7D8A98; --line:#2B3641;
+  --heat-lo:#1F2B37; --heat-hi:#8FC3EE; --accent:#8FC3EE; --frame:#F08A5B; --frame-bg:rgba(240,138,91,.10);
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;font-size:15px;line-height:1.5;margin:0;padding-block:28px 48px;padding-inline:clamp(16px,4vw,40px)}
+.wrap{max-width:1180px;margin:0 auto;display:grid;gap:28px}
+h1,h2{font-family:Manrope,"IBM Plex Sans",system-ui,sans-serif;text-wrap:balance;margin:0}
+h1{font-size:clamp(26px,4vw,38px);font-weight:800;letter-spacing:-.01em;line-height:1.15}
+h2{font-size:19px;font-weight:700;margin-bottom:10px}
+.eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:6px}
+.lead{color:var(--ink-2);max-width:68ch;margin-top:8px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.tile{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+.tile b{display:block;font-family:Manrope,sans-serif;font-size:28px;font-weight:800;line-height:1.1;font-variant-numeric:tabular-nums}
+.tile span{color:var(--ink-2);font-size:13px}
+.tile.hot b{color:var(--frame)}
+section{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px clamp(14px,2.5vw,24px)}
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:12px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.seg button{border:0;background:transparent;color:var(--ink-2);padding:6px 12px;font:inherit;font-weight:500;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--accent)}
+.seg button:focus-visible{outline:2px solid var(--frame);outline-offset:-2px}
+.legend{display:flex;align-items:center;gap:8px;color:var(--ink-2);font-size:13px;margin-left:auto}
+.legend i{display:inline-block;width:110px;height:10px;border-radius:3px;background:linear-gradient(90deg,var(--heat-lo),var(--heat-hi))}
+.legend .fr{display:inline-block;width:18px;height:12px;border:2px dashed var(--frame);border-radius:2px;background:var(--frame-bg)}
+.scroll{overflow-x:auto}
+table.heat{border-collapse:separate;border-spacing:2px;font-variant-numeric:tabular-nums;min-width:820px;width:100%}
+table.heat th{font-weight:500;color:var(--muted);font-size:12px;padding:2px 0;text-align:center}
+table.heat th.d{text-align:left;padding-right:8px;color:var(--ink-2);font-weight:600;font-size:13px;white-space:nowrap}
+table.heat td{height:34px;text-align:center;font-size:13px;border-radius:4px;min-width:30px;position:relative}
+table.heat td.sum{color:var(--ink-2);font-weight:600;background:transparent;text-align:right;padding-left:8px}
+table.heat tr.tot td{background:transparent;color:var(--ink-2);font-weight:600;font-size:12px;height:24px}
+table.heat td.frame{outline:2px dashed var(--frame);outline-offset:-2px}
+table.heat td.c:hover{outline:2px solid var(--ink);outline-offset:-2px}
+.tip{position:fixed;pointer-events:none;background:var(--ink);color:var(--bg);padding:6px 10px;border-radius:6px;font-size:13px;z-index:9;display:none;white-space:nowrap}
+.note{color:var(--ink-2);font-size:13.5px;margin-top:10px;max-width:80ch}
+.weeks{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;min-width:640px}
+.weeks th{text-align:left;font-size:12px;color:var(--muted);font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:6px 8px;border-bottom:1px solid var(--line)}
+.weeks td{padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:middle}
+.weeks td.n{text-align:right}
+.bar{display:flex;align-items:center;gap:8px}
+.bar i{display:block;height:10px;border-radius:3px;background:var(--accent);flex:none}
+.bar.w i{background:var(--frame)}
+.findings{display:grid;gap:10px;padding-left:0;margin:0;list-style:none;counter-reset:f}
+.findings li{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start}
+.findings li::before{counter-increment:f;content:counter(f);font-family:Manrope,sans-serif;font-weight:800;color:var(--frame);font-size:18px;line-height:1.3}
+.findings b{font-weight:600}
+.small{color:var(--muted);font-size:12.5px}
+.sched{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.sched label{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:999px;padding:5px 12px;font-size:13px;cursor:pointer;color:var(--ink-2)}
+.sched label:has(input:checked){border-color:var(--frame);background:var(--frame-bg);color:var(--ink)}
+.sched input{accent-color:var(--frame);margin:0}
+.sched label:has(input:focus-visible){outline:2px solid var(--frame);outline-offset:2px}
+.cover{display:flex;flex-wrap:wrap;gap:6px 16px;align-items:baseline;margin:0 0 8px;font-size:14px;color:var(--ink-2)}
+.cover b{font-family:Manrope,sans-serif;font-size:22px;color:var(--frame);font-variant-numeric:tabular-nums}
+.opts{width:100%;border-collapse:collapse;min-width:720px;font-variant-numeric:tabular-nums}
+.opts th{text-align:left;font-size:12px;color:var(--muted);font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:6px 8px;border-bottom:1px solid var(--line)}
+.opts td{padding:8px;border-bottom:1px solid var(--line);vertical-align:top}
+.opts td.n{text-align:right;white-space:nowrap}
+.opts .who{font-size:13px;color:var(--ink-2)}
+.opts td.pct b{font-family:Manrope,sans-serif;font-size:17px}
+.delta{font-size:12px;color:var(--muted);margin-left:4px}
+.load{width:100%;border-collapse:collapse;min-width:520px;font-variant-numeric:tabular-nums}
+.load th{text-align:left;font-size:12px;color:var(--muted);font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:6px 8px;border-bottom:1px solid var(--line)}
+.load td{padding:7px 8px;border-bottom:1px solid var(--line)}
+.load td.n{text-align:right}
+code{font-family:"IBM Plex Mono",ui-monospace,Menlo,monospace;font-size:.92em}
+@media (max-width:640px){.legend{margin-left:0}}
+@media (prefers-reduced-motion: no-preference){table.heat td{transition:outline-color .12s}}
+
+.load td.zero{color:var(--frame);font-weight:600}
+.load th{text-align:center}
+.load td.n{text-align:center}
+.step{border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin-top:12px}
+.stephead{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:6px}
+.stephead > div{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:baseline}
+.stephead > div > b{font-family:Manrope,sans-serif;font-size:18px}
+.stepcov{color:var(--ink-2);font-size:14px}
+.stepcov b{font-family:Manrope,sans-serif;font-size:18px;color:var(--frame);font-variant-numeric:tabular-nums}
+table.who{border-collapse:separate;border-spacing:3px;min-width:640px;width:100%;font-variant-numeric:tabular-nums}
+table.who th{font-size:12px;color:var(--muted);font-weight:600;text-align:center;padding:2px 4px}
+table.who th:first-child{text-align:left}
+table.who td{text-align:center;padding:7px 6px;border-radius:6px;font-size:13px;white-space:nowrap}
+table.who td.nm{text-align:left;font-weight:600;padding-left:0}
+table.who td.on{background:var(--frame-bg);outline:1.5px dashed var(--frame);outline-offset:-1.5px}
+table.who td.off{color:var(--muted)}
+table.who td.n{color:var(--ink-2);font-weight:600}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Саппорт мастеров · группы поддержки · 24 августа – 19 сентября 2026</div>
+    <h1>Когда пишут мастера</h1>
+    <p class="lead">Сообщения от мастеров в их группах поддержки за последние 4 недели, разложенные по дню недели и часу. Время — <b>Бангкок (UTC+7)</b>. Пунктирная рамка — часы, когда кто-то из саппорта на смене. Сейчас это Пн–Пт: Марина и Настя 10–13 и 14–17, Инна 13–17 и 18–21. Переключатель под картой показывает, как рамка меняется на каждом шаге предложения.</p>
+  </header>
+
+  <div class="tiles" id="tiles"></div>
+
+  <section>
+    <div class="toolbar">
+      <div class="seg" role="group" aria-label="Что показывать">
+        <button id="btn-msgs" aria-pressed="true">Сообщения</button>
+        <button id="btn-appeals" aria-pressed="false">Обращения</button>
+      </div>
+      <div class="legend"><span>меньше</span><i></i><span>больше</span> <span class="fr" style="margin-left:10px"></span><span>саппорт на смене</span></div>
+    </div>
+    <p class="cover" id="cover"></p>
+    <div class="sched" id="sched"></div>
+    <div class="scroll"><table class="heat" id="heat"></table></div>
+    <p class="note" id="metric-note"></p>
+  </section>
+
+  <section>
+    <h2>Что видно</h2>
+    <ol class="findings" id="findings"></ol>
+  </section>
+
+  <section>
+    <h2>Где стоят люди и где поток</h2>
+    <p class="note" style="margin-top:0">Будни, сколько человек на смене в каждый час при нынешнем графике — против того, сколько сообщений приходит.</p>
+    <div class="scroll"><table class="load" id="load"></table></div>
+    <p class="note">Самый плотный блок — 13–17, там 7 сообщений в час на день. Час 17–18 — никого, а сообщений столько же, сколько в 18–19. Выходные — никого, а это каждое пятое сообщение.</p>
+  </section>
+
+  <section>
+    <h2>Предложение: три шага, каждый — маленький сдвиг</h2>
+    <p class="note" style="margin-top:0">Правило: смена — это 3 часа работы, час перерыва и ещё 3 часа. Шаги идут по нарастающей: каждый следующий включает предыдущий. Процент — сколько сообщений и обращений за прошедшие 4 недели пришлось бы на смену. Можно остановиться на любом шаге.</p>
+    <div id="ladder"></div>
+    <p class="small">Что не закрывает ни один шаг: ночь и утро до 10 (3–4 %) и поздний вечер (после 22). Это дешевле отдать боту — он сам отвечает на частые вопросы — с правилом «саппорт отвечает утром».</p>
+  </section>
+
+  <section>
+    <h2>Динамика по неделям</h2>
+    <div class="scroll"><table class="weeks" id="weeks"></table></div>
+    <p class="small">* неделя 14–19 сентября неполная: без воскресенья, суббота до 19:43. «Вечером» — сообщения после 17:00 в любой день. «На смене» — по нынешнему графику: Пн–Пт 10–17 и 18–21.</p>
+  </section>
+
+  <section>
+    <h2>Как считалось</h2>
+    <p class="note">Источник — журнал сообщений бота поддержки мастеров. Взяты только входящие сообщения от мастеров (39 человек) в их личных группах поддержки. Правки сообщений и повторы не считаются. <b>Обращение</b> — сообщение мастера после тишины в группе от 30 минут: так десять реплик подряд считаются одним разговором. Отдельно мастера пишут в общие группы салонов: за те же 4 недели 418 сообщений, почти все Пн–Пт с 13 до 18 — в таблицу выше они не входят. Провалов в журнале нет, бот всё время был на связи.</p>
+  </section>
+</div>
+<div class="tip" id="tip"></div>
+<script>
+const DATA = {"H": [[1, 1, 0, 0, 0, 0, 0, 6, 4, 0, 0, 12, 23, 52, 50, 48, 31, 11, 28, 10, 21, 21, 8, 2], [3, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 8, 41, 25, 14, 15, 47, 55, 37, 26, 25, 13, 22, 4], [3, 5, 8, 0, 0, 0, 0, 0, 3, 1, 4, 18, 32, 15, 12, 29, 13, 9, 4, 29, 8, 12, 8, 2], [0, 0, 0, 0, 1, 0, 0, 1, 5, 0, 20, 46, 46, 27, 39, 14, 46, 10, 22, 25, 18, 4, 3, 8], [2, 4, 3, 0, 0, 0, 0, 0, 0, 3, 2, 10, 56, 25, 33, 12, 13, 6, 2, 22, 24, 0, 11, 3], [5, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 36, 14, 20, 45, 20, 7, 9, 4, 1, 6, 2, 2], [1, 1, 0, 1, 0, 0, 0, 0, 0, 1, 6, 9, 13, 26, 11, 12, 21, 21, 11, 7, 5, 19, 0, 0]], "A": [[1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 2, 8, 11, 7, 4, 5, 4, 3, 3, 3, 3, 1, 2], [3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 10, 7, 6, 6, 15, 13, 8, 9, 4, 7, 8, 1], [2, 2, 3, 0, 0, 0, 0, 0, 1, 0, 1, 5, 15, 7, 2, 7, 6, 2, 3, 20, 7, 6, 2, 0], [0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 2, 2, 6, 6, 2, 6, 8, 3, 6, 4, 4, 1, 3, 5], [1, 2, 1, 0, 0, 0, 0, 0, 0, 0, 1, 4, 12, 3, 7, 7, 6, 2, 1, 1, 4, 0, 4, 1], [3, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 11, 5, 3, 20, 4, 4, 7, 1, 1, 4, 1, 2], [1, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 5, 6, 1, 5, 7, 10, 7, 2, 3, 3, 0, 0]], "weeks": [{"label": "3–9 авг", "msgs": 467, "appeals": 135, "masters": 36, "wkend": 131, "night": 16, "evening": 154, "lunch": 19, "core": 272}, {"label": "10–16 авг", "msgs": 461, "appeals": 154, "masters": 37, "wkend": 177, "night": 51, "evening": 184, "lunch": 29, "core": 225}, {"label": "17–23 авг", "msgs": 431, "appeals": 145, "masters": 36, "wkend": 97, "night": 18, "evening": 84, "lunch": 35, "core": 262}, {"label": "24–30 авг", "msgs": 432, "appeals": 102, "masters": 27, "wkend": 91, "night": 14, "evening": 135, "lunch": 58, "core": 281}, {"label": "31 авг–6 сен", "msgs": 539, "appeals": 123, "masters": 31, "wkend": 183, "night": 6, "evening": 144, "lunch": 37, "core": 312}, {"label": "7–13 сен", "msgs": 285, "appeals": 119, "masters": 35, "wkend": 44, "night": 14, "evening": 103, "lunch": 16, "core": 189}, {"label": "14–19 сен*", "msgs": 532, "appeals": 147, "masters": 37, "wkend": 20, "night": 15, "evening": 225, "lunch": 33, "core": 398}]};
+const DAYS = ["Пн","Вт","Ср","Чт","Пт","Сб","Вс"];
+const WD=[0,1,2,3,4], WE=[5,6];
+// Смена «3 + 1 + 3»: старт s → [s,s+3) и [s+4,s+7)
+const blk = s => [[s,s+3],[s+4,s+7]];
+// Графики по людям: parts = [{days, spans:[[от,до],...]}]
+const SCHEDULES = [
+ {id:"cur", name:"Сейчас", cover:"", hours:95,
+  change:"Марина и Настя вдвоём на утре, Инна одна на пике 13–17, в 17–18 и после 21 никого, выходные пустые.",
+  people:{"Марина":[{days:WD,spans:blk(10)}],"Настя":[{days:WD,spans:blk(10)}],"Инна":[{days:WD,spans:[[13,17],[18,21]]}]}},
+ {id:"s1", name:"Шаг 1", hours:95,
+  change:"Настя сдвигается на час: 11–14 и 15–18. Закрывается дыра 17–18, в 10–11 остаётся Марина — там всё равно почти пусто. Больше ничего не меняется.",
+  people:{"Марина":[{days:WD,spans:blk(10)}],"Настя":[{days:WD,spans:blk(11)}],"Инна":[{days:WD,spans:[[13,17],[18,21]]}]}},
+ {id:"s2", name:"Шаг 2", hours:90,
+  change:"Настя ещё на час: 12–15 и 16–19. Инна переходит на 15–18 и 19–22 — вечер закрыт до 22:00. Будни покрыты сплошь с 10 до 22. Цена: у Инны день 6 часов вместо 7 (блок 13–17 был 4 часа, по правилу — 3).",
+  people:{"Марина":[{days:WD,spans:blk(10)}],"Настя":[{days:WD,spans:blk(12)}],"Инна":[{days:WD,spans:blk(15)}]}},
+ {id:"s3", name:"Шаг 3", hours:90,
+  change:"Марина выходит в субботу и воскресенье (11–14 и 15–18 — самые горячие часы выходных), а отдыхает в понедельник и вторник. Пн и Вт утро 10–12 остаётся без людей — там 3 % буднего потока.",
+  people:{"Марина":[{days:[2,3,4],spans:blk(10)},{days:WE,spans:blk(11)}],"Настя":[{days:WD,spans:blk(12)}],"Инна":[{days:WD,spans:blk(15)}]}},
+];
+let schedId = "cur";
+const staff = (S,d,h) => Object.values(S.people).reduce((n,parts)=>n+(parts.some(p=>p.days.includes(d)&&p.spans.some(([a,b])=>h>=a&&h<b))?1:0),0);
+const onShift = (S,d,h) => staff(S,d,h)>0;
+const SCHED = () => SCHEDULES.find(s=>s.id===schedId);
+const SHIFT_CUR = (d,h) => onShift(SCHEDULES[0],d,h);
+let metric = "H";
+function hex2rgb(h){h=h.replace("#","");return [0,2,4].map(i=>parseInt(h.slice(i,i+2),16));}
+function mix(a,b,t){return a.map((v,i)=>Math.round(v+(b[i]-v)*t));}
+function lum(c){const f=v=>{v/=255;return v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4)};return .2126*f(c[0])+.7152*f(c[1])+.0722*f(c[2]);}
+function tokens(){const cs=getComputedStyle(document.documentElement);return n=>cs.getPropertyValue(n).trim();}
+function inkOn(bg,t){ // цвет текста считается по яркости подложки, а не выбирается на глаз
+  const light=hex2rgb(t("--ink-on-dark")), dark=hex2rgb(t("--ink-on-light"));
+  const L=lum(bg); const cl=(lum(light)+.05)/(L+.05), cd=(L+.05)/(lum(dark)+.05);
+  return cl>=cd?light:dark;
+}
+function tot(M){return M.reduce((a,r)=>a+r.reduce((x,y)=>x+y,0),0);}
+function covOf(S){const n=tot(DATA.H), a=tot(DATA.A); let m=0, ap=0;
+  for(let d=0;d<7;d++) for(let h=0;h<24;h++) if(onShift(S,d,h)){m+=DATA.H[d][h]; ap+=DATA.A[d][h];}
+  return {m,ap,pm:Math.round(100*m/n),pa:Math.round(100*ap/a)};}
+function hoursOf(parts){return parts.reduce((s,p)=>s+p.days.length*p.spans.reduce((x,[a,b])=>x+b-a,0),0);}
+function spanText(S,who,d){const parts=S.people[who].filter(p=>p.days.includes(d)); if(!parts.length) return "";
+  return parts.flatMap(p=>p.spans.map(([a,b])=>`${a}–${b}`)).join(" · ");}
+function render(){
+  const t=tokens();
+  const lo=hex2rgb(t("--heat-lo")), hi=hex2rgb(t("--heat-hi"));
+  const M=DATA[metric]; const max=Math.max(...M.flat());
+  const tbl=document.getElementById("heat"); let html="<thead><tr><th class='d'>день</th>";
+  for(let h=0;h<24;h++) html+=`<th>${h}</th>`; html+="<th></th></tr></thead><tbody>";
+  const colTot=Array(24).fill(0); const S=SCHED();
+  M.forEach((row,d)=>{
+    html+=`<tr><th class='d'>${DAYS[d]}</th>`;
+    row.forEach((v,h)=>{colTot[h]+=v;const bg=mix(lo,hi,max?Math.sqrt(v/max):0);const ink=inkOn(bg,t);
+      const fr=onShift(S,d,h)?" frame":"";
+      html+=`<td class="c${fr}" data-d="${d}" data-h="${h}" data-v="${v}" style="background:rgb(${bg});color:rgb(${ink})">${v||""}</td>`;});
+    html+=`<td class="sum">${row.reduce((a,b)=>a+b,0)}</td></tr>`;});
+  html+="<tr class='tot'><td class='sum' style='text-align:left'>итого</td>"+colTot.map(v=>`<td>${v}</td>`).join("")+`<td class='sum'>${tot(M)}</td></tr></tbody>`;
+  tbl.innerHTML=html;
+  const acc=hex2rgb(t("--accent")); const ai=inkOn(acc,t);
+  document.querySelectorAll('.seg button[aria-pressed="true"]').forEach(b=>b.style.color=`rgb(${ai})`);
+  document.querySelectorAll('.seg button[aria-pressed="false"]').forEach(b=>b.style.color="");
+  const cov=covOf(S);
+  document.getElementById("cover").innerHTML=`<span>${S.name}: <b>${cov.pm}%</b> сообщений и <b>${cov.pa}%</b> обращений приходят на смене</span><span class="small">${Object.entries(S.people).map(([w,p])=>`${w} ${hoursOf(p)} ч`).join(" · ")} · всего ${S.hours} ч в неделю</span>`;
+  document.getElementById("metric-note").textContent = metric==="H"
+    ? "В клетке — сколько сообщений мастера прислали в этот час этого дня недели за 4 недели (сумма по четырём неделям)."
+    : "В клетке — сколько новых разговоров мастера начали в этот час: сообщение после 30 минут тишины в группе.";
+}
+function tiles(){
+  const H=DATA.H, A=DATA.A; const n=tot(H), a=tot(A);
+  let we=0, core=0, eve=0, before=0;
+  H.forEach((r,d)=>r.forEach((v,h)=>{ if(d>=5)we+=v; if(SHIFT_CUR(d,h))core+=v; if(h>=17)eve+=v; if(h<10)before+=v;}));
+  const p=x=>Math.round(100*x/n)+"%";
+  document.getElementById("tiles").innerHTML=[
+    [n.toLocaleString("ru"),"сообщений от мастеров"],[a,"обращений (новых разговоров)"],[39,"мастеров писали"],
+    [p(core),"пришло, пока саппорт на смене","hot"],[p(n-core),"вне смены: выходные, поздний вечер, 17–18, утро","hot"]
+  ].map(([b,s,c])=>`<div class="tile ${c||""}"><b>${b}</b><span>${s}</span></div>`).join("");
+  const h10=DATA.H.slice(0,5).reduce((s,r)=>s+r[10],0);
+  document.getElementById("findings").innerHTML=[
+    `<span><b>Утро пустое.</b> До 10:00 приходит ${p(before)} сообщений, в 10–11 по будням — ${h10} за месяц. Мастера просыпаются к полудню.</span>`,
+    `<span><b>Пик — 12:00–17:00, и на нём Инна одна.</b> Блок 13–17 — самый плотный (7 сообщений в час на день), а двое стоят на 10–13, где вдвое тише.</span>`,
+    `<span><b>Вечер такой же живой, как день.</b> После 17:00 приходит ${p(eve)} всех сообщений, поток держится до 22:00. Вторник — самый вечерний день: пик в 17:00, когда никого нет.</span>`,
+    `<span><b>Выходные — не тишина.</b> Суббота и воскресенье дают ${p(we)} сообщений, примерно половину обычного буднего дня. Суббота горячее всего в 12:00 и 15:00, воскресенье — 13:00 и 16–17.</span>`,
+    `<span><b>Итог: при нынешнем графике на смене приходит ${p(core)} потока.</b> Остальные ${p(n-core)} — выходные (${p(we)}), будни после 21:00, перерыв 17–18 и утро до 10.</span>`
+  ].map(x=>`<li>${x}</li>`).join("");
+}
+function loadTable(){
+  const S=SCHEDULES[0];
+  let l="<thead><tr><th>Час (будни)</th>"; for(let h=9;h<24;h++) l+=`<th>${h}</th>`; l+="</tr></thead><tbody>";
+  l+="<tr><td>Людей на смене</td>"; for(let h=9;h<24;h++){const s=staff(S,0,h); l+=`<td class="n ${s?"":"zero"}">${s||"—"}</td>`;} l+="</tr>";
+  l+="<tr><td>Сообщений в час на день</td>"; for(let h=9;h<24;h++){let m=0; for(let d=0;d<5;d++) m+=DATA.H[d][h]; l+=`<td class="n"><b>${(m/20).toFixed(1)}</b></td>`;} l+="</tr>";
+  document.getElementById("load").innerHTML=l+"</tbody>";
+}
+function ladder(){
+  const base=covOf(SCHEDULES[0]);
+  document.getElementById("ladder").innerHTML=SCHEDULES.map((S,i)=>{const c=covOf(S); const d=x=>i?`<span class="delta">${x>=0?"+":""}${x}</span>`:"";
+    let t=`<table class="who"><thead><tr><th></th>${DAYS.map(x=>`<th>${x}</th>`).join("")}<th>ч/нед</th></tr></thead><tbody>`;
+    for(const who of Object.keys(S.people)){ t+=`<tr><td class="nm">${who}</td>${DAYS.map((_,dd)=>{const s=spanText(S,who,dd); return `<td class="${s?"on":"off"}">${s||"—"}</td>`;}).join("")}<td class="n">${hoursOf(S.people[who])}</td></tr>`; }
+    t+="</tbody></table>";
+    return `<div class="step"><div class="stephead"><div><b>${S.name}</b><span class="stepcov"><b>${c.pm}%</b>${d(c.pm-base.pm)} сообщений · <b>${c.pa}%</b>${d(c.pa-base.pa)} обращений на смене</span></div><span class="small">${S.hours} ч в неделю</span></div><p class="note" style="margin:0 0 10px">${S.change}</p><div class="scroll">${t}</div></div>`;}).join("");
+}
+function weeks(){
+  const W=DATA.weeks; const mx=Math.max(...W.map(w=>w.msgs));
+  let h="<thead><tr><th>Неделя</th><th>Сообщений</th><th>Обращений</th><th>Мастеров</th><th>В выходные</th><th>Вечером (после 17)</th><th>На смене</th></tr></thead><tbody>";
+  W.forEach(w=>{const p=x=>Math.round(100*x/w.msgs)+"%";
+    h+=`<tr><td>${w.label}</td><td><div class="bar"><i style="width:${Math.round(160*w.msgs/mx)}px"></i>${w.msgs}</div></td><td class="n">${w.appeals}</td><td class="n">${w.masters}</td><td><div class="bar w"><i style="width:${Math.round(100*w.wkend/w.msgs)}px"></i>${p(w.wkend)}</div></td><td><div class="bar w"><i style="width:${Math.round(100*w.evening/w.msgs)}px"></i>${p(w.evening)}</div></td><td class="n">${p(w.core)}</td></tr>`;});
+  document.getElementById("weeks").innerHTML=h+"</tbody>";
+}
+function schedUI(){
+  document.getElementById("sched").innerHTML=SCHEDULES.map(s=>`<label><input type="radio" name="sched" id="sched-${s.id}" value="${s.id}" ${s.id===schedId?"checked":""}>${s.name}</label>`).join("");
+  document.querySelectorAll("#sched input").forEach(i=>i.onchange=()=>{schedId=i.value;render();});
+}
+document.getElementById("btn-msgs").onclick=()=>{metric="H";sync();};
+document.getElementById("btn-appeals").onclick=()=>{metric="A";sync();};
+function sync(){document.getElementById("btn-msgs").setAttribute("aria-pressed",metric==="H");document.getElementById("btn-appeals").setAttribute("aria-pressed",metric==="A");render();}
+const tip=document.getElementById("tip");
+document.getElementById("heat").addEventListener("mousemove",e=>{const td=e.target.closest("td.c"); if(!td){tip.style.display="none";return;}
+  const d=+td.dataset.d,h=+td.dataset.h,v=+td.dataset.v; const s=staff(SCHED(),d,h);
+  tip.textContent=`${DAYS[d]}, ${h}:00–${h+1}:00 · ${v} ${metric==="H"?"сообщ.":"обращ."} · ${s?`на смене: ${s}`:"никого"}`;
+  tip.style.display="block"; tip.style.left=(e.clientX+14)+"px"; tip.style.top=(e.clientY+14)+"px";});
+document.getElementById("heat").addEventListener("mouseleave",()=>tip.style.display="none");
+schedUI(); tiles(); loadTable(); ladder(); weeks(); render();
+matchMedia("(prefers-color-scheme: dark)").addEventListener("change",render);
+new MutationObserver(render).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
+</script>
+
+</body>
+</html>
