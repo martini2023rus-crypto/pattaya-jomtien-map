@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Доска собраний · Spa Code · 20.09.2026</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@700;800&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+:root{--bg:#f2f6f5;--panel:#ffffff;--ink:#163138;--muted:#546e73;--line:#d7e3e2;--teal:#006f76;--pale:#e8f2f1;--head:#123c43;--headtext:#e0eeee;--gold:#ae620b}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 "IBM Plex Sans","Segoe UI",Arial,sans-serif}
+main{max-width:960px;margin:auto;padding:28px 20px 70px}
+header{padding:30px 34px;background:var(--head);color:#fff;border-radius:18px}
+.kicker{font-weight:700;letter-spacing:2px;text-transform:uppercase;font-size:12px;color:#a1d5d1}
+header h1{font-family:"Manrope","Segoe UI",sans-serif;font-weight:800;font-size:clamp(26px,4.6vw,36px);line-height:1.15;margin:10px 0 14px;max-width:760px}
+header p{max-width:760px;color:var(--headtext);margin:0}
+.statrow{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}
+.stat{background:#ffffff12;padding:12px 18px;border-radius:10px;min-width:150px}
+.stat strong{display:block;font-size:26px;font-variant-numeric:tabular-nums}
+.stat small{color:#c1dddd}
+h2{font-family:"Manrope","Segoe UI",sans-serif;margin:36px 0 14px;font-size:24px}
+.topics{display:flex;flex-direction:column;gap:14px}
+.topic{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 22px;display:grid;grid-template-columns:130px 1fr;gap:6px 22px}
+.key{grid-row:1/3;border-right:1px solid var(--line);padding-right:16px}
+.key b{display:block;font-family:"Manrope",sans-serif;font-size:34px;font-weight:800;line-height:1.05;color:var(--teal);font-variant-numeric:tabular-nums}
+.key span{font-size:12px;color:var(--muted);line-height:1.35;display:block;margin-top:4px}
+.topic h3{font-family:"Manrope",sans-serif;font-size:19px;font-weight:700;margin:0;line-height:1.25}
+.topic h3 small{display:block;font-family:"IBM Plex Sans",sans-serif;font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.facts{margin:6px 0 10px;padding-left:18px}
+.facts li{margin:3px 0}
+.agree{background:var(--pale);border-left:4px solid var(--teal);border-radius:6px;padding:10px 14px;font-size:15px}
+.agree b{display:block;color:var(--teal);font-size:11px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:2px}
+.body{grid-column:2}
+.note{margin-top:28px;color:var(--muted);font-size:13px;max-width:72ch}
+.back{display:inline-block;margin-bottom:14px;color:var(--teal);font-size:14px}
+@media (max-width:640px){
+  header{padding:22px 20px}
+  .topic{grid-template-columns:1fr}
+  .key{grid-row:auto;border-right:0;border-bottom:1px solid var(--line);padding:0 0 8px;display:flex;align-items:baseline;gap:10px}
+  .key b{font-size:28px}.key span{margin:0}
+  .body{grid-column:1}
+}
+</style>
+</head>
+<body>
+<main>
+<header>
+  <div class="kicker">Spa Code · доска собраний</div>
+  <h1>Собрание 20 сентября 2026 — семь тем, о которых стоит договориться</h1>
+  <p>Цифры — из бота TickTick за последние недели, по компании в целом, без разбора по людям. Цель — договориться, как работаем дальше, а не найти виноватых.</p>
+  <div class="statrow">
+    <div class="stat"><strong>180</strong><small>открытых задач</small></div>
+    <div class="stat"><strong>26 %</strong><small>из них просрочено</small></div>
+    <div class="stat"><strong>32 + 15</strong><small>задач на приёмке и вопросов ждут ответа</small></div>
+    <div class="stat"><strong>+68 %</strong><small>рост хвоста задач за три недели</small></div>
+  </div>
+</header>
+
+<h2>Семь тем</h2>
+<div class="topics">
+
+<section class="topic">
+  <div class="key"><b>171</b><span>просьба о переносе срока с июля</span></div>
+  <h3><small>Тема 1</small>Задачи стоят, потому что нет входов от других людей</h3>
+  <div class="body">
+    <ul class="facts">
+      <li>42 задачи из 58 просили перенос два и более раз, одна — семь раз.</li>
+      <li>Причины повторяются неделями: нет фото, нет списка правок, нет доступа, «жду ответа».</li>
+    </ul>
+    <div class="agree"><b>Договариваемся</b>Задача, которая ждёт другого человека, называется «заблокирована». Исполнитель пишет, кто и что должен дать. У того, кто должен дать, — один рабочий день на ответ.</div>
+  </div>
+</section>
+
+<section class="topic">
+  <div class="key"><b>17,5 ч</b><span>ждёт ответа вопрос руководителю</span></div>
+  <h3><small>Тема 2</small>Ответ и приёмка руководителя — узкое место</h3>
+  <div class="body">
+    <ul class="facts">
+      <li>Каждый третий вопрос ждёт больше суток. Приёмка сданной задачи — 10 часов, каждая четвёртая дольше суток.</li>
+      <li>На этой неделе уже лучше: 4 часа и 6 часов. В очереди сейчас 32 задачи и 15 вопросов.</li>
+    </ul>
+    <div class="agree"><b>Договариваемся</b>Срок ответа руководителя — до конца следующего рабочего дня, окна разбора 11:00 · 15:00 · 17:30. Часть вопросов закрываем друг у друга, не дожидаясь руководителя.</div>
+  </div>
+</section>
+
+<section class="topic">
+  <div class="key"><b>26 %</b><span>открытых задач просрочено (47 из 180)</span></div>
+  <h3><small>Тема 3</small>Просрочка стала нормой, хвост задач растёт</h3>
+  <div class="body">
+    <ul class="facts">
+      <li>Открытых задач стало 166 вместо 99 три недели назад. Закрываем 57–80 в неделю, ставим 40–84.</li>
+      <li>С июля метка «!» ставилась 188 раз. Недельный план вкладов выполняют не все.</li>
+    </ul>
+    <div class="agree"><b>Договариваемся</b>Срок либо реальный, либо переносится до срока с причиной. Молчаливая просрочка — нет. Планы вкладов пересматриваем по факту последних недель.</div>
+  </div>
+</section>
+
+<section class="topic">
+  <div class="key"><b>143</b><span>задачи закрыты галочкой без результата</span></div>
+  <h3><small>Тема 4</small>Работа мимо процесса</h3>
+  <div class="body">
+    <ul class="facts">
+      <li>Это каждая четвёртая закрытая задача. 17 % сданных задач вернулись на доработку.</li>
+      <li>Каждый третий вопрос — без своего варианта ответа. Ответ руководителя читают через 12–49 часов.</li>
+    </ul>
+    <div class="agree"><b>Договариваемся</b>Закрыть галочкой = работа не засчитана. Ответ руководителя читаем в ближайшее окно (10:00 · 14:00 · 16:30 · 20:30). Вопрос — только со своим вариантом.</div>
+  </div>
+</section>
+
+<section class="topic">
+  <div class="key"><b>33</b><span>задачи про входы, пароли и VPN с июля</span></div>
+  <h3><small>Тема 5</small>Доступы и справочник</h3>
+  <div class="body">
+    <ul class="facts">
+      <li>Справочник доступов противоречив, ему не верят, и входы ищут заново.</li>
+      <li>У ушедших сотрудников остались живые входы.</li>
+    </ul>
+    <div class="agree"><b>Договариваемся</b>У справочника доступов появляется хозяин. Нашёл расхождение — исправил в справочнике, а не в личке. Входы ушедших закрываются по списку.</div>
+  </div>
+</section>
+
+<section class="topic">
+  <div class="key"><b>166 дн.</b><span>один мастер без учёта — первым пунктом отчёта три недели подряд</span></div>
+  <h3><small>Тема 6</small>Миграционный статус мастеров: известные риски не закрываются</h3>
+  <div class="body">
+    <ul class="facts">
+      <li>У мастера с выездом через пять дней не куплены билеты. Проверки в реестре — без скриншотов.</li>
+      <li>55 задач с июля — про суд, МВД и реестр. Самая большая тема в компании.</li>
+    </ul>
+    <div class="agree"><b>Договариваемся</b>Один список мастеров со статусом, датой окончания, ответственным и следующим шагом — таблица, а не текст в чат. Любая проверка в реестре — со скриншотом в папку.</div>
+  </div>
+</section>
+
+<section class="topic">
+  <div class="key"><b>37</b><span>задач «оплатить интернет мастеру, записать чек»</span></div>
+  <h3><small>Тема 7</small>Рутина руками и правила оплаты</h3>
+  <div class="body">
+    <ul class="facts">
+      <li>Ещё 42 задачи — про банк и переводы, каждая с приёмкой. Два недельных отчёта вставляются боту текстом вручную.</li>
+      <li>Аванс, не вписанный в момент выдачи, даёт неверную зарплату. Правила KPI понятны не всем.</li>
+    </ul>
+    <div class="agree"><b>Договариваемся</b>Мелкие платежи — одним списком, а не задачами. Отчёты — из таблицы. Аванс записывается в день выдачи. Правила KPI разбираем на живом примере.</div>
+  </div>
+</section>
+
+</div>
+<p class="note">Источник: данные бота TickTick на 19.09.2026 (задачи, сроки, вклады, вопросы руководителю). Бот видит только TickTick и переписку с собой — работа в группах и звонки сюда не входят. Страница закрыта от поисковиков, открывается только по прямой ссылке.</p>
+</main>
+</body>
+</html>

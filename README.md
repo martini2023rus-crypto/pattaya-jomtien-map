@@ -13,3 +13,10 @@ https://martini2023rus-crypto.github.io/pattaya-jomtien-map/
     C:\Users\Максим\Desktop\Claude\pattaya-jomtien-map\publish.ps1
 
 Опубликованная версия: Pattaya_Jomtien_Pristine3_Map_V7_2026-09-17.html
+
+## Доска собраний
+
+- `board/index.html` — страница с темами собрания команды (без имён сотрудников),
+  адрес: https://martini2023rus-crypto.github.io/pattaya-jomtien-map/board/
+  Обновляется руками: правится файл, затем `git add board/index.html`, коммит и `git push`.
+  `publish.ps1` эту папку не трогает.
