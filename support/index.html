@@ -120,10 +120,6 @@ table.who td.n{color:var(--ink-2);font-weight:600}
 
   <section>
     <div class="toolbar">
-      <div class="seg" role="group" aria-label="Что показывать">
-        <button id="btn-msgs" aria-pressed="true">Сообщения</button>
-        <button id="btn-appeals" aria-pressed="false">Обращения</button>
-      </div>
       <div class="seg win" role="group" aria-label="Окно">
         <button id="btn-w8" aria-pressed="true">8 недель</button>
         <button id="btn-w4" aria-pressed="false">4 недели</button>
@@ -150,7 +146,7 @@ table.who td.n{color:var(--ink-2);font-weight:600}
 
   <section>
     <h2>Предложение: три шага, каждый — маленький сдвиг</h2>
-    <p class="note" style="margin-top:0">Правило: смена — это 3 часа работы, час перерыва и ещё 3 часа. Шаги идут по нарастающей: каждый следующий включает предыдущий. Процент — сколько сообщений и обращений за выбранное окно пришлось бы на смену. Можно остановиться на любом шаге.</p>
+    <p class="note" style="margin-top:0">Правило: смена — это 3 часа работы, час перерыва и ещё 3 часа. Шаги идут по нарастающей: каждый следующий включает предыдущий. Процент — сколько сообщений мастеров за выбранное окно пришлось бы на часы смены. Можно остановиться на любом шаге.</p>
     <div id="ladder"></div>
     <p class="small">Что не закрывает ни один шаг: ночь и утро до 10 (3–4 %) и поздний вечер (после 22). Это дешевле отдать боту — он сам отвечает на частые вопросы — с правилом «саппорт отвечает утром».</p>
   </section>
@@ -163,7 +159,7 @@ table.who td.n{color:var(--ink-2);font-weight:600}
 
   <section>
     <h2>Как считалось</h2>
-    <p class="note">Источник — журнал сообщений бота поддержки мастеров. Взяты только входящие сообщения от мастеров (40 человек) в их личных группах поддержки. Правки сообщений и повторы не считаются. Журнал ведётся с 21 июля: первые дни (21–24 июля) выброшены — бот тогда только добавлялся в группы и записал старые сообщения пачками с одним временем. Отдельно мастера пишут в общие группы салонов — в таблицу они не входят. <b>Обращение</b> — сообщение мастера после тишины в группе от 30 минут: так десять реплик подряд считаются одним разговором. Провалов в журнале нет, бот всё время был на связи.</p>
+    <p class="note">Источник — журнал сообщений бота поддержки мастеров. Взяты только входящие сообщения от мастеров (40 человек) в их личных группах поддержки. Правки сообщений и повторы не считаются. Журнал ведётся с 21 июля: первые дни (21–24 июля) выброшены — бот тогда только добавлялся в группы и записал старые сообщения пачками с одним временем. Отдельно мастера пишут в общие группы салонов — в таблицу они не входят. Провалов в журнале нет, бот всё время был на связи.</p>
   </section>
 </div>
 <div class="tip" id="tip"></div>
@@ -231,10 +227,8 @@ function render(){
   document.querySelectorAll('.seg button[aria-pressed="true"]').forEach(b=>b.style.color=`rgb(${ai})`);
   document.querySelectorAll('.seg button[aria-pressed="false"]').forEach(b=>b.style.color="");
   const cov=covOf(S);
-  document.getElementById("cover").innerHTML=`<span>${S.name}: <b>${cov.pm}%</b> сообщений и <b>${cov.pa}%</b> обращений приходят на смене</span><span class="small">${Object.entries(S.people).map(([w,p])=>`${w} ${hoursOf(p)} ч`).join(" · ")} · всего ${S.hours} ч в неделю</span>`;
-  document.getElementById("metric-note").textContent = metric==="H"
-    ? `В клетке — сколько сообщений мастера прислали в этот час этого дня недели за ${DATA.W.label} (сумма по всем неделям окна).`
-    : "В клетке — сколько новых разговоров мастера начали в этот час: сообщение после 30 минут тишины в группе.";
+  document.getElementById("cover").innerHTML=`<span>${S.name}: <b>${cov.pm}%</b> сообщений приходят на смене</span><span class="small">${Object.entries(S.people).map(([w,p])=>`${w} ${hoursOf(p)} ч`).join(" · ")} · всего ${S.hours} ч в неделю</span>`;
+  document.getElementById("metric-note").textContent = `В клетке — сколько сообщений мастера прислали в этот час этого дня недели за ${DATA.W.label} (сумма по всем неделям окна).`;
 }
 function tiles(){
   const H=DATA.H, A=DATA.A; const n=tot(H), a=tot(A); const Wn=DATA.W;
@@ -243,7 +237,7 @@ function tiles(){
   H.forEach((r,d)=>r.forEach((v,h)=>{ if(d>=5)we+=v; if(SHIFT_CUR(d,h))core+=v; if(h>=17)eve+=v; if(h<10)before+=v;}));
   const p=x=>Math.round(100*x/n)+"%";
   document.getElementById("tiles").innerHTML=[
-    [n.toLocaleString("ru"),"сообщений от мастеров"],[a,"обращений (новых разговоров)"],[Wn.masters,"мастеров писали"],
+    [n.toLocaleString("ru"),"сообщений от мастеров"],[Wn.masters,"мастеров писали"],
     [p(core),"пришло, пока саппорт на смене","hot"],[p(n-core),"вне смены: выходные, поздний вечер, 17–18, утро","hot"]
   ].map(([b,s,c])=>`<div class="tile ${c||""}"><b>${b}</b><span>${s}</span></div>`).join("");
   const h10=DATA.H.slice(0,5).reduce((s,r)=>s+r[10],0);
@@ -276,13 +270,13 @@ function ladder(){
     let t=`<table class="who"><thead><tr><th></th>${DAYS.map(x=>`<th>${x}</th>`).join("")}<th>ч/нед</th></tr></thead><tbody>`;
     for(const who of Object.keys(S.people)){ t+=`<tr><td class="nm">${who}</td>${DAYS.map((_,dd)=>{const s=spanText(S,who,dd); return `<td class="${s?"on":"off"}">${s||"—"}</td>`;}).join("")}<td class="n">${hoursOf(S.people[who])}</td></tr>`; }
     t+="</tbody></table>";
-    return `<div class="step"><div class="stephead"><div><b>${S.name}</b><span class="stepcov"><b>${c.pm}%</b>${d(c.pm-base.pm)} сообщений · <b>${c.pa}%</b>${d(c.pa-base.pa)} обращений на смене</span></div><span class="small">${S.hours} ч в неделю</span></div><p class="note" style="margin:0 0 10px">${S.change}</p><div class="scroll">${t}</div></div>`;}).join("");
+    return `<div class="step"><div class="stephead"><div><b>${S.name}</b><span class="stepcov"><b>${c.pm}%</b>${d(c.pm-base.pm)} сообщений на смене</span></div><span class="small">${S.hours} ч в неделю</span></div><p class="note" style="margin:0 0 10px">${S.change}</p><div class="scroll">${t}</div></div>`;}).join("");
 }
 function weeks(){
   const W=DATA.weeks; const mx=Math.max(...W.map(w=>w.msgs));
-  let h="<thead><tr><th>Неделя</th><th>Сообщений</th><th>Обращений</th><th>Мастеров</th><th>В выходные</th><th>Вечером (после 17)</th><th>На смене</th></tr></thead><tbody>";
+  let h="<thead><tr><th>Неделя</th><th>Сообщений</th><th>Мастеров</th><th>В выходные</th><th>Вечером (после 17)</th><th>На смене</th></tr></thead><tbody>";
   W.forEach(w=>{const p=x=>Math.round(100*x/w.msgs)+"%";
-    h+=`<tr><td>${w.label}</td><td><div class="bar"><i style="width:${Math.round(160*w.msgs/mx)}px"></i>${w.msgs}</div></td><td class="n">${w.appeals}</td><td class="n">${w.masters}</td><td><div class="bar w"><i style="width:${Math.round(100*w.wkend/w.msgs)}px"></i>${p(w.wkend)}</div></td><td><div class="bar w"><i style="width:${Math.round(100*w.evening/w.msgs)}px"></i>${p(w.evening)}</div></td><td class="n">${p(w.core)}</td></tr>`;});
+    h+=`<tr><td>${w.label}</td><td><div class="bar"><i style="width:${Math.round(160*w.msgs/mx)}px"></i>${w.msgs}</div></td><td class="n">${w.masters}</td><td><div class="bar w"><i style="width:${Math.round(100*w.wkend/w.msgs)}px"></i>${p(w.wkend)}</div></td><td><div class="bar w"><i style="width:${Math.round(100*w.evening/w.msgs)}px"></i>${p(w.evening)}</div></td><td class="n">${p(w.core)}</td></tr>`;});
   document.getElementById("weeks").innerHTML=h+"</tbody>";
 }
 function schedUI(){
@@ -292,13 +286,10 @@ function schedUI(){
 document.getElementById("btn-w8").onclick=()=>{win="w8";syncWin();};
 document.getElementById("btn-w4").onclick=()=>{win="w4";syncWin();};
 function syncWin(){document.getElementById("btn-w8").setAttribute("aria-pressed",win==="w8");document.getElementById("btn-w4").setAttribute("aria-pressed",win==="w4");tiles();loadTable();ladder();render();}
-document.getElementById("btn-msgs").onclick=()=>{metric="H";sync();};
-document.getElementById("btn-appeals").onclick=()=>{metric="A";sync();};
-function sync(){document.getElementById("btn-msgs").setAttribute("aria-pressed",metric==="H");document.getElementById("btn-appeals").setAttribute("aria-pressed",metric==="A");render();}
 const tip=document.getElementById("tip");
 document.getElementById("heat").addEventListener("mousemove",e=>{const td=e.target.closest("td.c"); if(!td){tip.style.display="none";return;}
   const d=+td.dataset.d,h=+td.dataset.h,v=+td.dataset.v; const s=staff(SCHED(),d,h);
-  tip.textContent=`${DAYS[d]}, ${h}:00–${h+1}:00 · ${v} ${metric==="H"?"сообщ.":"обращ."} · ${s?`на смене: ${s}`:"никого"}`;
+  tip.textContent=`${DAYS[d]}, ${h}:00–${h+1}:00 · ${v} сообщ. · ${s?`на смене: ${s}`:"никого"}`;
   tip.style.display="block"; tip.style.left=(e.clientX+14)+"px"; tip.style.top=(e.clientY+14)+"px";});
 document.getElementById("heat").addEventListener("mouseleave",()=>tip.style.display="none");
 schedUI(); tiles(); loadTable(); ladder(); weeks(); render();
