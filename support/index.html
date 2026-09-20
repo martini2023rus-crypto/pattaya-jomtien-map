@@ -134,16 +134,38 @@ select:focus-visible,.plan-copy:focus-visible,summary:focus-visible{outline:2px 
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 #plan-saturday tr.selected{background:var(--frame-bg)}
 .plan-coverage .sync{background:var(--bg);color:var(--accent);font-weight:700}
+.traffic-section{margin-top:30px;padding-top:24px;border-top:2px solid var(--line);scroll-margin-top:20px}
+.traffic-section>h3:first-of-type{font-size:24px;margin-top:6px}
+.traffic-legend{display:flex;flex-wrap:wrap;gap:8px 20px;font-size:13px;color:var(--ink-2);margin:18px 0}
+.traffic-legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:4px}
+.traffic-individual{background:#3979ae}.traffic-salon{background:#d89942}
+.traffic-bars{max-width:850px;margin:20px 0}
+.traffic-bar-row{display:grid;grid-template-columns:30px minmax(0,1fr) 64px;gap:12px;align-items:center;margin:12px 0;font-size:14px}
+.traffic-bar-row>span{text-align:right;font-variant-numeric:tabular-nums}
+.traffic-track{display:flex;height:22px;background:var(--bg);border-radius:4px;overflow:hidden}
+.traffic-track span{height:100%;display:block}
+.traffic-compare{max-width:720px}
+.traffic-comparison{padding:16px 20px;border-radius:8px;background:var(--frame-bg);font-weight:600;font-size:17px}
+.traffic-heat{width:100%;min-width:1050px;border-collapse:collapse;font-size:11px;font-variant-numeric:tabular-nums}
+.traffic-heat th,.traffic-heat td{padding:8px 4px;text-align:center;border:1px solid var(--line)}
+.traffic-heat th{background:var(--surface)}
+.traffic-heat .traffic-level-0{background:var(--bg);color:var(--muted)}
+.traffic-level-1{background:#e3edf6;color:#18212b}.traffic-level-2{background:#b5cfe5;color:#18212b}.traffic-level-3{background:#82afd3;color:#142536}.traffic-level-4{background:#3979ae;color:white}.traffic-level-5{background:#174f80;color:white}
+.traffic-archive{margin:28px 0;background:var(--surface)}
+.traffic-archive>summary{font-size:16px}.archive-body{margin-top:20px}
+#traffic-totals .tile b{font-size:26px}
+#traffic-totals .tile{min-width:0}
+@media(max-width:640px){.traffic-bar-row{gap:8px;grid-template-columns:25px minmax(0,1fr) 58px}.traffic-section>h3:first-of-type{font-size:21px}.traffic-comparison{font-size:15px;padding:12px}}
 
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
-    <div class="eyebrow" id="eyebrow">Саппорт мастеров · группы поддержки</div>
+    <div class="eyebrow" id="eyebrow">Саппорт мастеров · расширенная статистика</div>
     <h1>Саппорт: поток и график работы</h1>
-    <p class="lead">Сообщения от мастеров в их группах поддержки, разложенные по дню недели и часу. Окно — 8 недель (всё, что есть в журнале бота с 27 июля) или последние 4 недели: переключатель над картой. Картина в обоих окнах одна и та же, за 8 недель выходные весят даже больше. Время — <b>Бангкок (UTC+7)</b>. Пунктирная рамка — часы, когда кто-то из саппорта на смене. В исходной модели это Пн–Пт: Марина и Настя 10–13 и 14–17, Инна 13–17 и 18–21. В этой исходной модели нет воскресной трёхчасовки. Новый график по нагрузке с постоянными часами Насти и её воскресной сменой 10–13 показан в первом разделе. Исходная статистика ниже сохранена для сравнения.</p>
-    <nav class="plan-nav" aria-label="Разделы страницы"><a href="#schedule-options">Новый график</a><a href="#traffic-analysis">Исходная статистика</a><a href="#plan-message">Сообщение команде</a></nav>
+    <p class="lead">Входящие сообщения мастеров в группах одного мастера и общих чатах салонов. Сравните дни в процентах, распределение по часам и долю рабочих часов команды. По умолчанию — объединённые данные за последние 4 недели; доступны 8 недель и каждый вид чатов отдельно. Время — <b>Бангкок (UTC+7)</b>. Срез: 19 сентября 2026, 19:44.</p>
+    <nav class="plan-nav" aria-label="Разделы страницы"><a href="#load-comparison">Статистика и проценты</a><a href="#schedule-options">Недельный график</a><a href="#plan-message">Сообщение команде</a><a href="#traffic-analysis">Архив</a></nav>
   </header>
 
   <section id="schedule-options" aria-labelledby="plan-title">
@@ -153,8 +175,10 @@ select:focus-visible,.plan-copy:focus-visible,summary:focus-visible{outline:2px 
     <div class="plan-callout"><b>Настя:</b> Пн–Пт 11:00–14:00 и 15:00–18:00, воскресенье 10:00–13:00, суббота — выходной. <b>Все часы — Бангкок (UTC+7).</b> Воскресный созвон входит в рабочий блок, сверху часы за него не добавляются.</div>
     <div class="plan-controls">
       <label>Вариант субботы<select id="plan-variant" aria-label="Вариант субботы"><option value="full">Два окна · больше доступности в субботу</option><option value="short">Одно окно · усилить четверг</option></select></label>
-      <label>Данные для расчёта<select id="plan-window" aria-label="Данные для расчёта"><option value="w8">8 недель · 27.07–19.09</option><option value="w4">4 недели · 24.08–19.09</option></select></label>
+      <label>Данные для расчёта<select id="plan-window" aria-label="Данные для расчёта"><option value="w4">4 недели · 24.08–19.09</option><option value="w8">8 недель · 27.07–19.09</option></select></label>
+      <label>Какие чаты учитывать<select id="plan-source" aria-label="Какие чаты учитывать"><option value="combined">Все учтённые чаты</option><option value="individual">Группы одного мастера</option><option value="salon">Общие чаты салонов</option></select></label>
     </div>
+    <p class="note" id="traffic-source-note" aria-live="polite"></p>
     <div class="tiles" id="plan-stats" aria-live="polite"></div>
     <div class="plan-callout" id="plan-variant-note"></div>
     <h3>Постоянный календарь Пн–Вс</h3>
@@ -167,7 +191,7 @@ select:focus-visible,.plan-copy:focus-visible,summary:focus-visible{outline:2px 
     <p class="note" id="plan-saturday-note"></p>
     <div class="scroll" tabindex="0" role="region" aria-label="Сравнение воскресных окон"><table class="opts" id="plan-sunday"></table></div>
     <p class="note"><b>Воскресенье имеет две разные задачи.</b> 10:00–13:00 — общий рабочий блок для синхронизации; 16:00–19:00 — одно отдельное трёхчасовое дежурство Инны. Если созвон займёт все три часа, утренний блок не даёт гарантированного приёма обращений. Если закончится раньше, Настя продолжает поддержку до 13:00, а Марина и Инна используют оставшуюся часть общего блока на передачу дел и согласованные задачи. Само наличие троих на созвоне не означает троих доступных операторов.</p>
-    <p class="note"><b>Предлагаемый основной вариант — два субботних окна.</b> Это сохраняет больше доступных часов при том же недельном бюджете. Одно окно 14:00–17:00 — возможный тест сокращённого режима: оно самое насыщенное трёхчасовое окно субботы в обеих выборках, но больше половины субботних сообщений поступает вне него. Для решения о сокращении нужны фактические сроки ответа, число срочных обращений и остаток очереди после смены.</p>
+    <p class="note" id="plan-saturday-recommendation"></p>
     <h3>Воскресная синхронизация</h3>
     <ul class="plan-list">
       <li><b>Начало каждое воскресенье в 10:00.</b> Марина и Инна обязательно на связи. Ведёт Максим, а в его отсутствие — Настя. Настя участвует в рамках своего блока 10–13.</li>
@@ -179,14 +203,47 @@ select:focus-visible,.plan-copy:focus-visible,summary:focus-visible{outline:2px 
     <div class="scroll" tabindex="0" role="region" aria-label="Покрытие по часам"><table class="load plan-coverage" id="plan-coverage"></table></div>
     <p class="note" id="plan-coverage-note"></p>
     <div class="plan-callout" id="plan-gaps"></div>
-    <h3>Распределение часов по нагрузке</h3>
-    <div class="scroll" tabindex="0" role="region" aria-label="Средняя нагрузка по дням недели"><table class="opts" id="plan-load"></table></div>
-    <p class="note">В обеих выборках по среднему числу сообщений лидируют вторник, четверг и понедельник. Во вторник работают обе сотрудницы вместе с Настей; понедельник закрывают Марина и Настя, выходной Инны сохраняется. Выбор одного субботнего окна переносит 3 часа Инны на четверг 14–17. Выбор двух окон возвращает эти часы на субботу; это явный выбор между двумя периодами нагрузки.</p>
+    <div id="load-comparison" class="traffic-section">
+      <div class="eyebrow">Расширенная статистика · группы одного мастера + общие чаты салонов</div>
+      <h3>Сравнение дней в процентах</h3>
+      <p class="note">Считаем входящие сообщения известных мастеров в обоих видах чатов. Сообщения сотрудников, ботов и личные диалоги в этот показатель не входят. Это объём переписки мастеров, а не вся трудоёмкость поддержки.</p>
+      <div class="plan-controls">
+        <label>Период статистики<select id="traffic-window" aria-label="Период статистики"><option value="w4">4 недели · 24.08–19.09</option><option value="w8">8 недель · 27.07–19.09</option></select></label>
+        <label>Виды чатов в статистике<select id="traffic-source" aria-label="Виды чатов в статистике"><option value="combined">Все учтённые чаты</option><option value="individual">Группы одного мастера</option><option value="salon">Общие чаты салонов</option></select></label>
+      </div>
+      <div class="tiles" id="traffic-totals"></div>
+      <p class="plan-callout" id="traffic-rank" aria-live="polite"></p>
+      <div class="traffic-legend"><span><i class="traffic-individual"></i> Группы одного мастера</span><span><i class="traffic-salon"></i> Общие чаты салонов</span></div>
+      <div id="traffic-bars" class="traffic-bars"></div>
+      <p class="small">Длина полосы — среднее число сообщений за день. Самый загруженный день в выбранной выборке принят за 100%.</p>
+      <div class="scroll" tabindex="0" role="region" aria-label="Средняя нагрузка и проценты по дням недели"><table class="opts" id="plan-load"></table></div>
+      <p class="note"><b>Среднее / день</b> = сообщения этого дня недели ÷ число таких дней в периоде. <b>Доля потока недели</b> = среднее дня ÷ сумму семи средних; до округления доли дают 100%. <b>От самого загруженного дня</b> = среднее дня ÷ максимальное среднее. Это разные проценты: например, 70% от пикового дня означает на 30% меньше сообщений.</p>
+      <div class="plan-controls traffic-compare">
+        <label>Сравниваем день<select id="traffic-day" aria-label="Сравниваем день"><option value="0">Понедельник</option><option value="1">Вторник</option><option value="2" selected>Среда</option><option value="3">Четверг</option><option value="4">Пятница</option><option value="5">Суббота</option><option value="6">Воскресенье</option></select></label>
+        <label>С каким днём сравниваем<select id="traffic-base" aria-label="С каким днём сравниваем"><option value="0">Понедельник</option><option value="1" selected>Вторник</option><option value="2">Среда</option><option value="3">Четверг</option><option value="4">Пятница</option><option value="5">Суббота</option><option value="6">Воскресенье</option></select></label>
+      </div>
+      <p class="traffic-comparison" id="traffic-compare-result" aria-live="polite"></p>
+      <p class="small">Разница, % = (среднее выбранного дня ÷ среднее дня сравнения − 1) × 100. При обратном сравнении меняется база, поэтому проценты различаются.</p>
+      <h3>Будни: доля сообщений и доля рабочих часов</h3>
+      <div class="scroll" tabindex="0" role="region" aria-label="Доли сообщений и рабочих часов в будни"><table class="opts" id="traffic-hours"></table></div>
+      <p class="note" id="traffic-hours-note"></p>
+      <p class="note">Часы показаны по текущему предложению расписания; статистика не меняет их автоматически. Понедельник Инны остаётся выходным. Переключатель субботы переносит 3 часа между субботой и четвергом.</p>
+      <h3>Когда приходят сообщения: день и час</h3>
+      <div class="scroll" tabindex="0" role="region" aria-label="Сообщения по дням и часам"><table class="traffic-heat" id="traffic-heat"></table></div>
+      <p class="note" id="traffic-heat-note"></p>
+      <details class="plan-details">
+        <summary>Источники, очистка и границы статистики</summary>
+        <p class="note">Источник — журнал сообщений бота за 27.07–19.09.2026; срез до 19 сентября 19:44 по Бангкоку. Авторы сопоставлены с реестром из 45 известных мастеров. Группы одного мастера определены по реестру привязок, общие чаты — по реестру салонов и принятому обозначению S + номер в названии. Группы, не попавшие в эти категории, среди сообщений известных мастеров в этом срезе не обнаружены. Чаты вне журнала и авторы вне реестра этой проверкой не охвачены.</p>
+        <p class="note">Для сопоставимости сохранена прежняя очистка: исключены изменения сообщений, повторные записи одного сообщения и секунды, в которые журнал содержит 5 и более событий. Последнее — эвристика пакетной записи после задержки; она может исключать и реальную вспышку сообщений. Сообщения с вложениями учитываются и при пустом тексте. Переписка сотрудников и бота не прибавляется к входящему потоку мастеров.</p>
+        <p class="note">Матрицы групп одного мастера полностью совпали с прежними данными для обоих периодов. Общие чаты добавлены отдельно: 413 сообщений за 4 недели и 980 за 8 недель; объединённые итоги — 2 200 и 4 380. Один мастер в нескольких чатах считается одним автором; каждое отдельное сообщение учитывается в своём чате. Тексты, имена мастеров и идентификаторы чатов на странице не публикуются.</p>
+        <p class="note">«4 недели» — 24.08–19.09: по 4 Пн–Сб и 3 воскресенья; «8 недель» — 27.07–19.09: по 8 Пн–Сб и 7 воскресений. Последняя суббота неполная, поэтому её среднее может быть занижено. В начале периода группы подключались постепенно; охват журнала не равен всем рабочим коммуникациям. Проценты показывают различия наблюдаемого потока, а не гарантию будущей нагрузки.</p>
+      </details>
+    </div>
     <details class="plan-details">
       <summary>Учёт часов и ограничения расчёта</summary>
       <p class="note">В обоих вариантах плановый бюджет — по 33 часа, 99 часов команды в неделю. Из них воскресный общий блок — по 3 часа у каждой, всего 9 часов. Время созвона входит в эти часы, а не добавляется к ним. Если общий рабочий блок фактически сокращается, учитываем реальное время: 33 часа — план, а не автоматически подтверждённая отработка.</p>
       <p class="note">В расчёте покрытия общий блок 10–13 исключён целиком, как при максимальной длительности созвона. Отдельно показана верхняя оценка, если Настя доступна всё утро; промежуточные значения по длительности созвона не интерполируются — внутри часа распределение сообщений неизвестно. Субботние и воскресные проценты относятся к потоку соответствующего дня, недельные — ко всей нормированной неделе.</p>
-      <p class="note">Исходная матрица сообщений не менялась. Каждому дню недели дан одинаковый вес через деление на число таких дней в выборке. Последняя суббота неполная, в последней неделе нет воскресенья; первая неделя отражает постепенное подключение групп. Звонки, общие чаты, трудоёмкость задач и фактическая скорость ответа не учтены. Архивные проценты ниже рассчитаны иначе и не описывают новый график.</p>
+      <p class="note">Расчёт доступности использует выбранные период и виды чатов, по умолчанию — объединённые данные за 4 недели. Поток нормирован на число каждого дня недели в выборке. Звонки, трудоёмкость задач и фактическая скорость ответа не измерены. Общие чаты теперь учтены; исходные данные групп одного мастера сохранены. Архив ниже содержит прежнюю модель и отдельные настройки.</p>
     </details>
     <h3>Передача дел</h3>
     <p class="note">Перед уходом фиксируем открытые обращения, следующий шаг, ответственного и срок. Дату запуска, резерв на отсутствие и срочную связь вне дежурств согласуем отдельно. Часы разработки Насти отдельно не назначены; её перерывы и подмена основного саппорта остаются частью планирования. После запуска оцениваем задержки ответа, остаток очереди и фактическую работу вне графика.</p>
@@ -199,7 +256,7 @@ select:focus-visible,.plan-copy:focus-visible,summary:focus-visible{outline:2px 
   </section>
 
 
-  <div id="traffic-analysis"><div class="eyebrow">Исходная статистика · модель без воскресной трёхчасовки</div><div class="tiles" id="tiles"></div></div>
+  <details id="traffic-analysis" class="plan-details traffic-archive"><summary>Архив: прежняя статистика только групп одного мастера</summary><div class="archive-body"><p class="note">Общие чаты здесь не учтены. Старые выводы и варианты расписания сохранены для истории; актуальное сравнение — в разделе «Статистика и проценты». У архива собственные переключатели периода и модели.</p><div class="eyebrow" id="archive-eyebrow"></div><div class="tiles" id="tiles"></div>
 
   <section>
     <div class="toolbar">
@@ -244,6 +301,7 @@ select:focus-visible,.plan-copy:focus-visible,summary:focus-visible{outline:2px 
     <h2>Как считалось</h2>
     <p class="note">Источник — журнал сообщений бота поддержки мастеров. Взяты только входящие сообщения от мастеров (40 человек) в их личных группах поддержки. Правки сообщений и повторы не считаются. Журнал ведётся с 21 июля: первые дни (21–24 июля) выброшены — бот тогда только добавлялся в группы и записал старые сообщения пачками с одним временем. Отдельно мастера пишут в общие группы салонов — в таблицу они не входят. В исходном анализе указано, что провалов журнала не обнаружено; в этом обновлении доступность бота заново не проверялась.</p>
   </section>
+</div></details>
 </div>
 <div class="tip" id="tip"></div>
 <script>
@@ -315,7 +373,7 @@ function render(){
 }
 function tiles(){
   const H=DATA.H, A=DATA.A; const n=tot(H), a=tot(A); const Wn=DATA.W;
-  document.getElementById("eyebrow").textContent=`Саппорт мастеров · группы поддержки · ${Wn.label} · ${Wn.range}`;
+  document.getElementById("archive-eyebrow").textContent=`Саппорт мастеров · группы поддержки · ${Wn.label} · ${Wn.range}`;
   let we=0, core=0, eve=0, before=0;
   H.forEach((r,d)=>r.forEach((v,h)=>{ if(d>=5)we+=v; if(SHIFT_CUR(d,h))core+=v; if(h>=17)eve+=v; if(h<10)before+=v;}));
   const p=x=>Math.round(100*x/n)+"%";
@@ -378,6 +436,7 @@ document.getElementById("heat").addEventListener("mouseleave",()=>tip.style.disp
 schedUI(); tiles(); loadTable(); ladder(); weeks(); render();
 matchMedia("(prefers-color-scheme: dark)").addEventListener("change",render);
 new MutationObserver(render).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
+const TRAFFIC_DATA = {"cutoff":"2026-09-19T19:44:00+07:00","generatedAt":"2026-09-20T21:48:13.044838+07:00","registryCount":45,"unclassifiedGroups":0,"win":{"w4":{"days":27,"dpw":[4,4,4,4,4,4,3],"individual":{"H":[[1,1,0,0,0,0,0,6,4,0,0,12,23,52,50,48,31,11,28,10,21,21,8,2],[3,0,0,0,0,0,1,1,1,1,1,8,41,25,14,15,47,55,37,26,25,13,22,4],[3,5,8,0,0,0,0,0,3,1,4,18,32,15,12,29,13,9,4,29,8,12,8,2],[0,0,0,0,1,0,0,1,5,0,19,46,46,27,39,14,46,10,22,25,18,4,3,8],[2,4,3,0,0,0,0,0,0,3,2,10,56,25,33,12,13,6,2,22,24,0,11,3],[5,1,0,0,0,0,0,0,0,0,0,1,36,14,20,45,20,7,9,4,1,6,2,2],[1,1,0,1,0,0,0,0,0,1,6,9,13,26,11,12,21,21,11,7,5,19,0,0]],"A":[[1,1,0,0,0,0,0,1,1,0,0,2,8,11,7,4,5,4,3,3,3,3,1,2],[3,0,0,0,0,0,0,0,0,0,0,4,10,7,6,6,15,13,8,9,4,7,8,1],[2,2,3,0,0,0,0,0,1,0,1,5,15,7,2,7,6,2,3,20,7,6,2,0],[0,0,0,0,1,0,0,1,0,0,2,2,6,6,2,6,8,3,6,4,4,1,3,5],[1,2,1,0,0,0,0,0,0,0,1,4,12,3,7,7,6,2,1,1,4,0,4,1],[3,1,0,0,0,0,0,0,0,0,0,1,11,5,3,20,4,4,7,1,1,4,1,2],[1,1,0,1,0,0,0,0,0,1,0,1,5,6,1,5,7,10,7,2,3,3,0,0]],"messages":1787,"masters":39,"chats":39},"salon":{"H":[[0,0,0,0,0,0,0,0,0,0,0,0,0,9,28,0,22,23,16,1,1,1,2,0],[0,1,0,0,0,0,0,0,0,0,0,2,10,41,21,4,7,4,1,0,21,4,1,0],[0,0,0,0,0,0,0,0,0,0,0,0,10,16,16,13,23,14,1,1,6,2,0,0],[0,0,0,0,0,0,0,0,0,0,0,4,0,21,6,7,2,1,0,0,7,0,0,0],[0,1,0,0,0,0,0,0,0,0,0,0,5,2,19,10,2,1,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,1,0,0,0,0,0,0]],"A":[[0,0,0,0,0,0,0,0,0,0,0,0,0,2,3,0,4,1,3,1,1,0,1,0],[0,1,0,0,0,0,0,0,0,0,0,0,2,10,5,3,2,1,1,0,4,1,1,0],[0,0,0,0,0,0,0,0,0,0,0,0,3,5,3,1,11,4,1,1,1,2,0,0],[0,0,0,0,0,0,0,0,0,0,0,1,0,5,1,0,0,1,0,0,1,0,0,0],[0,1,0,0,0,0,0,0,0,0,0,0,1,0,1,1,0,1,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0]],"messages":413,"masters":32,"chats":12},"combined":{"H":[[1,1,0,0,0,0,0,6,4,0,0,12,23,61,78,48,53,34,44,11,22,22,10,2],[3,1,0,0,0,0,1,1,1,1,1,10,51,66,35,19,54,59,38,26,46,17,23,4],[3,5,8,0,0,0,0,0,3,1,4,18,42,31,28,42,36,23,5,30,14,14,8,2],[0,0,0,0,1,0,0,1,5,0,19,50,46,48,45,21,48,11,22,25,25,4,3,8],[2,5,3,0,0,0,0,0,0,3,2,10,61,27,52,22,15,7,2,22,24,0,11,3],[5,1,0,0,0,0,0,0,0,0,0,1,36,14,20,45,20,7,9,4,1,6,2,2],[1,1,0,1,0,0,0,0,0,1,6,9,13,26,11,14,21,22,11,7,5,19,0,0]],"A":[[1,1,0,0,0,0,0,1,1,0,0,2,8,13,10,4,9,5,6,4,4,3,2,2],[3,1,0,0,0,0,0,0,0,0,0,4,12,17,11,9,17,14,9,9,8,8,9,1],[2,2,3,0,0,0,0,0,1,0,1,5,18,12,5,8,17,6,4,21,8,8,2,0],[0,0,0,0,1,0,0,1,0,0,2,3,6,11,3,6,8,4,6,4,5,1,3,5],[1,3,1,0,0,0,0,0,0,0,1,4,13,3,8,8,6,3,1,1,4,0,4,1],[3,1,0,0,0,0,0,0,0,0,0,1,11,5,3,20,4,4,7,1,1,4,1,2],[1,1,0,1,0,0,0,0,0,1,0,1,5,6,1,6,7,11,7,2,3,3,0,0]],"messages":2200,"masters":39,"chats":51}},"w8":{"days":55,"dpw":[8,8,8,8,8,8,7],"individual":{"H":[[1,3,3,0,0,0,0,6,7,0,2,18,52,84,85,89,46,16,39,19,22,27,16,4],[6,2,3,0,1,1,1,1,11,1,4,9,84,36,52,39,66,74,63,41,35,31,25,13],[4,7,8,0,0,0,0,0,3,1,6,45,58,28,35,40,25,22,18,47,22,14,19,10],[5,0,1,1,1,0,1,1,5,0,23,79,103,46,63,25,66,31,41,29,24,13,6,12],[5,5,7,1,0,0,3,0,0,3,8,34,72,48,62,52,53,29,6,24,40,5,14,18],[8,10,0,0,0,0,0,0,0,1,0,11,60,22,39,62,32,19,15,19,18,21,3,27],[27,6,4,2,2,0,0,0,1,1,13,19,57,41,54,16,34,35,19,42,11,22,10,2]],"A":[[1,3,2,0,0,0,0,1,2,0,0,4,22,24,11,13,7,7,6,5,4,5,5,3],[6,2,1,0,1,1,0,0,1,0,1,5,22,13,15,15,20,21,11,11,7,15,9,6],[2,3,3,0,0,0,0,0,1,0,2,7,20,12,5,12,10,4,5,20,9,8,6,4],[2,0,1,1,1,0,1,1,0,0,2,3,22,18,13,11,20,11,16,8,8,6,5,9],[2,3,2,1,0,0,1,0,0,0,3,6,18,10,8,11,12,8,3,2,8,3,7,3],[5,1,0,0,0,0,0,0,0,1,0,2,21,8,6,24,6,6,8,5,7,11,2,15],[8,3,3,2,1,0,0,0,0,1,2,4,27,13,8,7,10,17,10,29,8,6,8,1]],"messages":3400,"masters":40,"chats":40},"salon":{"H":[[1,0,0,0,0,0,0,0,0,0,2,3,22,39,45,0,28,23,28,10,1,2,5,7],[6,3,0,0,2,0,0,0,0,0,1,2,12,92,25,10,25,4,5,19,27,4,9,0],[8,2,0,0,0,0,0,0,0,0,0,1,12,21,18,17,48,19,34,14,9,2,0,0],[7,0,0,0,0,0,0,0,0,0,0,9,8,36,45,11,13,19,0,8,10,0,15,0],[0,2,0,0,0,0,0,0,0,0,0,0,7,15,20,14,12,9,2,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,2,0,1,7,1,0],[0,0,0,0,0,0,0,0,0,0,0,1,2,5,13,3,6,6,0,3,0,0,0,0]],"A":[[1,0,0,0,0,0,0,0,0,0,0,1,2,8,6,0,5,1,6,3,1,1,2,1],[2,3,0,0,1,0,0,0,0,0,1,0,4,16,6,6,5,1,1,1,7,1,4,0],[3,2,0,0,0,0,0,0,0,0,0,1,5,6,4,3,16,6,5,5,1,2,0,0],[1,0,0,0,0,0,0,0,0,0,0,1,2,6,5,1,4,2,0,2,2,0,1,0],[0,2,0,0,0,0,0,0,0,0,0,0,3,4,2,1,3,2,2,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,2,0,1,1,1,0],[0,0,0,0,0,0,0,0,0,0,0,1,2,1,0,2,6,4,0,2,0,0,0,0]],"messages":980,"masters":35,"chats":22},"combined":{"H":[[2,3,3,0,0,0,0,6,7,0,4,21,74,123,130,89,74,39,67,29,23,29,21,11],[12,5,3,0,3,1,1,1,11,1,5,11,96,128,77,49,91,78,68,60,62,35,34,13],[12,9,8,0,0,0,0,0,3,1,6,46,70,49,53,57,73,41,52,61,31,16,19,10],[12,0,1,1,1,0,1,1,5,0,23,88,111,82,108,36,79,50,41,37,34,13,21,12],[5,7,7,1,0,0,3,0,0,3,8,34,79,63,82,66,65,38,8,24,40,5,14,18],[8,10,0,0,0,0,0,0,0,1,0,11,61,22,39,62,32,19,17,19,19,28,4,27],[27,6,4,2,2,0,0,0,1,1,13,20,59,46,67,19,40,41,19,45,11,22,10,2]],"A":[[2,3,2,0,0,0,0,1,2,0,0,5,24,32,17,13,12,8,12,8,5,6,7,4],[8,5,1,0,2,1,0,0,1,0,2,5,26,29,21,21,25,22,12,12,14,16,13,6],[5,5,3,0,0,0,0,0,1,0,2,8,25,18,9,15,26,10,10,25,10,10,6,4],[3,0,1,1,1,0,1,1,0,0,2,4,24,24,18,12,24,13,16,10,10,6,6,9],[2,5,2,1,0,0,1,0,0,0,3,6,21,14,10,12,15,10,5,2,8,3,7,3],[5,1,0,0,0,0,0,0,0,1,0,2,22,8,6,24,6,6,10,5,8,12,3,15],[8,3,3,2,1,0,0,0,0,1,2,5,29,14,8,9,16,21,10,31,8,6,8,1]],"messages":4380,"masters":40,"chats":62}}}};
 // One fixed Monday-Sunday schedule. Meetings are work, but not guaranteed support.
 const PLAN_NAMES=['Марина','Инна','Настя'];
 const PLAN_CYCLE_DAYS=7;
@@ -414,11 +473,70 @@ function planStats(W,variant=PLAN_DEFAULT){
 }
 function planWindowStats(W,d,spans){
   const total=W.H[d].reduce((a,b)=>a+b,0),covered=W.H[d].reduce((s,v,h)=>s+(spans.some(([a,b])=>h>=a&&h<b)?v:0),0);
-  return {pct:covered/total*100,average:total/W.dpw[d],inside:covered/W.dpw[d],outside:(total-covered)/W.dpw[d]};
+  return {pct:total?covered/total*100:null,average:total/W.dpw[d],inside:covered/W.dpw[d],outside:(total-covered)/W.dpw[d]};
 }
 
-let planWindow='w8',planVariant=PLAN_DEFAULT;
-const planFmt=n=>Number(n.toFixed(1)).toLocaleString('ru-RU');
+// All cohorts use the same cutoff, author registry, cleaning and weekday denominators.
+const TRAFFIC_SOURCES={combined:'Все учтённые чаты',individual:'Группы одного мастера',salon:'Общие чаты салонов'};
+function trafficWindow(key,source='combined'){
+  const data=TRAFFIC_DATA.win[key];
+  return {...RAW.win[key],...data[source],days:data.days,dpw:data.dpw};
+}
+function trafficRows(key,source='combined'){
+  const data=TRAFFIC_DATA.win[key],sum=a=>a.reduce((x,y)=>x+y,0);
+  const rows=DAYS.map((name,d)=>({name,d,count:data[source].H[d].reduce((a,b)=>a+b,0),mean:sum(data[source].H[d])/data.dpw[d],individual:sum(data.individual.H[d])/data.dpw[d],salon:sum(data.salon.H[d])/data.dpw[d]}));
+  const week=sum(rows.map(r=>r.mean)),weekdays=sum(rows.slice(0,5).map(r=>r.mean)),peak=Math.max(...rows.map(r=>r.mean));
+  return rows.map(r=>({...r,weekShare:week?r.mean/week*100:null,weekdayShare:r.d<5&&weekdays?r.mean/weekdays*100:null,peakIndex:peak?r.mean/peak*100:null}));
+}
+function trafficCompare(rows,day,base){
+  const value=rows[day].mean,baseline=rows[base].mean;
+  return {value,baseline,delta:baseline?(value/baseline-1)*100:null};
+}
+function trafficHours(rows,variant=PLAN_DEFAULT){
+  const total=planTotals(0,5,variant).totalHours;
+  return rows.slice(0,5).map(r=>{const hours=planTotals(r.d,1,variant).totalHours,hourShare=hours/total*100;return {...r,hours,hourShare,gap:r.weekdayShare===null?null:hourShare-r.weekdayShare};});
+}
+
+let trafficDay=2,trafficBase=1;
+const TRAFFIC_DAY_FORMS=['в понедельник','во вторник','в среду','в четверг','в пятницу','в субботу','в воскресенье'];
+const trafficFmt=n=>Number.isFinite(n)?n.toLocaleString('ru-RU',{maximumFractionDigits:2}):'—';
+const trafficPct=n=>Number.isFinite(n)?planFmt(n)+'%':'нет базы';
+function renderTrafficComparison(){
+  const rows=trafficRows(planWindow,planSource),c=trafficCompare(rows,trafficDay,trafficBase);
+  const dayForm=TRAFFIC_DAY_FORMS[trafficDay];
+  const result=c.delta===null?'Процент посчитать нельзя: в выбранном дне для сравнения нет сообщений.':trafficDay===trafficBase?'Выбран один и тот же день: разница 0%.':Math.abs(c.delta)<1e-9?'Средний поток одинаковый: разница 0%.':`${dayForm[0].toUpperCase()+dayForm.slice(1)} сообщений в среднем на ${planFmt(Math.abs(c.delta))}% ${c.delta<0?'меньше':'больше'}, чем ${TRAFFIC_DAY_FORMS[trafficBase]}.`;
+  planById('traffic-compare-result').textContent=`${result} ${trafficFmt(c.value)} против ${trafficFmt(c.baseline)} сообщения в день. База для процента — ${DAYS[trafficBase]}.`;
+}
+function renderTraffic(W){
+  const data=TRAFFIC_DATA.win[planWindow],rows=trafficRows(planWindow,planSource),rank=[...rows].sort((a,b)=>b.mean-a.mean),selected=TRAFFIC_SOURCES[planSource];
+  planById('traffic-source-note').textContent=`${selected} · ${W.label} (${W.range}) · ${trafficFmt(W.messages)} сообщений · мастеров: ${W.masters} · чатов: ${W.chats}. Срез до 19.09.2026 19:44, Бангкок. Переключатели меняют всю новую статистику и расчёт доступности по расписанию; архив ниже имеет отдельные настройки.`;
+  planById('traffic-totals').innerHTML=[
+    [trafficFmt(data.individual.messages),'сообщений в группах одного мастера'],
+    ['+ '+trafficFmt(data.salon.messages),'сообщений в общих чатах салонов'],
+    [trafficFmt(data.combined.messages),'всего в объединённой выборке'],
+    [planFmt(data.salon.messages/data.combined.messages*100)+'%','сообщений пришло из общих чатов']
+  ].map(([b,s])=>`<div class="tile"><b>${b}</b><span>${s}</span></div>`).join('');
+  planById('traffic-rank').textContent=`${selected}, ${W.label}: ${rank.map(r=>`${r.name} ${trafficFmt(r.mean)}`).join(' → ')} сообщения в день. ${planSource==='combined'?`С учётом общих чатов среда — ${trafficFmt(rows[2].mean)}: на ${planFmt(-trafficCompare(rows,2,1).delta)}% ниже вторника и на ${planFmt(-trafficCompare(rows,2,3).delta)}% ниже четверга. Самый тихий будний день в этой выборке — пятница.`:'Рейтинг относится только к выбранному виду чатов.'}`;
+  const peak=rank[0].mean;
+  planById('traffic-bars').innerHTML=rows.map(r=>{
+    const indiv=planSource==='salon'?0:r.individual,salon=planSource==='individual'?0:r.salon;
+    return `<div class="traffic-bar-row"><b>${r.name}</b><div class="traffic-track" role="img" aria-label="${r.name}: ${trafficFmt(r.mean)} сообщения в среднем; ${trafficPct(r.peakIndex)} от максимума"><span class="traffic-individual" style="width:${peak?indiv/peak*100:0}%"></span><span class="traffic-salon" style="width:${peak?salon/peak*100:0}%"></span></div><span>${trafficFmt(r.mean)}</span></div>`;
+  }).join('');
+  const split=planSource==='combined';
+  planById('plan-load').innerHTML=`<thead><tr><th>День</th>${split?'<th>Группы одного мастера / день</th><th>Общие чаты / день</th>':''}<th>${split?'Всего':'Сообщений'} / день</th><th>Доля потока недели</th><th>От самого загруженного дня</th></tr></thead><tbody>${rows.map(r=>`<tr><th>${r.name}</th>${split?`<td class="n">${trafficFmt(r.individual)}</td><td class="n">${trafficFmt(r.salon)}</td>`:''}<td class="n"><b>${trafficFmt(r.mean)}</b></td><td class="n">${trafficPct(r.weekShare)}</td><td class="n">${trafficPct(r.peakIndex)}</td></tr>`).join('')}</tbody>`;
+  planById('traffic-hours').innerHTML=`<thead><tr><th>Будний день</th><th>Доля сообщений будней</th><th>Часы команды</th><th>Доля часов будней</th><th>Часы минус поток, п. п.</th></tr></thead><tbody>${trafficHours(rows,planVariant).map(r=>`<tr><th>${r.name}</th><td class="n">${trafficPct(r.weekdayShare)}</td><td class="n">${r.hours}</td><td class="n">${trafficPct(r.hourShare)}</td><td class="n">${r.gap===null?'—':(r.gap>0?'+':'')+planFmt(r.gap)}</td></tr>`).join('')}</tbody>`;
+  planById('traffic-hours-note').textContent=`Выбранный вариант: ${planVariant==='short'?'одно субботнее окно, четверг усилен':'два субботних окна'}. Бюджет рабочих часов команды в будни: ${planTotals(0,5,planVariant).totalHours} ч. Доли сообщений и часов здесь считаются только по Пн–Пт: сумма каждого столбца до округления — 100%. Отрицательная разница означает меньшую долю часов, чем долю сообщений, положительная — большую. Это ориентир для распределения, а не доказательство нехватки или избытка сотрудника: сложность задач, звонки и время решения не измерены.`;
+  const max=Math.max(...W.H.flatMap((row,d)=>row.map(v=>v/W.dpw[d])));
+  planById('traffic-heat').innerHTML=`<thead><tr><th>День / час</th>${Array.from({length:24},(_,h)=>`<th>${h}</th>`).join('')}</tr></thead><tbody>${DAYS.map((name,d)=>`<tr><th>${name}</th>${W.H[d].map((n,h)=>{const avg=n/W.dpw[d],level=max?Math.ceil(avg/max*5):0;return `<td class="traffic-level-${level}" title="${name} ${h}:00–${h+1}:00: ${trafficFmt(avg)} сообщения в среднем (${n} за период)" aria-label="${name}, ${h}–${h+1}: ${trafficFmt(avg)}">${avg?planFmt(avg):'·'}</td>`;}).join('')}</tr>`).join('')}</tbody>`;
+  planById('traffic-heat-note').textContent=`${selected} · ${W.label}. В клетке — среднее число сообщений в этот час одного такого дня недели; все часы — Бангкок. Пустая клетка означает ноль сообщений, а не отсутствие дежурства.`;
+  const totalSat=rows[5].mean;
+  planById('plan-saturday-recommendation').textContent=totalSat?`Два субботних окна сохраняют больше часов доступности при том же недельном бюджете. Одно окно 14–17 — вариант проверки сокращённого режима. Расчёт выше относится к выбранному виду чатов; для решения нужны также сроки ответа, срочность и остаток очереди после смены.`:'В выбранной выборке субботних сообщений нет. По ней нельзя ни сравнить проценты покрытия, ни доказать, что субботняя поддержка не нужна. Для решения смотрите объединённую выборку и фактические сроки ответа.';
+  renderTrafficComparison();
+}
+
+let planWindow='w4',planVariant=PLAN_DEFAULT,planSource='combined';
+const planFmt=n=>Number.isFinite(n)?Number(n.toFixed(1)).toLocaleString('ru-RU'):'—';
+const planPct=n=>Number.isFinite(n)?planFmt(n)+'%':'нет сообщений';
 const planTime=([a,b])=>`${a}:00–${b}:00`;
 const planById=id=>document.getElementById(id);
 function planRoster(){
@@ -426,35 +544,42 @@ function planRoster(){
   return `<div class="scroll" tabindex="0" role="region" aria-label="Постоянное недельное расписание"><table class="who plan-roster">${table}</table></div>`;
 }
 function renderPlanner(){
-  const W=RAW.win[planWindow],stats=planStats(W,planVariant),short=planVariant==='short';
+  for(const id of ['plan-window','traffic-window'])planById(id).value=planWindow;
+  for(const id of ['plan-source','traffic-source'])planById(id).value=planSource;
+  const W=trafficWindow(planWindow,planSource),stats=planStats(W,planVariant),short=planVariant==='short';
   planById('plan-stats').innerHTML=[['33 ч','план у каждой, включая общий блок'],['99 ч','плановый бюджет команды / неделю'],['7 дней','постоянный повтор расписания'],['Вс 10:00','начало общего созвона']].map(([b,s])=>`<div class="tile"><b>${b}</b><span>${s}</span></div>`).join('');
   planById('plan-variant-note').innerHTML=short?'<b>Выбрано одно субботнее окно:</b> Инна 14–17. Освободившиеся 3 часа перенесены на четверг 14–17, где Инна работает также 18–21. Это сокращает доступность в субботу и усиливает четверг; недельный бюджет не меняется.':'<b>Выбраны два субботних окна:</b> Инна 11–14 и 15–18, с обедом 14–15. В четверг Инна работает 18–21. Воскресное дополнительное дежурство в обоих вариантах одно: 16–19.';
   planById('plan-rosters').innerHTML=planRoster();
   const sat=[{id:'short',label:'Одно окно · 14–17',spans:[[14,17]],hours:3},{id:'full',label:'Два окна · 11–14 и 15–18',spans:[[11,14],[15,18]],hours:6}];
-  planById('plan-saturday').innerHTML=`<thead><tr><th>Суббота</th><th>Часов Инны</th><th>Доля субботних сообщений в окнах</th><th>Сообщений вне окон / день</th></tr></thead><tbody>${sat.map(x=>{const s=planWindowStats(W,5,x.spans);return `<tr class="${x.id===planVariant?'selected':''}"><td>${x.label}</td><td>${x.hours}</td><td>${planFmt(s.pct)}%</td><td>${planFmt(s.outside)}</td></tr>`;}).join('')}</tbody>`;
+  planById('plan-saturday').innerHTML=`<thead><tr><th>Суббота</th><th>Часов Инны</th><th>Доля субботних сообщений в окнах</th><th>Сообщений вне окон / день</th></tr></thead><tbody>${sat.map(x=>{const s=planWindowStats(W,5,x.spans);return `<tr class="${x.id===planVariant?'selected':''}"><td>${x.label}</td><td>${x.hours}</td><td>${planPct(s.pct)}</td><td>${planFmt(s.outside)}</td></tr>`;}).join('')}</tbody>`;
   const satOne=planWindowStats(W,5,[[14,17]]),satTwo=planWindowStats(W,5,[[11,14],[15,18]]);
-  planById('plan-saturday-note').textContent=`За ${W.label} в субботу было в среднем ${planFmt(satOne.average)} сообщения. Одно окно 14–17 охватывает ${planFmt(satOne.pct)}%, два окна — ${planFmt(satTwo.pct)}%. Разница соответствует примерно ${planFmt(satTwo.inside-satOne.inside)} сообщения в день, поступавшим в часы доступности. Это не оценка дополнительных решённых обращений и не доказательство необходимого числа часов.`;
+  planById('plan-saturday-note').textContent=`${TRAFFIC_SOURCES[planSource]}, ${W.label}: в субботу в среднем ${trafficFmt(satOne.average)} сообщения. ${satOne.average?`Одно окно 14–17 охватывает ${planPct(satOne.pct)}, два окна — ${planPct(satTwo.pct)}. Разница соответствует примерно ${planFmt(satTwo.inside-satOne.inside)} сообщения в день, поступавшим в часы доступности.`:'Сообщений в этой части выборки нет; проценты не рассчитываются.'} Это не оценка дополнительных решённых обращений и не доказательство необходимого числа часов.`;
   const sun=[{label:'Только утро 10–13 · если доступна Настя',spans:[[10,13]]},{label:'Только дежурство Инны 16–19',spans:[[16,19]]},{label:'Утро + дежурство 16–19 · верхняя оценка',spans:[[10,13],[16,19]]}];
-  planById('plan-sunday').innerHTML=`<thead><tr><th>Воскресенье</th><th>Доля воскресных сообщений в окнах</th><th>Сообщений вне окон / день</th></tr></thead><tbody>${sun.map(x=>{const s=planWindowStats(W,6,x.spans);return `<tr><td>${x.label}</td><td>${planFmt(s.pct)}%</td><td>${planFmt(s.outside)}</td></tr>`;}).join('')}</tbody>`;
+  planById('plan-sunday').innerHTML=`<thead><tr><th>Воскресенье</th><th>Доля воскресных сообщений в окнах</th><th>Сообщений вне окон / день</th></tr></thead><tbody>${sun.map(x=>{const s=planWindowStats(W,6,x.spans);return `<tr><td>${x.label}</td><td>${planPct(s.pct)}</td><td>${planFmt(s.outside)}</td></tr>`;}).join('')}</tbody>`;
   planById('plan-coverage').innerHTML=`<thead><tr><th>День / час</th>${Array.from({length:11},(_,i)=>`<th>${i+10}–${i+11}</th>`).join('')}</tr></thead><tbody>${DAYS.map((label,d)=>`<tr><th>${label}</th>${Array.from({length:11},(_,j)=>{const h=j+10,names=planStaff(planSupportDay(d,planVariant),h),sync=d===6&&h<13;return `<td class="n ${sync?'sync':names.length?'on':'zero'}" title="${sync?'Все трое: общий блок, поддержка во время созвона не гарантирована':names.join(', ')||'никого'}">${sync?'С':names.length||'—'}</td>`;}).join('')}</tr>`).join('')}</tbody>`;
-  planById('plan-coverage-note').textContent=`По данным за ${W.label} (${W.range}) в отдельные дежурства попадает ${planFmt(stats.pct)}% недельного потока, если воскресный созвон занимает весь блок 10–13. Верхняя оценка при доступности Насти всё воскресное утро — ${planFmt(stats.potentialPct)}%. В предыдущем двухнедельном варианте без общего воскресного блока было ${planFmt(stats.previousPct)}%. Новая схема уменьшает доступность для обращений: общий блок и сокращённые дежурства выходных помещаются в тот же бюджет 99 часов. Это границы расчёта расписания, а не измеренная скорость ответа. В будни поддержка по расписанию непрерывна 10–21.`;
+  planById('plan-coverage-note').textContent=`${TRAFFIC_SOURCES[planSource]}, ${W.label} (${W.range}): в отдельные дежурства попадает ${planPct(stats.pct)} недельного потока, если воскресный созвон занимает весь блок 10–13. Верхняя оценка при доступности Насти всё воскресное утро — ${planPct(stats.potentialPct)}. Предыдущий двухнедельный вариант без общего воскресного блока охватывал бы ${planPct(stats.previousPct)} этой же выборки. Общий блок и сокращённые дежурства выходных помещаются в бюджет 99 часов. Это расчёт доступности по расписанию, а не измеренная скорость ответа. В будни поддержка по расписанию непрерывна 10–21.`;
   planById('plan-gaps').innerHTML=`<b>Вне назначенных дежурств:</b> будни до 10 и после 21; суббота ${short?'до 14 и после 17':'до 11, в 14–15 и после 18'}; воскресенье до 10, общий созвон в пределах 10–13, затем 13–16 и после 19. Срочный резерв вне этих окон пока не назначен и в бюджет не включён.`;
-  const averages=DAYS.map((name,d)=>({name,d,avg:W.H[d].reduce((a,b)=>a+b,0)/W.dpw[d]}));
-  planById('plan-load').innerHTML=`<thead><tr><th>День</th><th>Сообщений / день, в среднем</th><th>Часы команды по плану</th></tr></thead><tbody>${averages.sort((a,b)=>b.avg-a.avg).map(x=>`<tr><td>${x.name}</td><td class="n">${planFmt(x.avg)}</td><td class="n">${planTotals(x.d,1,planVariant).totalHours}${x.d===6?' · из них 9 общий блок':''}</td></tr>`).join('')}</tbody>`;
+  renderTraffic(W);
   planById('plan-message').textContent=`Марина, Настя, Инна, предлагаем постоянный график на неделю: он повторяется каждые 7 дней. У Инны понедельник всегда выходной. Настя: Пн–Пт 11–14 и 15–18, Вс 10–13. Каждое воскресенье в 10:00 общий созвон с Максимом или Настей; все на связи, резерв до 13:00. Длительность — по вопросам, оставшееся время общего блока используем на задачи. ${short?'В субботу Инна работает 14–17, в четверг 14–17 и 18–21.':'В субботу Инна работает 11–14 и 15–18, в четверг 18–21.'} В воскресенье после общего блока дежурит только Инна 16–19. План — по 33 часа, включая общий блок. Всё время по Бангкоку. Полный календарь по ссылке; дату запуска согласуем отдельно.`;
   planById('plan-copy-status').textContent='';
 }
 planById('plan-window').onchange=e=>{planWindow=e.target.value;renderPlanner();};
+planById('plan-source').onchange=e=>{planSource=e.target.value;renderPlanner();};
+planById('traffic-source').onchange=e=>{planSource=e.target.value;renderPlanner();};
+planById('traffic-window').onchange=e=>{planWindow=e.target.value;renderPlanner();};
+planById('traffic-day').onchange=e=>{trafficDay=Number(e.target.value);renderTrafficComparison();};
+planById('traffic-base').onchange=e=>{trafficBase=Number(e.target.value);renderTrafficComparison();};
 planById('plan-variant').onchange=e=>{planVariant=e.target.value;renderPlanner();};
 planById('plan-copy').onclick=async()=>{
   try{await navigator.clipboard.writeText(planById('plan-message').textContent+'\n\nhttps://martini2023rus-crypto.github.io/pattaya-jomtien-map/support/#schedule-options');planById('plan-copy-status').textContent='Скопировано вместе со ссылкой';}
   catch{planById('plan-copy-status').textContent='Выделите текст сообщения и скопируйте вручную.';}
 };
 planById('plan-variant').value=planVariant;
+planById('plan-window').value=planWindow;
+planById('plan-source').value=planSource;
 renderPlanner();
 
 </script>
 
 </body>
 </html>
-
