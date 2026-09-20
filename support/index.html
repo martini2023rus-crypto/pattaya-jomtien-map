@@ -194,7 +194,7 @@ select:focus-visible,.plan-copy:focus-visible,summary:focus-visible{outline:2px 
     <details class="plan-details" open>
       <summary>Короткое сообщение Марине, Насте и Инне</summary>
       <div class="plan-message" id="plan-message">Марина, Настя, Инна, после собрания предлагаю обсудить пробный график на 4 недели (время Бангкока): Марина и Инна — 2/2 в противоположные дни, по 10–13, 14–17 и 18–21. Настя — по будням: Пн/Ср/Пт 11–14 и 15–18, Вт/Чт 12–15 и 16–19, с сохранением времени на разработку. В будни закрываем 10–21; в выходные нужно отдельно решить подмену на перерывы 13–14 и 17–18 и порядок срочной связи вне смен. Альтернатива — 5/2 с трёхчасовыми дежурствами по выходным. Посмотрите варианты на сайте и напишите, какой подходит и какие есть ограничения. Это предложение для согласования.</div>
-      <p class="small">Текст относится к рекомендуемому варианту со смешанными буднями Насти; переключатели выше его не меняют. Сообщение подготовлено, сотрудникам не отправлено.</p>
+      <p class="small">Текст относится к рекомендуемому варианту со смешанными буднями Насти; переключатели выше его не меняют. Кнопка копирует сообщение вместе со ссылкой на эту страницу. Сообщение подготовлено, сотрудникам не отправлено.</p>
       <button type="button" class="plan-copy" id="plan-copy">Скопировать сообщение</button> <span class="small" id="plan-copy-status" role="status"></span>
     </details>
   </section>
@@ -468,7 +468,7 @@ planById('nastya-choice').onchange=e=>{planMode=e.target.value;renderPlanner();}
 planById('plan-window').onchange=e=>{planWindow=e.target.value;renderPlanner();};
 planById('plan-week').onchange=e=>{planWeek=Number(e.target.value);renderPlanner();};
 planById('plan-copy').onclick=async()=>{
-  try{await navigator.clipboard.writeText(planById('plan-message').textContent);planById('plan-copy-status').textContent='Скопировано';}
+  try{await navigator.clipboard.writeText(planById('plan-message').textContent+'\n\nhttps://martini2023rus-crypto.github.io/pattaya-jomtien-map/support/#schedule-options');planById('plan-copy-status').textContent='Скопировано вместе со ссылкой';}
   catch{planById('plan-copy-status').textContent='Выделите текст сообщения и скопируйте вручную.';}
 };
 renderPlanner();
