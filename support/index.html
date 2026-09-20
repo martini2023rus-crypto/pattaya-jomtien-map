@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Когда пишут мастера</title>
+<title>Саппорт: поток сообщений и варианты графика</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
 <style>
@@ -106,17 +106,101 @@ table.who td.off{color:var(--muted)}
 table.who td.n{color:var(--ink-2);font-weight:600}
 .win{margin-left:0}
 @media (min-width:641px){.legend{margin-left:auto}}
+html{scroll-behavior:smooth}
+.wrap>*{min-width:0}
+h3{font-family:Manrope,system-ui,sans-serif;font-size:16px;margin:24px 0 10px}
+a{color:var(--accent)}
+.plan-callout{border-left:3px solid var(--frame);background:var(--frame-bg);padding:12px 16px;border-radius:0 8px 8px 0;margin:16px 0}
+.plan-controls{display:flex;gap:12px;flex-wrap:wrap;margin:22px 0 14px}
+.plan-controls label{display:grid;gap:6px;flex:1 1 230px;font-size:13px;color:var(--ink-2)}
+select,.plan-copy{font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px;max-width:100%}
+select:focus-visible,.plan-copy:focus-visible,summary:focus-visible{outline:2px solid var(--frame);outline-offset:3px}
+.plan-details{border:1px solid var(--line);border-radius:8px;padding:12px 14px;margin-top:16px}
+.plan-details summary{cursor:pointer;font-weight:600}
+.plan-list{padding-left:22px;color:var(--ink-2)}
+.plan-list li{padding:4px 0}
+.plan-calendar-head{display:flex;gap:12px;align-items:center;flex-wrap:wrap;justify-content:space-between;margin-top:12px}
+.plan-calendar-head label{font-size:13px;color:var(--ink-2)}
+.plan-roster td{vertical-align:top;line-height:1.65}
+.plan-coverage td{font-size:13px}
+.plan-coverage .on{background:var(--frame-bg)}
+.plan-message{white-space:pre-wrap;max-width:85ch;margin:14px 0;padding:16px;background:var(--bg);border-radius:8px}
+.plan-copy{cursor:pointer;color:var(--accent);font-weight:600}
+#plan-comparison tr.selected{background:var(--frame-bg)}
+#schedule-options>.lead{max-width:90ch}
+#plan-stats .tile b{font-size:25px}
+.plan-nav{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:16px;font-size:14px}
+@media(max-width:640px){.plan-controls{display:grid}.plan-controls label{min-width:0}.plan-calendar-head{align-items:flex-start}.plan-coverage{min-width:680px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
     <div class="eyebrow" id="eyebrow">Саппорт мастеров · группы поддержки</div>
-    <h1>Когда пишут мастера</h1>
-    <p class="lead">Сообщения от мастеров в их группах поддержки, разложенные по дню недели и часу. Окно — 8 недель (всё, что есть в журнале бота с 27 июля) или последние 4 недели: переключатель над картой. Картина в обоих окнах одна и та же, за 8 недель выходные весят даже больше. Время — <b>Бангкок (UTC+7)</b>. Пунктирная рамка — часы, когда кто-то из саппорта на смене. Сейчас это Пн–Пт: Марина и Настя 10–13 и 14–17, Инна 13–17 и 18–21. Переключатель под картой показывает, как рамка меняется на каждом шаге предложения.</p>
+    <h1>Саппорт: поток и график работы</h1>
+    <p class="lead">Сообщения от мастеров в их группах поддержки, разложенные по дню недели и часу. Окно — 8 недель (всё, что есть в журнале бота с 27 июля) или последние 4 недели: переключатель над картой. Картина в обоих окнах одна и та же, за 8 недель выходные весят даже больше. Время — <b>Бангкок (UTC+7)</b>. Пунктирная рамка — часы, когда кто-то из саппорта на смене. В исходной модели это Пн–Пт: Марина и Настя 10–13 и 14–17, Инна 13–17 и 18–21. Воскресная трёхчасовка, упомянутая на собрании 20 сентября, в эту модель не включена: время и дежурные не уточнены. Ниже сохранены исходная аналитика и прежние предложения; новые варианты — в первом разделе.</p>
+    <nav class="plan-nav" aria-label="Разделы страницы"><a href="#schedule-options">Новые варианты графика</a><a href="#traffic-analysis">Исходная статистика</a><a href="#plan-message">Сообщение команде</a></nav>
   </header>
 
-  <div class="tiles" id="tiles"></div>
+  <section id="schedule-options" aria-labelledby="plan-title">
+    <div class="eyebrow">Обсуждение 20 сентября 2026 · предложение, ещё не утверждено</div>
+    <h2 id="plan-title">Как закрыть каждый день</h2>
+    <p class="lead"><b>Для пробного периода предлагаю 2/2 для Марины и Инны, Настю оставить по будням.</b> Это даёт ответственного каждый день и полноценные дни отдыха у основной пары. Ниже можно сравнить с короткими дежурствами по выходным и увидеть часы, когда людей нет.</p>
+    <div class="plan-callout">
+      <b>Сначала договоримся, что считаем сменой.</b> Один блок — 3 рабочих часа. Обычный день — 2 блока / 6 часов. Длинный день — 10:00–13:00, 14:00–17:00, 18:00–21:00: 3 блока / 9 рабочих часов, растянутых на 11 часов. Перерывы — свободное время, в покрытие не входят.
+    </div>
+    <p class="note"><b>11 блоков = 33 часа в неделю.</b> Пн–Пт по два блока дают только 10 блоков / 30 часов. В собрании упомянута ещё воскресная трёхчасовка, но точные часы и состав дежурных не заданы. В исходной модели сайта её нет; у Инны там 35 ч/нед из-за четырёхчасового блока 13–17. Поэтому 95 часов исходной модели и ориентир 99 часов (3 × 33) — разные базы.</p>
+    <details class="plan-details">
+      <summary>Что учитываем после собрания</summary>
+      <ul class="plan-list">
+        <li>На 01:26–01:29 обсуждали смещение Насти только в часть дней и время для разработки. Предложение ниже: Пн/Ср/Пт 11–14 и 15–18, Вт/Чт 12–15 и 16–19; в Пн/Ср/Пт 11–13 можно защищать для разработки, пока основной саппорт отвечает.</li>
+        <li>На 01:31–01:34 обсуждали 2/2 именно для Марины и Инны, с Настей в поддержке по будням. Назначения и дата запуска пока не согласованы.</li>
+        <li>На 01:12–01:19 отдельно обсуждали отсутствие понятной ответственности за срочные обращения вне графика. Одной перестановки смен для этого недостаточно.</li>
+        <li>В конце обсуждения договорились вернуться с обратной связью 21 сентября. Ниже — варианты для выбора, а не объявление нового обязательного графика.</li>
+      </ul>
+    </details>
+    <div class="plan-controls">
+      <label>Вариант графика<select id="plan-choice" aria-label="Вариант графика"><option value="two">2/2 + Настя по будням</option><option value="half">5/2 + по 3 часа в Сб и Вс</option><option value="double">5/2 + по 6 часов в Сб и Вс</option></select></label>
+      <label>Будни Насти<select id="nastya-choice" aria-label="Будни Насти"><option value="flex">Пн/Ср/Пт с 11; Вт/Чт с 12</option><option value="11">Все будни: 11–14 и 15–18</option><option value="12">Все будни: 12–15 и 16–19</option></select></label>
+      <label>Данные для сравнения<select id="plan-window" aria-label="Данные для сравнения"><option value="w8">8 недель · 27.07–19.09</option><option value="w4">4 недели · 24.08–19.09</option></select></label>
+    </div>
+    <p class="note" id="plan-description"></p>
+    <div class="tiles" id="plan-stats" aria-live="polite"></div>
+    <p class="note" id="plan-caveat"></p>
+    <h3>Сравнение при одинаковых предпосылках</h3>
+    <div class="scroll" tabindex="0" role="region" aria-label="Сравнение вариантов графика"><table class="opts" id="plan-comparison"></table></div>
+    <p class="small">Проценты — расчётная доля сообщений в часы присутствия хотя бы одного человека, не скорость ответа и не доля решённых вопросов. Поток каждого дня недели делится на число таких дней в выборке; затем сравниваются полные циклы. 2/2 рассчитан на 28 дней, ротация коротких дежурств — на 21 день. Старая карта ниже показывает прямую долю в выборке без выравнивания дней недели, поэтому проценты немного отличаются. Это модель по прежней статистике, без прогноза роста потока. Последняя суббота в данных неполная; переписки в общих чатах, звонки и трудоёмкость задач не учтены. Время разработки входит в рабочие часы, но не считается дополнительным саппортом: в предлагаемые часы её прикрывает другой сотрудник.</p>
+    <div class="plan-calendar-head"><h3>Пример расписания по людям</h3><label>Неделя цикла <select id="plan-week" aria-label="Неделя цикла"></select></label></div>
+    <p class="small">Неделя 1 начинается с условного понедельника. Это пример, без назначенной даты старта. Для 2/2 цикл идёт непрерывно: в следующий понедельник он не начинается заново. В таблице все часы указаны по Бангкоку (UTC+7).</p>
+    <div class="scroll" tabindex="0" role="region" aria-label="Расписание сотрудников"><table class="who plan-roster" id="plan-roster"></table></div>
+    <h3>Сколько человек доступно по часам</h3>
+    <p class="small">«—» — никого на смене. Число — доступные сотрудники, с исключением защищённого времени разработки Насти. Наведите на клетку, чтобы увидеть имена. До 10:00 и после 21:00 людей в этих вариантах нет.</p>
+    <div class="scroll" tabindex="0" role="region" aria-label="Покрытие по часам"><table class="load plan-coverage" id="plan-coverage"></table></div>
+    <div class="plan-callout" id="plan-gaps"></div>
+    <details class="plan-details">
+      <summary>Почему ваш пример недели ещё не является 2/2</summary>
+      <p class="note">Пн, Вт, Ср рабочие, Чт выходной, Пт и Сб рабочие — это 5 рабочих дней из 6. Если каждый день по 9 часов, уже получается 45 часов, а воскресенье ещё не определено. При настоящем 2/2 идёт последовательность «работа, работа, отдых, отдых» без привязки к понедельнику.</p>
+      <p class="note">Например, Марина: неделя 1 — Пн, Вт, Пт, Сб (36 ч); неделя 2 — Вт, Ср, Сб, Вс (36 ч); неделя 3 — Ср, Чт, Вс (27 ч); неделя 4 — Пн, Чт, Пт (27 ч). Инна работает в противоположные дни. За 28 дней у каждой 14 рабочих дней / 126 часов, в среднем 31,5 часа в неделю. Вторая сотрудница в свой выходной не считается бесплатным резервом.</p>
+    </details>
+    <h3>Что должно сопровождать любой график</h3>
+    <ol class="plan-list">
+      <li><b>Передача дел в конце рабочего блока.</b> Ссылка на обращение, что сделано, следующий шаг, срок и кто принял задачу. Новый дежурный подтверждает приём; обращение не остаётся только у сотрудника, который ушёл отдыхать.</li>
+      <li><b>Отдельное правило для срочных случаев.</b> Назначить основного и резервного ответственного на перерывы и время вне смен; согласовать канал вызова, время подтверждения и учёт дежурства. При отсутствии подтверждения обращение передаётся резерву, затем руководителю. Это проект регламента: круглосуточное дежурство и уведомления ещё не запущены.</li>
+      <li><b>Бот может оповещать; ответственность остаётся у человека.</b> Автоответ «вернёмся в рабочее время» подходит обычным обращениям. Срочные ситуации требуют принятия человеком. Медицинские решения передаются профильному специалисту.</li>
+      <li><b>Пробный период — полный цикл, 4 недели для 2/2.</b> После согласования часов, нагрузки и замены на отсутствие проверить пропуски срочных обращений, время первого ответа, обращения без владельца, работу вне графика и сохранённые часы разработки. Объём сообщений сам по себе не измеряет качество работы.</li>
+    </ol>
+    <details class="plan-details" open>
+      <summary>Короткое сообщение Марине, Насте и Инне</summary>
+      <div class="plan-message" id="plan-message">Марина, Настя, Инна, после собрания предлагаю обсудить пробный график на 4 недели (время Бангкока): Марина и Инна — 2/2 в противоположные дни, по 10–13, 14–17 и 18–21. Настя — по будням: Пн/Ср/Пт 11–14 и 15–18, Вт/Чт 12–15 и 16–19, с сохранением времени на разработку. В будни закрываем 10–21; в выходные нужно отдельно решить подмену на перерывы 13–14 и 17–18 и порядок срочной связи вне смен. Альтернатива — 5/2 с трёхчасовыми дежурствами по выходным. Посмотрите варианты на сайте и напишите, какой подходит и какие есть ограничения. Это предложение для согласования.</div>
+      <p class="small">Текст относится к рекомендуемому варианту со смешанными буднями Насти; переключатели выше его не меняют. Сообщение подготовлено, сотрудникам не отправлено.</p>
+      <button type="button" class="plan-copy" id="plan-copy">Скопировать сообщение</button> <span class="small" id="plan-copy-status" role="status"></span>
+    </details>
+  </section>
+
+
+  <div id="traffic-analysis"><div class="eyebrow">Исходная статистика · модель без воскресной трёхчасовки</div><div class="tiles" id="tiles"></div></div>
 
   <section>
     <div class="toolbar">
@@ -139,27 +223,27 @@ table.who td.n{color:var(--ink-2);font-weight:600}
 
   <section>
     <h2>Где стоят люди и где поток</h2>
-    <p class="note" style="margin-top:0">Будни: сколько человек на смене в каждый час при нынешнем графике — против того, сколько сообщений приходит в этот час в средний будний день.</p>
+    <p class="note" style="margin-top:0">Будни: сколько человек на смене в каждый час в исходной модели — против того, сколько сообщений приходит в этот час в средний будний день.</p>
     <div class="scroll"><table class="load" id="load"></table></div>
     <p class="note" id="load-note"></p>
   </section>
 
   <section>
-    <h2>Предложение: три шага, каждый — маленький сдвиг</h2>
-    <p class="note" style="margin-top:0">Правило: смена — это 3 часа работы, час перерыва и ещё 3 часа. Шаги идут по нарастающей: каждый следующий включает предыдущий. Процент — сколько сообщений мастеров за выбранное окно пришлось бы на часы смены. Можно остановиться на любом шаге.</p>
+    <h2>Ранее предложенные сдвиги: для сравнения</h2>
+    <p class="note" style="margin-top:0">В прежних предложениях обычный день — два трёхчасовых блока с часовым перерывом. Шаги идут по нарастающей: каждый следующий включает предыдущий. Процент — сколько сообщений мастеров за выбранное окно пришлось бы на часы смены. Можно остановиться на любом шаге.</p>
     <div id="ladder"></div>
-    <p class="small">Что не закрывает ни один шаг: ночь и утро до 10 (3–4 %) и поздний вечер (после 22). Это дешевле отдать боту — он сам отвечает на частые вопросы — с правилом «саппорт отвечает утром».</p>
+    <p class="small">Эти прежние шаги не закрывают ночь и утро до 10, поздний вечер после 22 и отдельные перерывы. Бот может помогать с обычными вопросами; срочные обращения требуют отдельного правила передачи человеку. Работа такого режима здесь не проверялась.</p>
   </section>
 
   <section>
     <h2>Динамика по неделям</h2>
     <div class="scroll"><table class="weeks" id="weeks"></table></div>
-    <p class="small">† первая неделя: бот ещё добавлялся в группы, писали 24 мастера из 40. * неделя 14–19 сентября неполная: без воскресенья, суббота до 19:43. «Вечером» — сообщения после 17:00 в любой день. «На смене» — по нынешнему графику: Пн–Пт 10–17 и 18–21.</p>
+    <p class="small">† первая неделя: бот ещё добавлялся в группы, писали 24 мастера из 40. * неделя 14–19 сентября неполная: без воскресенья, суббота до 19:43. «Вечером» — сообщения после 17:00 в любой день. «На смене» — по исходной модели: Пн–Пт 10–17 и 18–21.</p>
   </section>
 
   <section>
     <h2>Как считалось</h2>
-    <p class="note">Источник — журнал сообщений бота поддержки мастеров. Взяты только входящие сообщения от мастеров (40 человек) в их личных группах поддержки. Правки сообщений и повторы не считаются. Журнал ведётся с 21 июля: первые дни (21–24 июля) выброшены — бот тогда только добавлялся в группы и записал старые сообщения пачками с одним временем. Отдельно мастера пишут в общие группы салонов — в таблицу они не входят. Провалов в журнале нет, бот всё время был на связи.</p>
+    <p class="note">Источник — журнал сообщений бота поддержки мастеров. Взяты только входящие сообщения от мастеров (40 человек) в их личных группах поддержки. Правки сообщений и повторы не считаются. Журнал ведётся с 21 июля: первые дни (21–24 июля) выброшены — бот тогда только добавлялся в группы и записал старые сообщения пачками с одним временем. Отдельно мастера пишут в общие группы салонов — в таблицу они не входят. В исходном анализе указано, что провалов журнала не обнаружено; в этом обновлении доступность бота заново не проверялась.</p>
   </section>
 </div>
 <div class="tip" id="tip"></div>
@@ -173,7 +257,7 @@ const WD=[0,1,2,3,4], WE=[5,6];
 const blk = s => [[s,s+3],[s+4,s+7]];
 // Графики по людям: parts = [{days, spans:[[от,до],...]}]
 const SCHEDULES = [
- {id:"cur", name:"Сейчас", cover:"", hours:95,
+ {id:"cur", name:"Исходная модель", cover:"", hours:95,
   change:"Марина и Настя вдвоём на тихом утре 10–12, в 13–14 у обеих перерыв и Инна одна, в 17–18 и после 21 никого, выходные пустые.",
   people:{"Марина":[{days:WD,spans:blk(10)}],"Настя":[{days:WD,spans:blk(10)}],"Инна":[{days:WD,spans:[[13,17],[18,21]]}]}},
  {id:"s1", name:"Шаг 1", hours:95,
@@ -246,11 +330,11 @@ function tiles(){
   const topH=(d,k)=>{const r=DATA.H[d].map((v,h)=>[v,h]).sort((x,y)=>y[0]-x[0]).slice(0,k).map(x=>x[1]).sort((x,y)=>x-y);return r.join(", ");};
   const wdAvg=Math.round(DATA.H.slice(0,5).reduce((s,r)=>s+r.reduce((x,y)=>x+y,0),0)/wdN), weAvg=Math.round(we/(Wn.dpw[5]+Wn.dpw[6]));
   document.getElementById("findings").innerHTML=[
-    `<span><b>Утро пустое.</b> До 10:00 приходит ${p(before)} сообщений, в 10–11 по будням — ${h10} за ${Wn.label}. Мастера просыпаются к полудню.</span>`,
+    `<span><b>Утром сообщений меньше.</b> До 10:00 приходит ${p(before)} сообщений, в 10–11 по будням — ${h10} за ${Wn.label}. Это статистика сообщений; она не измеряет другую работу саппорта.</span>`,
     `<span><b>Пик — 12:00–17:00, а люди стоят до него и с дырой посередине.</b> Самый плотный час — 12–13: ${perH(12).toFixed(1)} сообщений на будний день. В 13–14 у Марины и Насти перерыв, Инна одна на ${perH(13).toFixed(1)} в час. А в 10–12 стоят двое на ${((perH(10)+perH(11))/2).toFixed(1)} в час.</span>`,
     `<span><b>Вечер такой же живой, как день.</b> После 17:00 приходит ${p(eve)} всех сообщений, поток держится до 22:00. Час 17–18, когда никого нет, во вторник — один из самых горячих.</span>`,
     `<span><b>Выходные — не тишина.</b> Суббота и воскресенье дают ${p(we)} сообщений: в среднем ${weAvg} в день против ${wdAvg} в будний. Самые горячие часы субботы — ${topH(5,2)}, воскресенья — ${topH(6,3)}.</span>`,
-    `<span><b>Итог: при нынешнем графике на смене приходит ${p(core)} потока.</b> Остальные ${p(n-core)} — выходные (${p(we)}), будни после 21:00, перерыв 17–18 и утро до 10.</span>`
+    `<span><b>Итог: в исходной модели на смене приходит ${p(core)} потока.</b> Остальные ${p(n-core)} — выходные (${p(we)}), будни после 21:00, перерыв 17–18 и утро до 10.</span>`
   ].map(x=>`<li>${x}</li>`).join("");
 }
 function loadTable(){
@@ -295,7 +379,102 @@ document.getElementById("heat").addEventListener("mouseleave",()=>tip.style.disp
 schedUI(); tiles(); loadTable(); ladder(); weeks(); render();
 matchMedia("(prefers-color-scheme: dark)").addEventListener("change",render);
 new MutationObserver(render).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
+// Calendar day 0 is a sample Monday, not an approved start date.
+const PLAN_NAMES = ['Марина','Инна','Настя'];
+const PLAN_OPTIONS = [
+  {id:'two', name:'2/2 + Настя по будням', days:28},
+  {id:'half', name:'5/2 + по 3 часа в Сб и Вс', days:21},
+  {id:'double', name:'5/2 + по 6 часов в Сб и Вс', days:21}
+];
+const planBlock = s => [[s,s+3],[s+4,s+7]];
+function nastyaStart(day, mode){return mode==='flex' ? ([1,3].includes(day%7)?12:11) : Number(mode);}
+function planDay(id, day, mode='flex'){
+  const dow=day%7, week=Math.floor(day/7), p={'Марина':[],'Инна':[],'Настя':[]};
+  if(id==='two'){
+    p[day%4<2?'Марина':'Инна']=[[10,13],[14,17],[18,21]];
+    if(dow<5) p['Настя']=planBlock(nastyaStart(day,mode));
+  } else {
+    if(dow<5){p['Марина']=planBlock(10);p['Инна']=planBlock(14);p['Настя']=planBlock(nastyaStart(day,mode));}
+    else if(id==='half'){
+      p[PLAN_NAMES[(week*2+dow-5)%3]]=[[12,15]];
+    } else {
+      const k=week*4+(dow-5)*2;
+      p[PLAN_NAMES[k%3]]=[[12,15]];
+      p[PLAN_NAMES[(k+1)%3]]=[[15,18]];
+    }
+  }
+  return p;
+}
+function planStaff(p,h){return PLAN_NAMES.filter(n=>p[n].some(([a,b])=>h>=a&&h<b));}
+function planHours(spans){return spans.reduce((s,[a,b])=>s+b-a,0);}
+function planStats(id,mode,W){
+  const len=PLAN_OPTIONS.find(p=>p.id===id).days;
+  const hours=Object.fromEntries(PLAN_NAMES.map(n=>[n,0]));
+  let total=0,covered=0;
+  for(let d=0;d<len;d++){
+    const p=planDay(id,d,mode);
+    PLAN_NAMES.forEach(n=>hours[n]+=planHours(p[n]));
+    for(let h=0;h<24;h++){
+      const v=W.H[d%7][h]/W.dpw[d%7];total+=v;
+      if(planStaff(p,h).length)covered+=v;
+    }
+  }
+  Object.keys(hours).forEach(n=>hours[n]/=len/7);
+  return {hours,totalHours:Object.values(hours).reduce((a,b)=>a+b,0),pct:covered/total*100};
+}
+function planBaseline(W){
+  let total=0,covered=0;
+  for(let d=0;d<7;d++)for(let h=0;h<24;h++){
+    const v=W.H[d][h]/W.dpw[d];total+=v;
+    if(d<5&&((h>=10&&h<17)||(h>=18&&h<21)))covered+=v;
+  }
+  return covered/total*100;
+}
+
+let planId='two', planMode='flex', planWindow='w8', planWeek=0;
+const planFmt=n=>Number(n.toFixed(1)).toLocaleString('ru-RU');
+const planTime=([a,b])=>`${a}:00–${b}:00`;
+const planById=id=>document.getElementById(id);
+function availableStaff(p,d,h){
+  const names=planStaff(p,h);
+  return planMode==='flex'&&[0,2,4].includes(d%7)&&h>=11&&h<13?names.filter(n=>n!=='Настя'):names;
+}
+function renderPlanner(resetWeek=false){
+  const option=PLAN_OPTIONS.find(p=>p.id===planId), weeks=option.days/7;
+  if(resetWeek||planWeek>=weeks)planWeek=0;
+  planById('plan-week').innerHTML=Array.from({length:weeks},(_,i)=>`<option value="${i}" ${i===planWeek?'selected':''}>${i+1} из ${weeks}</option>`).join('');
+  const W=RAW.win[planWindow], stats=planStats(planId,planMode,W), base=planBaseline(W);
+  const descriptions={
+    two:'Марина и Инна чередуют два длинных рабочих дня и два выходных. В каждый день основной саппорт один; Настя усиливает будни и прикрывает оба перерыва. В длинный день — 9 рабочих часов. Настя: 6 часов в будний день.',
+    half:'Пн–Пт: Марина 10–13 и 14–17; Инна 14–17 и 18–21; Настя по выбранному режиму. Сб и Вс: один дежурный 12–15. Два трёхчасовых блока в неделю распределяются по очереди между тремя сотрудницами; ротация повторяется через 3 недели.',
+    double:'Пн–Пт: Марина 10–13 и 14–17; Инна 14–17 и 18–21; Настя по выбранному режиму. Сб и Вс: один человек 12–15, другой 15–18. Четыре трёхчасовых блока в неделю распределяются по очереди между тремя сотрудницами; ротация повторяется через 3 недели.'
+  };
+  planById('plan-description').textContent=descriptions[planId]+(planMode==='flex'?' В Пн/Ср/Пт 11–13 у Насти выделены под разработку.':' При одинаковом старте во все будни часы для разработки нужно выделить отдельно.');
+  planById('plan-stats').innerHTML=[
+    [`${planFmt(stats.pct)}%`,'потока попадает в рабочие часы'],
+    [`${planFmt(stats.totalHours)} ч`,'работы всей команды в среднем / неделю'],
+    ['7 из 7','дней с назначенным саппортом'],
+    [planId==='two'?'31,5 / 31,5 / 30':planId==='half'?'32 / 32 / 32':'34 / 34 / 34','ч/нед: Марина / Инна / Настя, в среднем']
+  ].map(([b,s])=>`<div class="tile"><b>${b}</b><span>${s}</span></div>`).join('');
+  planById('plan-caveat').textContent=planId==='two'?'По сравнению с ориентиром 33 ч на человека: у Марины и Инны по −1,5 ч/нед в среднем, у Насти −3 ч/нед. До 99 часов команды не хватает 6 ч/нед; в расчёт они не добавлены. Если 33 часа обязательны, сначала отдельно согласовать распределение этих часов.':'Выходные здесь добавлены к пяти рабочим дням, а не перенесены с будней. В лёгком варианте средняя нагрузка 32 ч/нед на человека, в расширенном — 34 ч/нед. Если нужен неизменный бюджет 33 часа, график потребуется подстроить. Подмены на отпуск и болезнь в базовый расчёт не входят. '+(planId==='double'?'В этой ротации бывают 12 дней подряд с работой, включая короткие дежурства. Для сохранения регулярных полных дней отдыха потребуется компенсирующий отдых в будни; он изменит расчёт покрытия.':'У дежурного получается 6 рабочих дней в отдельные недели, хотя один из них короткий.');
+  planById('plan-comparison').innerHTML=`<thead><tr><th>Вариант</th><th>Часы команды / нед</th><th>Марина / Инна / Настя</th><th>Поток в часы работы</th></tr></thead><tbody><tr><td>Исходная модель сайта<br><span class="small">без неуточнённой воскресной трёхчасовки</span></td><td class="n">95</td><td>30 / 35 / 30</td><td class="n">${planFmt(base)}%</td></tr>${PLAN_OPTIONS.map(p=>{const s=planStats(p.id,planMode,W);return `<tr class="${p.id===planId?'selected':''}"><td>${p.name}</td><td class="n">${planFmt(s.totalHours)}</td><td>${PLAN_NAMES.map(n=>planFmt(s.hours[n])).join(' / ')}</td><td class="n">${planFmt(s.pct)}% <span class="small">(+${planFmt(s.pct-base)} п.п.)</span></td></tr>`;}).join('')}</tbody>`;
+  planById('plan-roster').innerHTML=`<thead><tr><th>Сотрудник</th>${DAYS.map(d=>`<th>${d}</th>`).join('')}<th>Часы</th></tr></thead><tbody>${PLAN_NAMES.map(n=>{let sum=0;return `<tr><td class="nm">${n}</td>${Array.from({length:7},(_,i)=>{const spans=planDay(planId,planWeek*7+i,planMode)[n];sum+=planHours(spans);return `<td class="${spans.length?'on':'off'}">${spans.length?spans.map(planTime).join('<br>'):'Выходной'}</td>`;}).join('')}<td class="n">${sum}</td></tr>`;}).join('')}</tbody>`;
+  planById('plan-coverage').innerHTML=`<thead><tr><th>День / час</th>${Array.from({length:11},(_,i)=>`<th>${i+10}–${i+11}</th>`).join('')}</tr></thead><tbody>${Array.from({length:7},(_,i)=>{const day=planWeek*7+i,p=planDay(planId,day,planMode);return `<tr><th>${DAYS[i]}</th>${Array.from({length:11},(_,j)=>{const h=j+10,names=availableStaff(p,day,h);return `<td class="n ${names.length?'on':'zero'}" title="${DAYS[i]}, ${h}:00–${h+1}:00: ${names.join(', ')||'никого на смене'}">${names.length||'—'}</td>`;}).join('')}</tr>`;}).join('')}</tbody>`;
+  const gaps={two:'Будни закрыты непрерывно 10:00–21:00. В Сб и Вс есть перерывы 13:00–14:00 и 17:00–18:00: их нельзя считать закрытыми. Для непрерывного покрытия 10–21 по выходным нужно ещё 4 часа подмены в неделю. Кто и как их отрабатывает, пока не назначено; в 93 часа они не включены.',half:'Будни закрыты непрерывно 10:00–21:00. В Сб и Вс саппорт только 12:00–15:00: утром, после 15:00 и вечером штатного покрытия нет. Короткое дежурство даёт контакт каждый день, но не решает все срочные обращения в выходные.',double:'Будни закрыты непрерывно 10:00–21:00. В Сб и Вс закрыто 12:00–18:00 без перерыва за счёт двух разных сотрудников; до 12:00 и после 18:00 штатного покрытия нет. Этот вариант сохраняет короткие рабочие дни, но добавляет нагрузку и оставляет меньше полных дней отдыха.'};
+  planById('plan-gaps').textContent=gaps[planId];
+}
+planById('plan-choice').onchange=e=>{planId=e.target.value;renderPlanner(true);};
+planById('nastya-choice').onchange=e=>{planMode=e.target.value;renderPlanner();};
+planById('plan-window').onchange=e=>{planWindow=e.target.value;renderPlanner();};
+planById('plan-week').onchange=e=>{planWeek=Number(e.target.value);renderPlanner();};
+planById('plan-copy').onclick=async()=>{
+  try{await navigator.clipboard.writeText(planById('plan-message').textContent);planById('plan-copy-status').textContent='Скопировано';}
+  catch{planById('plan-copy-status').textContent='Выделите текст сообщения и скопируйте вручную.';}
+};
+renderPlanner();
+
 </script>
 
 </body>
 </html>
+
