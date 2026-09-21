@@ -122,6 +122,14 @@ select:focus-visible,.plan-copy:focus-visible,summary:focus-visible{outline:2px 
 .plan-calendar-head{display:flex;gap:12px;align-items:center;flex-wrap:wrap;justify-content:space-between;margin-top:12px}
 .plan-calendar-head label{font-size:13px;color:var(--ink-2)}
 .plan-roster td{vertical-align:top;line-height:1.65}
+.plan-roster{min-width:1110px}
+.plan-shift{text-align:left;padding:7px 4px;line-height:1.4;white-space:normal}
+.plan-shift+.plan-shift{border-top:1px solid var(--line);margin-top:4px}
+.plan-shift>b{display:block;font-size:12px;white-space:nowrap}
+.plan-shift .shift-load{color:var(--accent)}
+.plan-shift .shift-time{display:block;white-space:nowrap;font-size:13px;margin:3px 0}
+.plan-shift small{display:block;font-size:11px;line-height:1.35;color:var(--ink-2)}
+.plan-shift .shift-coordination{color:var(--accent);font-weight:600;margin-top:3px}
 .plan-coverage td{font-size:13px}
 .plan-coverage .on{background:var(--frame-bg)}
 .plan-message{white-space:pre-wrap;max-width:85ch;margin:14px 0;padding:16px;background:var(--bg);border-radius:8px}
@@ -170,9 +178,9 @@ select:focus-visible,.plan-copy:focus-visible,summary:focus-visible{outline:2px 
 
   <section id="schedule-options" aria-labelledby="plan-title">
     <div class="eyebrow">Постоянная неделя · 21 сентября 2026 · решение по расписанию, дата запуска не назначена</div>
-    <h2 id="plan-title">Постоянный график: решение от 21 сентября</h2>
-    <p class="lead"><b>Марина закрывает понедельник и вторник целиком; Инна — среду и четверг.</b> Во вторник Инна, а в четверг Марина добавляют окно 14–17. В пятницу работает Инна, в субботу Марина, в воскресенье обе работают 10–14 и 14–17. Одна и та же неделя повторяется каждые 7 дней.</p>
-    <div class="plan-callout"><b>Часы перенесены из решения без выравнивания окон:</b> у Марины полные дни 10–14, 14–17, 18–21 — по 10 часов. У Инны в среду и четверг 10–13, 14–17, 18–21 — по 9 часов; в пятницу 13–17 и 18–21 — 7 часов. Формулировка «до 1:00» принята как до 13:00. Воскресный созвон с 10:00 до 13:00 входит в утреннее окно, не добавляется сверх него. Все часы — Бангкок (UTC+7).</div>
+    <h2 id="plan-title">Постоянный график: 11 смен у каждой</h2>
+    <p class="lead"><b>Марина закрывает понедельник и вторник целиком; Инна — среду и четверг.</b> Окно Инны во вторник и Марины в четверг 14–17 включает короткий общий созвон. В пятницу работает Марина, в субботу Инна, в воскресенье обе работают 10–14 и 14–17. Одна и та же неделя повторяется каждые 7 дней.</p>
+    <div class="plan-callout"><b>Часы перенесены из решения без выравнивания окон:</b> у Марины полные дни 10–14, 14–17, 18–21 — по 10 часов. У Инны в среду и четверг 10–13, 14–17, 18–21 — по 9 часов; в субботу 14–17 и 18–21 — 6 часов. Формулировка «до 1:00» принята как до 13:00. Воскресный созвон с 10:00 до 13:00 входит в утреннее окно, не добавляется сверх него. Все часы — Бангкок (UTC+7).</div>
     <p class="note"><b>Для Насти сохранён ранее согласованный отдельный график:</b> Пн–Пт 11:00–14:00 и 15:00–18:00, воскресенье 10:00–13:00, суббота — выходной. Её расписание в этом решении не менялось; у Насти остаётся 6 рабочих дней.</p>
     <div class="plan-controls">
       <label>Данные для расчёта<select id="plan-window" aria-label="Данные для расчёта"><option value="w4">4 недели · 24.08–19.09</option><option value="w8">8 недель · 27.07–19.09</option></select></label>
@@ -182,12 +190,14 @@ select:focus-visible,.plan-copy:focus-visible,summary:focus-visible{outline:2px 
     <div class="tiles" id="plan-stats" aria-live="polite"></div>
     <div class="plan-callout" id="plan-variant-note"></div>
     <h3>Нагрузка и восстановление</h3>
-    <p class="note">Во вторник и четверг два саппорта одновременно работают 14–17. Пятница сокращена до двух окон Инны, суббота — до двух окон Марины. В воскресенье обе работают 7 часов; необходимость такого двойного дежурства не доказана одним числом сообщений. Ниже расписание сопоставлено с наблюдаемым потоком, без изменения принятого решения.</p>
+    <p class="note">Во вторник и четверг в окне 14–17 есть координация: общий созвон 15:00–15:30, максимум до 16:00. Остальное время — обращения и рабочие задачи. Пятницу закрывает Марина в два окна 14–17 и 18–21, субботу — Инна в те же часы. В воскресенье обе работают 7 часов; необходимость такого двойного дежурства не доказана одним числом сообщений. Ниже расписание сопоставлено с наблюдаемым потоком, без изменения принятого решения.</p>
     <div class="scroll" tabindex="0" role="region" aria-label="Плановые часы по дням"><table class="opts" id="plan-change"></table></div>
     <p class="note" id="plan-change-note"></p>
-    <p class="note"><b>Перерывы внутри дня:</b> окна Марины 10–14 и 14–17 смыкаются, между ними нет автоматического обеда. У Инны в среду и четверг есть перерыв 13–14. В будни внутренние паузы согласуются в часы пересечения с Настей или вторым саппортом, в воскресенье — между Мариной и Инной после созвона. В субботу у Марины есть перерыв 17–18, подмены нет. Часы ниже — сумма назначенных окон, а не непрерывная активность каждую минуту.</p>
+    <p class="note"><b>Перерывы внутри дня:</b> окна Марины 10–14 и 14–17 смыкаются, между ними нет автоматического обеда. У Инны в среду и четверг есть перерыв 13–14. В будни внутренние паузы согласуются в часы пересечения с Настей или вторым саппортом, в воскресенье — между Мариной и Инной после созвона. В субботу у Инны есть перерыв 17–18, подмены нет. Созвоны Вт/Чт начинаются в 15:00, после перерыва Насти 14–15. Часы ниже — сумма назначенных окон, а не непрерывная активность каждую минуту.</p>
     <h3>Постоянный календарь Пн–Вс</h3>
     <p class="small">Дата запуска пока не назначена. Следующий понедельник повторяет этот же календарь. Календарь зафиксирован: переключатели периода и видов чатов меняют только статистику.</p>
+    <p class="note" id="plan-shift-legend"><b>Нумерация №1–№11 — отдельная у каждого сотрудника, с понедельника по воскресенье.</b> Одно указанное окно считается одной сменой, даже если оно длится 4 часа. Созвон внутри окна не создаёт ещё одну смену. Процент рядом с № — доля <b>всего нормированного недельного потока</b>, которая приходилась на часы этого окна в выбранных чатах и периоде. Это позволяет сравнить смены разных дней. Наведите на смену, чтобы увидеть долю сообщений её дня и среднее число за окно.</p>
+    <p class="small">Процент описывает поток чатов в эти часы, а не личную занятость сотрудника или точный прогноз. На пересекающихся сменах сотрудников одни и те же сообщения показаны повторно: складывать проценты разных сотрудников нельзя. В окне с созвоном процент относится ко всему окну, включая время координации.</p>
     <div id="plan-rosters"></div>
     <div class="plan-callout" id="plan-days-off"></div>
     <h3>Выходные: какие сообщения попадают в назначенные часы</h3>
@@ -197,14 +207,15 @@ select:focus-visible,.plan-copy:focus-visible,summary:focus-visible{outline:2px 
     <div class="scroll" tabindex="0" role="region" aria-label="Сравнение воскресных окон"><table class="opts" id="plan-sunday"></table></div>
     <p class="note"><b>Воскресенье:</b> Марина и Инна назначены на 10–14 и 14–17, по 7 часов каждая. Созвон 10–13 проходит внутри первого окна. Если он заканчивается раньше, сотрудники возвращаются к поддержке; с 13 до 17 обе доступны по расписанию. Два сотрудника в одно время увеличивают ресурс команды, но не удваивают долю покрытого потока: каждое входящее сообщение в расчёте учитывается один раз.</p>
     <p class="note" id="plan-saturday-recommendation"></p>
-    <h3>Воскресная синхронизация</h3>
+    <h3>Координационные созвоны</h3>
+    <p class="note"><b>Вторник и четверг: Марина, Инна и Настя — 15:00–15:30, максимум до 16:00.</b> Созвон проходит внутри назначенных смен; у Инны во вторник и у Марины в четверг это окно 14–17. Начало в 15:00 сохраняет перерыв Насти 14–15. Оставшееся время окна используется для поддержки и рабочих задач. Воскресенье — полноценный общий разбор.</p>
     <ul class="plan-list">
       <li><b>Начало каждое воскресенье в 10:00.</b> Марина и Инна обязательно на связи. Ведёт Максим, а в его отсутствие — Настя. Настя участвует в рамках своего блока 10–13; у Марины и Инны созвон входит в окно 10–14.</li>
       <li><b>Резерв до 13:00, без обязательного трёхчасового разговора.</b> Разбираем события и незакрытые вопросы, договариваемся об ответственных и сроках. Если всё разобрано раньше, завершаем созвон и переходим к задачам.</li>
       <li><b>Обычная поддержка во время общего звонка не гарантирована.</b> При срочном обращении ведущий приостанавливает обсуждение и выделяет сотрудника на решение; это предложенный порядок, его работа ещё не проверялась.</li>
     </ul>
     <h3>Где остаётся поддержка по часам</h3>
-    <p class="small">Числа — сотрудники в назначенных окнах после исключения времени общего созвона. «С» — общий блок синхронизации, исключённый из гарантированных часов поддержки; «—» — нет назначенного сотрудника. Звонки и другие задачи могут дополнительно снижать доступность.</p>
+    <p class="small">Числа — сотрудники в назначенных окнах после исключения созвонов. «С» — резерв под общий созвон: Вт/Чт 15–16 и Вс 10–13. Для коротких созвонов здесь взят максимум 1 час; «—» — нет назначенного сотрудника. Звонки и другие задачи могут дополнительно снижать доступность.</p>
     <div class="scroll" tabindex="0" role="region" aria-label="Покрытие по часам"><table class="load plan-coverage" id="plan-coverage"></table></div>
     <p class="note" id="plan-coverage-note"></p>
     <div class="plan-callout" id="plan-gaps"></div>
@@ -232,7 +243,7 @@ select:focus-visible,.plan-copy:focus-visible,summary:focus-visible{outline:2px 
       <h3>Будни: доля сообщений и доля рабочих часов</h3>
       <div class="scroll" tabindex="0" role="region" aria-label="Доли сообщений и рабочих часов в будни"><table class="opts" id="traffic-hours"></table></div>
       <p class="note" id="traffic-hours-note"></p>
-      <p class="note">Выбор периода или вида чатов не меняет календарь. Часы команды по Пн–Пт: 16, 19, 15, 18 и 13. Дополнительные окна Инны во вторник и Марины в четверг усиливают дневное пересечение. Сравнение долей показывает распределение ресурса, но не доказывает достаточность часов без времени решения задач.</p>
+      <p class="note">Выбор периода или вида чатов не меняет календарь. Часы команды по Пн–Пт: 16, 19, 15, 18 и 12. В этих часах учтена и координация: на время общего созвона все участники отвлекаются от обращений. Сравнение долей показывает распределение ресурса, но не доказывает достаточность часов без времени решения задач.</p>
       <h3>Когда приходят сообщения: день и час</h3>
       <div class="scroll" tabindex="0" role="region" aria-label="Сообщения по дням и часам"><table class="traffic-heat" id="traffic-heat"></table></div>
       <p class="note" id="traffic-heat-note"></p>
@@ -246,8 +257,8 @@ select:focus-visible,.plan-copy:focus-visible,summary:focus-visible{outline:2px 
     </div>
     <details class="plan-details">
       <summary>Учёт часов и ограничения расчёта</summary>
-      <p class="note">Марина: 10 + 10 + 0 + 3 + 0 + 6 + 7 = 36 часов. Инна: 0 + 3 + 9 + 9 + 7 + 0 + 7 = 35 часов. Настя: 5 × 6 + 3 = 33 часа. Всего 104 часа команды. Это сумма назначенных окон, не подтверждённая фактическая отработка. Воскресный созвон входит в рабочие окна и повторно не прибавляется; его раннее завершение не сокращает назначенную смену.</p>
-      <p class="note">В расчёте покрытия общий блок 10–13 исключён целиком, как при максимальной длительности созвона. Отдельно показана верхняя оценка, если в утренние часы нет общего созвона и сотрудники доступны; промежуточные значения по длительности созвона не интерполируются — внутри часа распределение сообщений неизвестно. Субботние и воскресные проценты относятся к потоку соответствующего дня, недельные — ко всей нормированной неделе.</p>
+      <p class="note">Марина: 10 + 10 + 0 + 3 + 6 + 0 + 7 = 36 часов. Инна: 0 + 3 + 9 + 9 + 0 + 6 + 7 = 34 часа. Настя: 5 × 6 + 3 = 33 часа. Всего 103 часа команды и 33 смены — по 11 у каждой. Это сумма назначенных окон, не подтверждённая фактическая отработка. Все созвоны входят в рабочие окна и повторно не прибавляются; их раннее завершение не сокращает назначенную смену. Равное число смен не означает равное число часов, поскольку утренние окна Марины и воскресные окна саппортов длятся 4 часа.</p>
+      <p class="note">В расчёте покрытия исключены максимальные резервы созвонов: Вт/Чт 15–16 и Вс 10–13. Отдельно показана верхняя оценка по всем назначенным окнам без исключения созвонов. Точный эффект 30 минут не рассчитывается по почасовой статистике: равномерное распределение сообщений внутри часа неизвестно. Субботние и воскресные проценты относятся к потоку соответствующего дня, недельные — ко всей нормированной неделе.</p>
       <p class="note">Расчёт доступности использует выбранные период и виды чатов, по умолчанию — объединённые данные за 4 недели. Поток нормирован на число каждого дня недели в выборке. Звонки, трудоёмкость задач и фактическая скорость ответа не измерены. Общие чаты теперь учтены; исходные данные групп одного мастера сохранены. Архив ниже содержит прежнюю модель и отдельные настройки.</p>
     </details>
     <h3>Передача дел</h3>
@@ -448,19 +459,36 @@ const PLAN_CYCLE_DAYS=7;
 const PLAN_DEFAULT='approved';
 const PLAN_WINDOWS=[[10,14],[14,17],[18,21]];
 const PLAN_SYNC=[10,13];
+// Weekday call: 15:00–15:30, reserve through 16:00. All three attend.
+const PLAN_COORD_PARTICIPANTS={1:PLAN_NAMES,3:PLAN_NAMES};
+const PLAN_WEEKDAY_SYNC=[15,16];
 function planDay(day,variant=PLAN_DEFAULT){
   const dow=day%7;
   const weekly={
-    'Марина':[PLAN_WINDOWS,PLAN_WINDOWS,[],[[14,17]],[],[[14,17],[18,21]],[[10,14],[14,17]]],
-    'Инна':[[],[[14,17]],[[10,13],[14,17],[18,21]],[[10,13],[14,17],[18,21]],[[13,17],[18,21]],[],[[10,14],[14,17]]],
+    'Марина':[PLAN_WINDOWS,PLAN_WINDOWS,[],[[14,17]],[[14,17],[18,21]],[],[[10,14],[14,17]]],
+    'Инна':[[],[[14,17]],[[10,13],[14,17],[18,21]],[[10,13],[14,17],[18,21]],[],[[14,17],[18,21]],[[10,14],[14,17]]],
     'Настя':[[[11,14],[15,18]],[[11,14],[15,18]],[[11,14],[15,18]],[[11,14],[15,18]],[[11,14],[15,18]],[],[[10,13]]]
   };
   return Object.fromEntries(PLAN_NAMES.map(n=>[n,weekly[n][dow]]));
 }
-function planSupportDay(day,variant=PLAN_DEFAULT,includeSundayMorning=false){
-  if(day%7!==6)return planDay(day,variant);
-  if(includeSundayMorning)return planDay(day,variant);
-  return {'Марина':[[13,14],[14,17]],'Инна':[[13,14],[14,17]],'Настя':[]};
+function planCoordination(day,name){
+  const dow=day%7;
+  return dow===6?[PLAN_SYNC]:PLAN_COORD_PARTICIPANTS[dow]?.includes(name)?[PLAN_WEEKDAY_SYNC]:[];
+}
+function planSubtract(spans,excluded){
+  return excluded.reduce((remaining,[x,y])=>remaining.flatMap(([a,b])=>b<=x||a>=y?[[a,b]]:[[a,Math.min(b,x)],[Math.max(a,y),b]].filter(([u,v])=>u<v)),spans);
+}
+function planSupportDay(day,variant=PLAN_DEFAULT,includeCoordination=false){
+  const p=planDay(day,variant);
+  return includeCoordination?p:Object.fromEntries(PLAN_NAMES.map(n=>[n,planSubtract(p[n],planCoordination(day,n))]));
+}
+function planShifts(name){
+  let number=0;
+  return Array.from({length:7},(_,day)=>planDay(day)[name].map(span=>({number:++number,day,span,coordination:planCoordination(day,name).some(([a,b])=>span[0]<b&&span[1]>a)}))).flat();
+}
+function planShiftLoad(W,day,span){
+  const window=planWindowStats(W,day,[span]),week=W.H.reduce((s,row,d)=>s+row.reduce((x,y)=>x+y,0)/W.dpw[d],0);
+  return {weekPct:week?window.inside/week*100:null,dayPct:window.pct,average:window.inside};
 }
 function planStaff(p,h){return PLAN_NAMES.filter(n=>p[n].some(([a,b])=>h>=a&&h<b));}
 function planHours(spans){return spans.reduce((sum,[a,b])=>sum+b-a,0);}
@@ -532,12 +560,12 @@ function renderTraffic(W){
   const split=planSource==='combined';
   planById('plan-load').innerHTML=`<thead><tr><th>День</th>${split?'<th>Группы одного мастера / день</th><th>Общие чаты / день</th>':''}<th>${split?'Всего':'Сообщений'} / день</th><th>Доля потока недели</th><th>От самого загруженного дня</th></tr></thead><tbody>${rows.map(r=>`<tr><th>${r.name}</th>${split?`<td class="n">${trafficFmt(r.individual)}</td><td class="n">${trafficFmt(r.salon)}</td>`:''}<td class="n"><b>${trafficFmt(r.mean)}</b></td><td class="n">${trafficPct(r.weekShare)}</td><td class="n">${trafficPct(r.peakIndex)}</td></tr>`).join('')}</tbody>`;
   planById('traffic-hours').innerHTML=`<thead><tr><th>Будний день</th><th>Доля сообщений будней</th><th>Часы команды</th><th>Доля часов будней</th><th>Часы минус поток, п. п.</th></tr></thead><tbody>${trafficHours(rows,planVariant).map(r=>`<tr><th>${r.name}</th><td class="n">${trafficPct(r.weekdayShare)}</td><td class="n">${r.hours}</td><td class="n">${trafficPct(r.hourShare)}</td><td class="n">${r.gap===null?'—':(r.gap>0?'+':'')+planFmt(r.gap)}</td></tr>`).join('')}</tbody>`;
-  planById('traffic-hours-note').textContent=`Зафиксированный график: ${planTotals(0,7).totalHours} часа команды, из них ${planTotals(0,5).totalHours} в будни. Доли сообщений и часов здесь считаются только по Пн–Пт: сумма каждого столбца до округления — 100%. Отрицательная разница означает меньшую долю часов, чем долю сообщений, положительная — большую. Число сообщений само по себе не измеряет необходимое количество рабочих часов.`;
+  planById('traffic-hours-note').textContent=`Зафиксированный график: ${planTotals(0,7).totalHours} часа команды, из них ${planTotals(0,5).totalHours} в будни. Доли сообщений и часов здесь считаются только по Пн–Пт: сумма каждого столбца до округления — 100%. Отрицательная разница означает меньшую долю часов, чем долю сообщений, положительная — большую. Рабочие часы включают созвоны; доля этих часов не равна доступному времени приёма обращений. Число сообщений само по себе не измеряет необходимое количество рабочих часов.`;
   const max=Math.max(...W.H.flatMap((row,d)=>row.map(v=>v/W.dpw[d])));
   planById('traffic-heat').innerHTML=`<thead><tr><th>День / час</th>${Array.from({length:24},(_,h)=>`<th>${h}</th>`).join('')}</tr></thead><tbody>${DAYS.map((name,d)=>`<tr><th>${name}</th>${W.H[d].map((n,h)=>{const avg=n/W.dpw[d],level=max?Math.ceil(avg/max*5):0;return `<td class="traffic-level-${level}" title="${name} ${h}:00–${h+1}:00: ${trafficFmt(avg)} сообщения в среднем (${n} за период)" aria-label="${name}, ${h}–${h+1}: ${trafficFmt(avg)}">${avg?planFmt(avg):'·'}</td>`;}).join('')}</tr>`).join('')}</tbody>`;
   planById('traffic-heat-note').textContent=`${selected} · ${W.label}. В клетке — среднее число сообщений в этот час одного такого дня недели; все часы — Бангкок. Пустая клетка означает ноль сообщений, а не отсутствие дежурства.`;
   const totalSat=rows[5].mean;
-  planById('plan-saturday-recommendation').textContent=totalSat?'В решении зафиксированы два субботних окна Марины: 14–17 и 18–21, 6 часов. Сравнение с одним окном 14–17 оставлено только как справка. Для оценки достаточности нужны сроки ответа, срочность и остаток очереди.':'В выбранной выборке субботних сообщений нет. Процент не рассчитывается; это не доказывает, что субботняя поддержка не нужна.';
+  planById('plan-saturday-recommendation').textContent=totalSat?'В решении зафиксированы два субботних окна Инны: 14–17 и 18–21, 6 часов. Сравнение с одним окном 14–17 оставлено только как справка. Для оценки достаточности нужны сроки ответа, срочность и остаток очереди.':'В выбранной выборке субботних сообщений нет. Процент не рассчитывается; это не доказывает, что субботняя поддержка не нужна.';
   renderTrafficComparison();
 }
 
@@ -546,8 +574,19 @@ const planFmt=n=>Number.isFinite(n)?Number(n.toFixed(1)).toLocaleString('ru-RU')
 const planPct=n=>Number.isFinite(n)?planFmt(n)+'%':'нет сообщений';
 const planTime=([a,b])=>`${a}:00–${b}:00`;
 const planById=id=>document.getElementById(id);
-function planRoster(){
-  const table=`<thead><tr><th>Сотрудник</th>${DAYS.map(d=>`<th>${d}</th>`).join('')}<th>Часы / нед</th></tr></thead><tbody>${PLAN_NAMES.map(n=>{let sum=0;return `<tr><td class="nm">${n}</td>${Array.from({length:7},(_,d)=>{const spans=planDay(d)[n];sum+=planHours(spans);return `<td class="${spans.length?'on':'off'}">${spans.length?spans.map((s,i)=>planTime(s)+(d===6&&i===0?'<br><small>внутри созвон 10–13</small>':'')).join('<br>'):'Выходной'}</td>`;}).join('')}<td class="n">${sum}</td></tr>`;}).join('')}</tbody>`;
+function planRoster(W){
+  const totals=planTotals(0,7);
+  const table=`<thead><tr><th>Сотрудник</th>${DAYS.map(d=>`<th>${d}</th>`).join('')}<th>Итого / нед</th></tr></thead><tbody>${PLAN_NAMES.map(n=>{
+    const shifts=planShifts(n);
+    return `<tr><td class="nm">${n}</td>${Array.from({length:7},(_,d)=>{
+      const slots=shifts.filter(s=>s.day===d);
+      return `<td class="${slots.length?'on':'off'}">${slots.length?slots.map(s=>{
+        const load=planShiftLoad(W,d,s.span),coord=s.coordination?(d===6?'Разбор 10–13':'Созвон 15:00–15:30 · до 16:00'):'';
+        const role=(n==='Инна'&&d===1)||(n==='Марина'&&d===3)?'Координация + поддержка':d===6&&n==='Настя'?'Общий разбор':'Поддержка';
+        return `<div class="plan-shift${s.coordination?' has-coordination':''}" data-person="${n}" data-day="${d}" data-shift="${s.number}" data-start="${s.span[0]}" data-end="${s.span[1]}" title="${planPct(load.dayPct)} сообщений этого дня; в среднем ${planFmt(load.average)} сообщения за окно. Это поток чатов, не личная занятость сотрудника."><b>№${s.number} · <span class="shift-load">${Number.isFinite(load.weekPct)?planPct(load.weekPct)+' недели':'нет базы'}</span></b><span class="shift-time">${planTime(s.span)}</span><small>${role}</small>${coord?`<small class="shift-coordination">${coord}</small>`:''}</div>`;
+      }).join(''):'Выходной'}</td>`;
+    }).join('')}<td class="n"><b>${shifts.length} / 11</b><br><small>смен</small><br>${totals.hours[n]} ч</td></tr>`;
+  }).join('')}</tbody>`;
   return `<div class="scroll" tabindex="0" role="region" aria-label="Постоянное недельное расписание"><table class="who plan-roster">${table}</table></div>`;
 }
 function renderPlanner(){
@@ -557,25 +596,25 @@ function renderPlanner(){
   planById('plan-stats').innerHTML=[
     [PLAN_NAMES.map(n=>stats.hours[n]).join(' / ')+' ч','Марина / Инна / Настя за неделю'],
     [stats.totalHours+' ч','плановый бюджет команды / неделю'],
-    ['До 2 полных дней','подряд у Марины и Инны; рабочих — до 4'],
+    [PLAN_NAMES.every(n=>planShifts(n).length===11)?'11 смен':'Проверить смены','у каждой; нумерация отдельно с №1'],
     ['7 дней','одна и та же неделя повторяется']
   ].map(([b,s])=>`<div class="tile"><b>${b}</b><span>${s}</span></div>`).join('');
-  planById('plan-variant-note').innerHTML='<b>Решение от 21 сентября:</b> расписание перенесено по указанным дням и часам. Марина — 36 часов, Инна — 35, Настя — 33. Во вторник и четверг дополнительный саппорт работает 14–17. В субботу у Марины 14–17 и 18–21; в воскресенье у Марины и Инны 10–14 и 14–17.';
+  planById('plan-variant-note').innerHTML="<b>Зафиксировано по 11 смен у каждой:</b> пятница — Марина 14–17 и 18–21, суббота — Инна 14–17 и 18–21. Окно Инны во вторник и Марины в четверг 14–17 включает координацию: все трое созваниваются 15:00–15:30, максимум до 16:00. Остальное время окна — поддержка и рабочие задачи.";
   planById('plan-change').innerHTML=`<thead><tr><th>День</th>${DAYS.map(d=>`<th>${d}</th>`).join('')}<th>Неделя</th></tr></thead><tbody><tr><td>Плановые часы команды</td>${DAYS.map((_,d)=>`<td class="n">${planTotals(d,1).totalHours}</td>`).join('')}<td class="n">${stats.totalHours}</td></tr></tbody>`;
-  planById('plan-change-note').textContent='В будни 81 час команды: Пн 16, Вт 19, Ср 15, Чт 18, Пт 13. В субботу 6 часов Марины. В воскресенье 17 часов: по 7 у Марины и Инны и 3 у Насти. Созвон входит в утренние окна и отдельно к часам не прибавляется.';
-  planById('plan-days-off').innerHTML='<b>Полные выходные:</b> Марина — среда и пятница; Инна — понедельник и суббота; Настя — суббота. <b>Не больше двух полных дней в три окна подряд:</b> Марина — Пн–Вт, Инна — Ср–Чт. При этом у Марины четыре рабочих дня подряд на стыке недель — Сб–Вс–Пн–Вт, у Инны — Вт–Ср–Чт–Пт. Частичные дни и воскресенье считаются рабочими. У Насти шесть рабочих дней подряд. Это свойство выбранного расписания; прежнее ограничение «не больше двух любых рабочих дней» оно не выполняет.';
-  planById('plan-rosters').innerHTML=planRoster();
+  planById('plan-change-note').textContent="В будни 80 часов команды: Пн 16, Вт 19, Ср 15, Чт 18, Пт 12. В субботу 6 часов Инны. В воскресенье 17 часов: по 7 у Марины и Инны и 3 у Насти. Всего 103 часа. Созвоны проходят внутри смен и отдельно к часам или числу смен не прибавляются.";
+  planById('plan-days-off').innerHTML="<b>Полные выходные:</b> Марина — среда и суббота; Инна — понедельник и пятница; Настя — суббота. У Марины и Инны не больше двух полных дней в три окна подряд. Максимум любых рабочих дней — три: Марина Вс–Пн–Вт, Инна Вт–Ср–Чт. У Насти шесть рабочих дней подряд. Координация и воскресный разбор тоже считаются работой.";
+  planById('plan-rosters').innerHTML=planRoster(W);
   const sat=[{label:'Назначено: 14–17 и 18–21',spans:[[14,17],[18,21]],hours:6},{label:'Справочно: только 14–17',spans:[[14,17]],hours:3}];
-  planById('plan-saturday').innerHTML=`<thead><tr><th>Суббота</th><th>Часы Марины</th><th>Доля субботних сообщений в окнах</th><th>Сообщений вне окон / день</th></tr></thead><tbody>${sat.map((x,i)=>{const s=planWindowStats(W,5,x.spans);return `<tr class="${i===0?'selected':''}"><td>${x.label}</td><td>${x.hours}</td><td>${planPct(s.pct)}</td><td>${planFmt(s.outside)}</td></tr>`;}).join('')}</tbody>`;
+  planById('plan-saturday').innerHTML=`<thead><tr><th>Суббота</th><th>Часы Инны</th><th>Доля субботних сообщений в окнах</th><th>Сообщений вне окон / день</th></tr></thead><tbody>${sat.map((x,i)=>{const s=planWindowStats(W,5,x.spans);return `<tr class="${i===0?'selected':''}"><td>${x.label}</td><td>${x.hours}</td><td>${planPct(s.pct)}</td><td>${planFmt(s.outside)}</td></tr>`;}).join('')}</tbody>`;
   const satOne=planWindowStats(W,5,[[14,17]]),satTwo=planWindowStats(W,5,[[14,17],[18,21]]);
   planById('plan-saturday-note').textContent=`${TRAFFIC_SOURCES[planSource]}, ${W.label}: в субботу в среднем ${trafficFmt(satOne.average)} сообщения. ${satOne.average?`В назначенные окна 14–17 и 18–21 попадает ${planPct(satTwo.pct)} потока; только в 14–17 — ${planPct(satOne.pct)}. Вечернее окно добавляет около ${planFmt(satTwo.inside-satOne.inside)} сообщения за субботу.`:'В этой части выборки сообщений нет, проценты не рассчитываются.'} Это распределение входящего потока по времени, а не число решённых задач.`;
   const sun=[{label:'13–17 · после максимального созвона',spans:[[13,17]]},{label:'10–14 и 14–17 · все назначенные окна, верхняя оценка',spans:[[10,14],[14,17]]}];
   planById('plan-sunday').innerHTML=`<thead><tr><th>Воскресенье</th><th>Доля воскресных сообщений в окнах</th><th>Сообщений вне окон / день</th></tr></thead><tbody>${sun.map(x=>{const s=planWindowStats(W,6,x.spans);return `<tr><td>${x.label}</td><td>${planPct(s.pct)}</td><td>${planFmt(s.outside)}</td></tr>`;}).join('')}</tbody>`;
-  planById('plan-coverage').innerHTML=`<thead><tr><th>День / час</th>${Array.from({length:11},(_,i)=>`<th>${i+10}–${i+11}</th>`).join('')}</tr></thead><tbody>${DAYS.map((label,d)=>`<tr><th>${label}</th>${Array.from({length:11},(_,j)=>{const h=j+10,names=planStaff(planSupportDay(d),h),sync=d===6&&h<13;return `<td class="n ${sync?'sync':names.length?'on':'zero'}" title="${sync?'Созвон внутри утренних окон; приём обращений не гарантирован':names.join(', ')||'никого'}">${sync?'С':names.length||'—'}</td>`;}).join('')}</tr>`).join('')}</tbody>`;
-  planById('plan-coverage-note').textContent=`${TRAFFIC_SOURCES[planSource]}, ${W.label} (${W.range}): после исключения воскресного созвона 10–13 в назначенные дежурства попадает ${planPct(stats.pct)} нормированного недельного потока. Если утро воскресенья целиком доступно для поддержки, верхняя оценка — ${planPct(stats.potentialPct)}. В Пн–Чт сотрудники назначены с 10 до 21, в Пт — с 11 до 21. Пересечения сотрудников не удваивают долю потока; перерывы, звонки и время решения не измерены.`;
-  planById('plan-gaps').innerHTML='<b>Вне назначенных дежурств:</b> Пн–Чт до 10 и после 21; пятница до 11 и после 21; суббота до 14, 17–18 и после 21; воскресенье до 10 и после 17. Во время общего созвона Вс 10–13 обычная поддержка не гарантирована. В субботу подмены на внутренние паузы нет. Срочный резерв вне графика не назначен.';
+  planById('plan-coverage').innerHTML=`<thead><tr><th>День / час</th>${Array.from({length:11},(_,i)=>`<th>${i+10}–${i+11}</th>`).join('')}</tr></thead><tbody>${DAYS.map((label,d)=>`<tr><th>${label}</th>${Array.from({length:11},(_,j)=>{const h=j+10,names=planStaff(planSupportDay(d),h),sync=(d===6&&h<13)||([1,3].includes(d)&&h===15);return `<td class="n ${sync?'sync':names.length?'on':'zero'}" title="${sync?(d===6?'Общий разбор 10–13':'Созвон 15:00–15:30; для расчёта резерв до 16:00'):names.join(', ')||'никого'}">${sync?'С':names.length||'—'}</td>`;}).join('')}</tr>`).join('')}</tbody>`;
+  planById('plan-coverage-note').textContent=`${TRAFFIC_SOURCES[planSource]}, ${W.label} (${W.range}): после исключения созвонов Вт/Чт 15–16 и Вс 10–13 в доступные часы попадает ${planPct(stats.pct)} нормированного недельного потока. Без исключения созвонов верхняя оценка — ${planPct(stats.potentialPct)}. Для коротких созвонов учтён максимум 1 час: данные почасовые, делить поток часа пополам для 30 минут нельзя без дополнительной детализации. Пересечения сотрудников не удваивают долю потока; фактическая скорость ответа и трудоёмкость не измерены.`;
+  planById('plan-gaps').innerHTML="<b>Вне дежурств:</b> Пн–Чт до 10 и после 21; пятница до 11 и после 21; суббота до 14, 17–18 и после 21; воскресенье до 10 и после 17. Во Вт/Чт 15:00–15:30 (максимум до 16:00) и Вс 10–13 все трое на созвоне; обычный приём обращений не гарантирован. После короткого созвона возвращаются к обращениям. В субботу подмены Инне на внутренние паузы нет. Срочный резерв вне графика не назначен.";
   renderTraffic(W);
-  planById('plan-message').textContent='Марина, Инна, Настя, фиксируем постоянный недельный график. Марина: Пн и Вт 10–14, 14–17, 18–21; Чт 14–17; Сб 14–17 и 18–21; Вс 10–14 и 14–17. Выходные Ср и Пт. Инна: Вт 14–17; Ср и Чт 10–13, 14–17, 18–21; Пт 13–17 и 18–21; Вс 10–14 и 14–17. Выходные Пн и Сб. Настя: Пн–Пт 11–14 и 15–18, Вс 10–13, Сб выходной. Каждое воскресенье созвон с 10:00, по необходимости до 13:00, внутри рабочих окон. Ведёт Максим или Настя. План: Марина 36 ч, Инна 35 ч, Настя 33 ч. Все часы — Бангкок. Дату запуска согласуем отдельно.';
+  planById('plan-message').textContent="Марина, Инна, Настя, фиксируем постоянный график: у каждой по 11 смен. Марина: Пн и Вт 10–14, 14–17, 18–21; Чт 14–17; Пт 14–17 и 18–21; Вс 10–14 и 14–17. Выходные Ср и Сб. Инна: Вт 14–17; Ср и Чт 10–13, 14–17, 18–21; Сб 14–17 и 18–21; Вс 10–14 и 14–17. Выходные Пн и Пт. Настя: Пн–Пт 11–14 и 15–18, Вс 10–13, Сб выходной. Вт и Чт: общий созвон 15:00–15:30, максимум до 16:00, внутри окна координации 14–17. Вс: общий разбор с 10:00, по необходимости до 13:00. Созвоны входят в смены. План: Марина 36 ч, Инна 34 ч, Настя 33 ч. Время — Бангкок. Дата запуска пока не назначена.";
   planById('plan-copy-status').textContent='';
 }
 planById('plan-window').onchange=e=>{planWindow=e.target.value;renderPlanner();};
