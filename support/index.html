@@ -126,8 +126,8 @@ select:focus-visible,.plan-copy:focus-visible,summary:focus-visible{outline:2px 
 .plan-percent-toggle input{width:18px;height:18px;accent-color:var(--accent)}
 .plan-percent-toggle input:focus-visible{outline:2px solid var(--frame);outline-offset:3px}
 .plan-roster{min-width:1110px}
-.plan-shift{text-align:left;padding:7px 4px;line-height:1.4;white-space:normal}
-.plan-shift+.plan-shift{border-top:1px solid var(--line);margin-top:4px}
+table.who.plan-roster td.on{padding:0;background:none;outline:none}
+.plan-shift{text-align:left;padding:10px;line-height:1.4;white-space:normal;background:var(--frame-bg);outline:1.5px dashed var(--frame);outline-offset:-1.5px;border-radius:6px}
 .plan-shift>b{display:block;font-size:12px;white-space:nowrap}
 .plan-shift .shift-load{color:var(--accent)}
 .plan-shift .shift-time{display:block;white-space:nowrap;font-size:13px;margin:3px 0}
@@ -586,16 +586,17 @@ function planRoster(W){
   const totals=planTotals(0,7);
   const table=`<thead><tr><th>Сотрудник</th>${DAYS.map(d=>`<th>${d}</th>`).join('')}<th>Итого / нед</th></tr></thead><tbody>${PLAN_NAMES.map(n=>{
     const shifts=planShifts(n);
-    return `<tr><td class="nm">${n}</td>${Array.from({length:7},(_,d)=>{
-      const slots=shifts.filter(s=>s.day===d);
-      return `<td class="${slots.length?'on':'off'}">${slots.length?slots.map(s=>{
+    return Array.from({length:3},(_,slot)=>`<tr class="plan-slot-row" data-person="${n}" data-slot="${slot+1}">${slot===0?`<td class="nm" rowspan="3">${n}</td>`:''}${Array.from({length:7},(_,d)=>{
+      const dayShifts=shifts.filter(s=>s.day===d);
+      if(!dayShifts.length)return slot===0?'<td class="off" rowspan="3">Выходной</td>':'';
+      const s=dayShifts.find(s=>(s.span[0]>=18?2:s.span[0]>=14?1:0)===slot);
+      if(!s)return '<td class="plan-empty"></td>';
         const load=planShiftLoad(W,d,s.span),coord=s.coordination?(d===6?'Разбор 10–13':'Созвон 15:00–15:30 · до 16:00'):'';
         const role=(n==='Инна'&&d===1)||(n==='Марина'&&d===3)?'Координация + поддержка':d===6&&n==='Настя'?'Общий разбор':'Поддержка';
         const loadTitle=planShowPercent?` title="${planPct(load.dayPct)} сообщений этого дня; в среднем ${planFmt(load.average)} сообщения за окно. Это поток чатов, не личная занятость сотрудника."`:'';
         const loadLabel=planShowPercent?` · <span class="shift-load">${Number.isFinite(load.weekPct)?planPct(load.weekPct)+' недели':'нет базы'}</span>`:'';
-        return `<div class="plan-shift${s.coordination?' has-coordination':''}" data-person="${n}" data-day="${d}" data-shift="${s.number}" data-start="${s.span[0]}" data-end="${s.span[1]}"${loadTitle}><b>№${s.number}${loadLabel}</b><span class="shift-time">${planTime(s.span)}</span><small>${role}</small>${coord?`<small class="shift-coordination">${coord}</small>`:''}</div>`;
-      }).join(''):'Выходной'}</td>`;
-    }).join('')}<td class="n"><b>${shifts.length} / 11</b><br><small>смен</small><br>${totals.hours[n]} ч</td></tr>`;
+        return `<td class="on"><div class="plan-shift${s.coordination?' has-coordination':''}" data-person="${n}" data-day="${d}" data-shift="${s.number}" data-start="${s.span[0]}" data-end="${s.span[1]}"${loadTitle}><b>№${s.number}${loadLabel}</b><span class="shift-time">${planTime(s.span)}</span><small>${role}</small>${coord?`<small class="shift-coordination">${coord}</small>`:''}</div></td>`;
+    }).join('')}${slot===0?`<td class="n" rowspan="3"><b>${shifts.length} / 11</b><br><small>смен</small><br>${totals.hours[n]} ч</td>`:''}</tr>`).join('');
   }).join('')}</tbody>`;
   return `<div class="scroll" tabindex="0" role="region" aria-label="Постоянное недельное расписание"><table class="who plan-roster">${table}</table></div>`;
 }
