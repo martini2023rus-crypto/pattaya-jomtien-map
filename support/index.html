@@ -125,11 +125,12 @@ select:focus-visible,.plan-copy:focus-visible,summary:focus-visible{outline:2px 
 .plan-percent-toggle{display:flex;align-items:center;gap:8px;width:fit-content;margin:14px 0;font-size:14px;cursor:pointer}
 .plan-percent-toggle input{width:18px;height:18px;accent-color:var(--accent)}
 .plan-percent-toggle input:focus-visible{outline:2px solid var(--frame);outline-offset:3px}
-.plan-roster{min-width:1110px}
+table.who.plan-roster{min-width:1110px;table-layout:fixed}
+table.who.plan-roster th:first-child,table.who.plan-roster th:last-child{width:84px}
 table.who.plan-roster td.on{padding:0;background:none;outline:none}
-.plan-shift{text-align:left;padding:10px;line-height:1.4;white-space:normal;background:var(--frame-bg);outline:1.5px dashed var(--frame);outline-offset:-1.5px;border-radius:6px}
-.plan-shift>b{display:block;font-size:12px;white-space:nowrap}
-.plan-shift .shift-load{color:var(--accent)}
+.plan-shift{box-sizing:border-box;height:144px;text-align:left;padding:10px 8px;line-height:1.4;white-space:normal;background:var(--frame-bg);outline:1.5px dashed var(--frame);outline-offset:-1.5px;border-radius:6px}
+.plan-shift>b{display:block;font-size:12px;white-space:normal}
+.plan-shift .shift-load{color:var(--accent);white-space:nowrap}
 .plan-shift .shift-time{display:block;white-space:nowrap;font-size:13px;margin:3px 0}
 .plan-shift small{display:block;font-size:11px;line-height:1.35;color:var(--ink-2)}
 .plan-shift .shift-coordination{color:var(--accent);font-weight:600;margin-top:3px}
