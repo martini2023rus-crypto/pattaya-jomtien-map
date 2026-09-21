@@ -122,6 +122,9 @@ select:focus-visible,.plan-copy:focus-visible,summary:focus-visible{outline:2px 
 .plan-calendar-head{display:flex;gap:12px;align-items:center;flex-wrap:wrap;justify-content:space-between;margin-top:12px}
 .plan-calendar-head label{font-size:13px;color:var(--ink-2)}
 .plan-roster td{vertical-align:top;line-height:1.65}
+.plan-percent-toggle{display:flex;align-items:center;gap:8px;width:fit-content;margin:14px 0;font-size:14px;cursor:pointer}
+.plan-percent-toggle input{width:18px;height:18px;accent-color:var(--accent)}
+.plan-percent-toggle input:focus-visible{outline:2px solid var(--frame);outline-offset:3px}
 .plan-roster{min-width:1110px}
 .plan-shift{text-align:left;padding:7px 4px;line-height:1.4;white-space:normal}
 .plan-shift+.plan-shift{border-top:1px solid var(--line);margin-top:4px}
@@ -196,8 +199,12 @@ select:focus-visible,.plan-copy:focus-visible,summary:focus-visible{outline:2px 
     <p class="note"><b>Перерывы внутри дня:</b> окна Марины 10–14 и 14–17 смыкаются, между ними нет автоматического обеда. У Инны в среду и четверг есть перерыв 13–14. В будни внутренние паузы согласуются в часы пересечения с Настей или вторым саппортом, в воскресенье — между Мариной и Инной после созвона. В субботу у Инны есть перерыв 17–18, подмены нет. Созвоны Вт/Чт начинаются в 15:00, после перерыва Насти 14–15. Часы ниже — сумма назначенных окон, а не непрерывная активность каждую минуту.</p>
     <h3>Постоянный календарь Пн–Вс</h3>
     <p class="small">Дата запуска пока не назначена. Следующий понедельник повторяет этот же календарь. Календарь зафиксирован: переключатели периода и видов чатов меняют только статистику.</p>
-    <p class="note" id="plan-shift-legend"><b>Нумерация №1–№11 — отдельная у каждого сотрудника, с понедельника по воскресенье.</b> Одно указанное окно считается одной сменой, даже если оно длится 4 часа. Созвон внутри окна не создаёт ещё одну смену. Процент рядом с № — доля <b>всего нормированного недельного потока</b>, которая приходилась на часы этого окна в выбранных чатах и периоде. Это позволяет сравнить смены разных дней. Наведите на смену, чтобы увидеть долю сообщений её дня и среднее число за окно.</p>
-    <p class="small">Процент описывает поток чатов в эти часы, а не личную занятость сотрудника или точный прогноз. На пересекающихся сменах сотрудников одни и те же сообщения показаны повторно: складывать проценты разных сотрудников нельзя. В окне с созвоном процент относится ко всему окну, включая время координации.</p>
+    <p class="note" id="plan-shift-legend"><b>Нумерация №1–№11 — отдельная у каждого сотрудника, с понедельника по воскресенье.</b> Одно указанное окно считается одной сменой, даже если оно длится 4 часа. Созвон внутри окна не создаёт ещё одну смену.</p>
+    <label class="plan-percent-toggle"><input type="checkbox" id="plan-show-percent" aria-controls="plan-rosters plan-load-help"> Показывать проценты в сменах</label>
+    <div id="plan-load-help" hidden>
+      <p class="note">Процент рядом с № — доля <b>всего нормированного недельного потока</b>, которая приходилась на часы этого окна в выбранных чатах и периоде. Это позволяет сравнить смены разных дней. Наведите на смену, чтобы увидеть долю сообщений её дня и среднее число за окно.</p>
+      <p class="small">Процент описывает поток чатов в эти часы, а не личную занятость сотрудника или точный прогноз. На пересекающихся сменах сотрудников одни и те же сообщения показаны повторно: складывать проценты разных сотрудников нельзя. В окне с созвоном процент относится ко всему окну, включая время координации.</p>
+    </div>
     <div id="plan-rosters"></div>
     <div class="plan-callout" id="plan-days-off"></div>
     <h3>Выходные: какие сообщения попадают в назначенные часы</h3>
@@ -570,6 +577,7 @@ function renderTraffic(W){
 }
 
 let planWindow='w4',planVariant=PLAN_DEFAULT,planSource='combined';
+let planShowPercent=false;
 const planFmt=n=>Number.isFinite(n)?Number(n.toFixed(1)).toLocaleString('ru-RU'):'—';
 const planPct=n=>Number.isFinite(n)?planFmt(n)+'%':'нет сообщений';
 const planTime=([a,b])=>`${a}:00–${b}:00`;
@@ -583,13 +591,17 @@ function planRoster(W){
       return `<td class="${slots.length?'on':'off'}">${slots.length?slots.map(s=>{
         const load=planShiftLoad(W,d,s.span),coord=s.coordination?(d===6?'Разбор 10–13':'Созвон 15:00–15:30 · до 16:00'):'';
         const role=(n==='Инна'&&d===1)||(n==='Марина'&&d===3)?'Координация + поддержка':d===6&&n==='Настя'?'Общий разбор':'Поддержка';
-        return `<div class="plan-shift${s.coordination?' has-coordination':''}" data-person="${n}" data-day="${d}" data-shift="${s.number}" data-start="${s.span[0]}" data-end="${s.span[1]}" title="${planPct(load.dayPct)} сообщений этого дня; в среднем ${planFmt(load.average)} сообщения за окно. Это поток чатов, не личная занятость сотрудника."><b>№${s.number} · <span class="shift-load">${Number.isFinite(load.weekPct)?planPct(load.weekPct)+' недели':'нет базы'}</span></b><span class="shift-time">${planTime(s.span)}</span><small>${role}</small>${coord?`<small class="shift-coordination">${coord}</small>`:''}</div>`;
+        const loadTitle=planShowPercent?` title="${planPct(load.dayPct)} сообщений этого дня; в среднем ${planFmt(load.average)} сообщения за окно. Это поток чатов, не личная занятость сотрудника."`:'';
+        const loadLabel=planShowPercent?` · <span class="shift-load">${Number.isFinite(load.weekPct)?planPct(load.weekPct)+' недели':'нет базы'}</span>`:'';
+        return `<div class="plan-shift${s.coordination?' has-coordination':''}" data-person="${n}" data-day="${d}" data-shift="${s.number}" data-start="${s.span[0]}" data-end="${s.span[1]}"${loadTitle}><b>№${s.number}${loadLabel}</b><span class="shift-time">${planTime(s.span)}</span><small>${role}</small>${coord?`<small class="shift-coordination">${coord}</small>`:''}</div>`;
       }).join(''):'Выходной'}</td>`;
     }).join('')}<td class="n"><b>${shifts.length} / 11</b><br><small>смен</small><br>${totals.hours[n]} ч</td></tr>`;
   }).join('')}</tbody>`;
   return `<div class="scroll" tabindex="0" role="region" aria-label="Постоянное недельное расписание"><table class="who plan-roster">${table}</table></div>`;
 }
 function renderPlanner(){
+  planById('plan-show-percent').checked=planShowPercent;
+  planById('plan-load-help').hidden=!planShowPercent;
   for(const id of ['plan-window','traffic-window'])planById(id).value=planWindow;
   for(const id of ['plan-source','traffic-source'])planById(id).value=planSource;
   const W=trafficWindow(planWindow,planSource),stats=planStats(W);
@@ -618,6 +630,7 @@ function renderPlanner(){
   planById('plan-copy-status').textContent='';
 }
 planById('plan-window').onchange=e=>{planWindow=e.target.value;renderPlanner();};
+planById('plan-show-percent').onchange=e=>{planShowPercent=e.target.checked;renderPlanner();};
 planById('plan-source').onchange=e=>{planSource=e.target.value;renderPlanner();};
 planById('traffic-source').onchange=e=>{planSource=e.target.value;renderPlanner();};
 planById('traffic-window').onchange=e=>{planWindow=e.target.value;renderPlanner();};
