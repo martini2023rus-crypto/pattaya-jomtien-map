@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>SenWay × LUNVO — совместная точка</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+:root{
+  --bg:#F5F7FA; --surface:#FFFFFF; --ink:#18212B; --ink-2:#4E5B6A; --muted:#8593A3; --line:#DCE3EA;
+  --accent:#0E4A7E; --accent-bg:rgba(14,74,126,.07); --frame:#C7572B; --frame-bg:rgba(199,87,43,.07);
+  --lime:#8A9A1B; --lime-bg:rgba(215,229,74,.18);
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#12181F; --surface:#1A222B; --ink:#E9EEF3; --ink-2:#B4BFCA; --muted:#7D8A98; --line:#2B3641;
+  --accent:#8FC3EE; --accent-bg:rgba(143,195,238,.10); --frame:#F08A5B; --frame-bg:rgba(240,138,91,.12);
+  --lime:#D7E54A; --lime-bg:rgba(215,229,74,.12);
+}}
+:root[data-theme="dark"]{
+  --bg:#12181F; --surface:#1A222B; --ink:#E9EEF3; --ink-2:#B4BFCA; --muted:#7D8A98; --line:#2B3641;
+  --accent:#8FC3EE; --accent-bg:rgba(143,195,238,.10); --frame:#F08A5B; --frame-bg:rgba(240,138,91,.12);
+  --lime:#D7E54A; --lime-bg:rgba(215,229,74,.12);
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;font-size:15.5px;line-height:1.55;margin:0;padding-block:28px 56px;padding-inline:clamp(16px,4vw,40px)}
+.wrap{max-width:1080px;margin:0 auto;display:grid;gap:26px}
+.wrap>*,.two>*,.cols>*{min-width:0}
+h1,h2,h3{font-family:Manrope,"IBM Plex Sans",system-ui,sans-serif;text-wrap:balance;margin:0}
+h1{font-size:clamp(27px,4.2vw,40px);font-weight:800;letter-spacing:-.01em;line-height:1.14}
+h2{font-size:21px;font-weight:800;margin-bottom:12px}
+h3{font-size:16px;font-weight:700;margin-bottom:6px}
+p{margin:8px 0}
+a{color:var(--accent);text-underline-offset:3px}
+.eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:8px}
+.lead{color:var(--ink-2);max-width:70ch;margin-top:10px;font-size:16.5px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.tile{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+.tile b{display:block;font-family:Manrope,sans-serif;font-size:27px;font-weight:800;line-height:1.1;font-variant-numeric:tabular-nums}
+.tile span{color:var(--ink-2);font-size:13px}
+.tile.hot b{color:var(--frame)}
+section{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:22px clamp(14px,2.5vw,26px)}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.card{border:1px solid var(--line);border-radius:10px;padding:14px 16px;background:var(--bg)}
+.card.give{border-color:var(--accent);background:var(--accent-bg)}
+.card.get{border-color:var(--lime);background:var(--lime-bg)}
+.card ul{margin:6px 0 0;padding-left:18px}
+.card li{margin:4px 0}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;counter-reset:s}
+.step{border:1px solid var(--line);border-radius:10px;padding:16px;position:relative}
+.step::before{counter-increment:s;content:counter(s);font-family:Manrope,sans-serif;font-weight:800;font-size:30px;color:var(--frame);line-height:1;display:block;margin-bottom:8px}
+.step b{display:block;font-family:Manrope,sans-serif;font-size:17px;margin-bottom:6px}
+.step p{color:var(--ink-2);font-size:14.5px}
+.step .when{font-size:12.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;font-weight:600}
+.scroll{overflow-x:auto}
+table.t{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;min-width:560px}
+table.t th{text-align:left;font-size:12px;color:var(--muted);font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:8px;border-bottom:1px solid var(--line)}
+table.t td{padding:9px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+table.t td.n{text-align:right;white-space:nowrap;font-weight:600}
+table.t tr.sum td{font-weight:700;border-top:2px solid var(--line)}
+.flow{display:grid;gap:8px}
+.flow .row{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;border:1px solid var(--line);border-radius:8px;padding:10px 14px}
+.flow .row.minus{border-style:dashed;color:var(--ink-2)}
+.flow .row.split{border-color:var(--frame);background:var(--frame-bg)}
+.flow .row b{font-family:Manrope,sans-serif;font-size:17px;white-space:nowrap}
+.flow .row small{display:block;color:var(--muted);font-size:12.5px}
+.arrow{text-align:center;color:var(--muted);font-size:18px;line-height:1}
+.note{color:var(--ink-2);font-size:13.5px;margin-top:10px;max-width:84ch}
+.callout{border-left:4px solid var(--frame);background:var(--frame-bg);padding:12px 16px;border-radius:6px;margin-top:12px}
+.callout b{font-weight:700}
+.check{list-style:none;padding:0;margin:0;display:grid;gap:8px}
+.check li{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start}
+.check li::before{content:"";width:18px;height:18px;border:2px solid var(--accent);border-radius:5px;margin-top:3px}
+.check b{font-weight:600}
+.small{color:var(--muted);font-size:12.5px}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
+.two ul{margin:6px 0 0;padding-left:18px}
+.two li{margin:5px 0}
+footer{color:var(--muted);font-size:13px;padding-top:4px}
+footer a{color:var(--muted)}
+@media (max-width:640px){.flow .row{grid-template-columns:1fr}.flow .row b{font-size:16px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="eyebrow">SenWay × LUNVO · предложение о партнёрстве · рабочая версия · 26 сентября 2026</div>
+    <h1>Совместная точка SenWay под компанией LUNVO</h1>
+    <p class="lead">Предлагаем не покупку доли и не слияние, а конкретное дело на 90 дней: одна точка сухого массажа SenWay открывается под действующей тайской компанией LUNVO. SenWay вносит деньги, оборудование и формат; LUNVO — юрлицо, лицензию, кассу и контакты. Сработало — вторую точку делаем уже отдельной компанией 51/49, а дальше участвуем в проектах друг друга.</p>
+  </header>
+
+  <div class="tiles">
+    <div class="tile hot"><b>90 дней</b><span>пилот с даты открытия</span></div>
+    <div class="tile"><b>0 ฿</b><span>деньгами вносит LUNVO — вклад юрлицом и работой</span></div>
+    <div class="tile"><b>80 / 20</b><span>деление прибыли точки до возврата вложений SenWay, потом 70 / 30</span></div>
+    <div class="tile"><b>15 000 ฿</b><span>в месяц LUNVO за юрлицо, бухгалтерию и кадры — сверх доли</span></div>
+    <div class="tile"><b>51 / 49</b><span>вторая точка — отдельной компанией, реальными деньгами каждой стороны</span></div>
+  </div>
+
+  <section>
+    <h2>Почему вместе выходит быстрее и дешевле</h2>
+    <div class="cols">
+      <div class="card give">
+        <h3>Что даёт LUNVO</h3>
+        <ul>
+          <li>Действующая тайская компания: 51 % у тайского совладельца, 49 % у Максима — массаж как услуга ей доступен.</li>
+          <li>Разрешение на работу уже получено — порог капитала и штата компанией пройден.</li>
+          <li>32 месяца работы, три точки в торговых центрах, оборот 9,55 млн ฿ за последние 12 месяцев, касса StoreHub с отчётом по каждой точке.</li>
+          <li>Опыт аренды у крупных арендодателей и контакты в Паттайе и Районге.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Что даёт SenWay</h3>
+        <ul>
+          <li>Формат: сухой массаж в одежде, без масла и воды, сеансы 20 / 40 / 60 минут по 169 / 269 / 369 ฿ — не «спа», лицензия оздоровительного заведения.</li>
+          <li>Оборудование и деньги на запуск точки — около 660 000 ฿.</li>
+          <li>Стандарт, обучение терапевтов, ценообразование, управляющий точки, набор мастеров.</li>
+          <li>Тезис формата: «машина заряжается — человек заряжается». Точка ставится там, где гость и так ждёт 20–60 минут.</li>
+        </ul>
+      </div>
+      <div class="card get">
+        <h3>Что получает каждый</h3>
+        <ul>
+          <li><b>LUNVO:</b> 15 000 ฿ в месяц за юрлицо плюс 20 % прибыли точки (30 % после возврата вложений), без вложений и без риска убытков. Новое направление рядом со своими точками.</li>
+          <li><b>SenWay:</b> первую точку за недели, а не месяцы: не нужно регистрировать компанию и искать двух тайских партнёров.</li>
+          <li><b>Оба:</b> проверка партнёрства делом, а не разговорами. Через 90 дней видно, идти ли дальше.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Три шага</h2>
+    <div class="steps">
+      <div class="step">
+        <span class="when">Октябрь 2026 → +90 дней с открытия</span>
+        <b>Пилот: точка по договору, без долей</b>
+        <p>Одна точка под компанией LUNVO. Аренда, лицензия, персонал и касса оформляются на LUNVO. Оборудование остаётся собственностью SenWay. Деньги точки — отдельный субсчёт и отдельная торговая точка в StoreHub.</p>
+      </div>
+      <div class="step">
+        <span class="when">Если пилот сработал</span>
+        <b>Вторая точка — отдельной компанией 51 / 49</b>
+        <p>LUNVO — тайский акционер 51 % реальными деньгами со своего счёта, SenWay — 49 %. Имущество и деньги новой точки отдельно от обоих бизнесов. Оплата чужой доли деньгами другой стороны исключена.</p>
+      </div>
+      <div class="step">
+        <span class="when">2027</span>
+        <b>Общая группа: проекты друг друга</b>
+        <p>Каждый новый проект — отдельным соглашением: кто что вносит в батах, доли по вкладам, кто решает, как расходимся. Помощь LUNVO с тайским партнёром для собственной компании SenWay — часть этого шага.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="terms">
+    <h2>Условия совместной точки</h2>
+    <p class="note">Числа — предложение стороны SenWay для обсуждения. Итоговый договор готовит тайский юрист по тайскому праву; его работа оплачивается пополам.</p>
+
+    <h3 style="margin-top:14px">Вклады сторон</h3>
+    <div class="scroll">
+      <table class="t">
+        <thead><tr><th>Сторона SenWay</th><th style="text-align:right">฿</th><th>Сторона LUNVO</th><th style="text-align:right">฿</th></tr></thead>
+        <tbody>
+          <tr><td>Оборудование: 3 кресла, кушетка, вывеска</td><td class="n">250 000</td><td>Юрлицо: договор аренды и лицензия на компанию, бухгалтерия, кадровое оформление</td><td class="n">15 000 / мес</td></tr>
+          <tr><td>Отделка и запуск точки</td><td class="n">300 000</td><td>Добавление оздоровительных услуг в виды деятельности компании</td><td class="n">≈ 5 000 разово</td></tr>
+          <tr><td>Оборотные деньги и резерв на слабые месяцы</td><td class="n">110 000</td><td>Подача документов на лицензию, сопровождение проверок</td><td class="n">30 000 разово</td></tr>
+          <tr><td>Стандарт, обучение терапевтов, управляющий точки</td><td class="n">по ставке</td><td>Касса StoreHub: отдельная торговая точка SenWay в системе LUNVO</td><td class="n">0</td></tr>
+          <tr><td>Набор терапевтов, цены, реклама точки</td><td class="n">—</td><td>Два знакомства в первые 60 дней: арендодатель площадки и тайский партнёр с деньгами</td><td class="n">—</td></tr>
+          <tr class="sum"><td>Деньгами</td><td class="n">≈ 660 000</td><td>Деньгами</td><td class="n">0</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 style="margin-top:22px">Как делятся деньги точки — каждый месяц</h3>
+    <div class="flow">
+      <div class="row"><div>Выручка точки <small>по кассе StoreHub, отдельная торговая точка SenWay</small></div><b>100 %</b></div>
+      <div class="arrow">↓</div>
+      <div class="row minus"><div>Прямые расходы точки <small>аренда площадки, зарплата терапевтов и администратора, расходники, коммунальные</small></div><b>−</b></div>
+      <div class="row minus"><div>Плата LUNVO за юрлицо <small>бухгалтерия, кадры, лицензия — фикс, не зависит от результата</small></div><b>− 15 000 ฿</b></div>
+      <div class="arrow">↓</div>
+      <div class="row split"><div>Прибыль точки — делится <small>до полного возврата вложений SenWay: 80 / 20 · после возврата: 70 / 30</small></div><b>SenWay / LUNVO</b></div>
+    </div>
+    <div class="callout"><b>Убыточный месяц покрывает SenWay</b> из своего резерва. LUNVO убытки не покрывает и деньги не доносит. Выплаты — до 15-го числа за прошлый месяц, по акту с цифрами кассы. Зарплата за работу (управляющий точки; операционная роль Максима, если он её берёт) — отдельной строкой, не в счёт доли.</div>
+
+    <div class="two" style="margin-top:22px">
+      <div>
+        <h3>Кто что решает</h3>
+        <ul>
+          <li><b>SenWay:</b> стандарт, цены, обучение, найм терапевтов, реклама точки.</li>
+          <li><b>LUNVO:</b> договор с арендодателем, лицензия, отчётность в госорганы, кадровое оформление.</li>
+          <li><b>Вместе, письменно:</b> любой расход выше 50 000 ฿ и изменение формата точки.</li>
+          <li><b>Банк:</b> по субсчёту точки выше 50 000 ฿ — две подписи; ниже — LUNVO с уведомлением SenWay.</li>
+          <li>Разногласие не решено за 14 дней — третий человек по согласию сторон, его мнение обязательно для обеих.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Собственность и выход</h3>
+        <ul>
+          <li>Оборудование, вывеска, стандарт, клиентская база и данные кассы — SenWay. LUNVO пользуется оборудованием по договору на срок сотрудничества.</li>
+          <li>Аренда и лицензия — на LUNVO, с переоформлением на компанию SenWay при шаге 2 или при выходе.</li>
+          <li>Выход без штрафа: по итогам 90 дней при загрузке ниже 0,4 сеанса на терапевта в час; при отказе в лицензии или закрытии площадки.</li>
+          <li>При выходе SenWay забирает оборудование за 7 дней; LUNVO может выкупить его по формуле «цена покупки минус 2 % износа в месяц».</li>
+          <li>Конкуренция: LUNVO не открывает сухой массаж на заправках, зарядках и в галереях на срок договора плюс 12 месяцев; SenWay не торгует аксессуарами для техники в точках LUNVO.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Чем это не является</h2>
+    <div class="cols">
+      <div class="card"><h3>Не покупка доли в LUNVO</h3><p class="note">Деньги SenWay идут в точку, а не в капитал LUNVO. Доли LUNVO не меняются, проверка состава акционеров не запускается.</p></div>
+      <div class="card"><h3>Не слияние</h3><p class="note">Два бизнеса остаются отдельными. Общие только точка, договор и отчёт по ней.</p></div>
+      <div class="card"><h3>Не передача знака</h3><p class="note">Знак SenWay™ используется по лицензии на срок договора. Формат и стандарт остаются у SenWay.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Что нужно от LUNVO до старта</h2>
+    <ul class="check">
+      <li><b>Добавить оздоровительные услуги в виды деятельности компании</b> — около 5 000 ฿, 1–2 недели. Делается до договора аренды и подачи на лицензию.</li>
+      <li><b>Выписка о владельцах компании</b> (บอจ.5) и оплаченный капитал.</li>
+      <li><b>Число тайских сотрудников в соцстрахе</b> — от этого зависит второе разрешение на работу.</li>
+      <li><b>Договор аренды площадки на LUNVO</b> — кандидаты: EV SPACE Pattaya на Сукхумвите, Caltex Na Jomtien.</li>
+      <li><b>Два знакомства за 60 дней:</b> арендодатель площадки и тайский партнёр с понятным источником денег для будущей компании SenWay.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Календарь</h2>
+    <div class="scroll">
+      <table class="t">
+        <thead><tr><th>Когда</th><th>Что происходит</th><th>Кто</th></tr></thead>
+        <tbody>
+          <tr><td class="n">Недели 1–2</td><td>Документы LUNVO, заявление на добавление вида деятельности, термшит у тайского юриста</td><td>LUNVO + SenWay</td></tr>
+          <tr><td class="n">Недели 3–4</td><td>Площадка: осмотр, договор аренды на LUNVO, письмо-согласие арендодателя</td><td>LUNVO</td></tr>
+          <tr><td class="n">Недели 5–8</td><td>Отделка, оборудование, подача на лицензию, набор и обучение терапевтов</td><td>SenWay</td></tr>
+          <tr><td class="n">Неделя 9</td><td>Открытие точки, отдельная касса и субсчёт</td><td>оба</td></tr>
+          <tr><td class="n">+ 90 дней</td><td>Итоги пилота: загрузка, прибыль точки, решение о шаге 2</td><td>оба</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">Сроки — план, не обязательство. Всё, что упирается в госорганы (вид деятельности, лицензия), может сдвинуть календарь.</p>
+  </section>
+
+  <footer>
+    Рабочая версия для обсуждения между сторонами. Числа в условиях — предложение, обсуждаются. Обязательства возникают только с подписания договора, который готовит тайский юрист.
+    <br>SenWay · MaxIn Group · Джомтьен, Паттайя · сентябрь 2026 · <a href="../">карта Джомтьена</a>
+  </footer>
+
+</div>
+</body>
+</html>

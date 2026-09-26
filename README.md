@@ -27,3 +27,12 @@ https://martini2023rus-crypto.github.io/pattaya-jomtien-map/
 и предложение по графику смен саппорта тремя шагами. Собирается Claude Code (сессия FatherBot),
 `publish.ps1` её не трогает: скрипт копирует только `index.html`.
 https://martini2023rus-crypto.github.io/pattaya-jomtien-map/support/
+
+## Третья страница: предложение LUNVO о совместной точке SenWay
+
+`lunvo/index.html` — страница-предложение партнёру: три шага, условия совместной точки
+(вклады, деление прибыли, кто что решает, выход), что нужно до старта, календарь.
+Исходник условий — термшит в `Desktop\Claude\1.20 Senway\07_Партнёрство_Лунво`.
+`publish.ps1` её не трогает; обновляется руками: правка файла, `git add lunvo/index.html`, коммит, `git push`.
+Страница закрыта от поисковиков (`noindex`), открыта всем, у кого есть ссылка.
+https://martini2023rus-crypto.github.io/pattaya-jomtien-map/lunvo/
