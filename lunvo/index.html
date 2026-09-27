@@ -85,6 +85,48 @@ table.t tr.sum td{font-weight:700;border-top:2px solid var(--line)}
 .rule b{font-weight:600;display:block}
 footer{color:var(--muted);font-size:13px;padding-top:4px}
 footer a{color:var(--muted)}
+
+/* ---- diagram ---- */
+.dg-controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:10px}
+.dg-controls button{border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:20px;padding:6px 14px;font:inherit;font-size:13.5px;font-weight:500;cursor:pointer}
+.dg-controls button[aria-pressed="true"]{background:var(--accent);color:#fff;border-color:var(--accent)}
+.dg-controls button.play{background:var(--frame);color:#fff;border-color:var(--frame);font-weight:700}
+.dg-controls button:focus-visible{outline:2px solid var(--frame);outline-offset:2px}
+.dg-wrap{overflow-x:auto}
+.dg{display:block;width:100%;min-width:760px;height:auto;font-family:"IBM Plex Sans",system-ui,sans-serif}
+.dg text{fill:var(--ink)}
+.dg .muted{fill:var(--ink-2)}
+.dg .tiny{font-size:13px}
+.dg .lbl{font-size:15px;font-weight:600}
+.dg .big{font-family:Manrope,sans-serif;font-size:22px;font-weight:800}
+.dg .mid{font-family:Manrope,sans-serif;font-size:17px;font-weight:800}
+.dg .planet{fill:var(--surface);stroke:var(--ink);stroke-width:2.5}
+.dg .planet.maxin{stroke:var(--accent)}
+.dg .planet.lunvo{stroke:var(--frame)}
+.dg .sat{fill:var(--accent);opacity:.85}
+.dg .sat.l{fill:var(--frame)}
+.dg .node{fill:var(--surface);stroke-width:3}
+.dg .node.maxin{stroke:var(--accent)}
+.dg .node.lunvo{stroke:var(--frame)}
+.dg .branch{fill:none;stroke-width:3.5;stroke-linecap:round;stroke-dasharray:420;stroke-dashoffset:420;transition:stroke-dashoffset 1.1s ease}
+.dg .branch.maxin{stroke:var(--accent)}
+.dg .branch.lunvo{stroke:var(--frame)}
+.dg .pilot{fill:var(--lime-bg);stroke:var(--lime);stroke-width:2;stroke-dasharray:8 6}
+.dg .chip{fill:var(--bg);stroke:var(--line)}
+.dg .chip.maxin{stroke:var(--accent)} .dg .chip.lunvo{stroke:var(--frame)}
+.dg .cross{fill:none;stroke:var(--muted);stroke-width:1.6;stroke-dasharray:5 5}
+.dg .merge{fill:none;stroke:var(--ink-2);stroke-width:2.5;stroke-dasharray:7 6}
+.dg .newco{fill:none;stroke:var(--lime);stroke-width:3;stroke-dasharray:6 5}
+.dg .s{opacity:0;transition:opacity .55s ease}
+[data-step="1"] .s1,[data-step="2"] .s1,[data-step="2"] .s2,[data-step="3"] .s1,[data-step="3"] .s2,[data-step="3"] .s3,[data-step="4"] .s1,[data-step="4"] .s2,[data-step="4"] .s3,[data-step="4"] .s4{opacity:1}
+[data-step="2"] .branch,[data-step="3"] .branch,[data-step="4"] .branch{stroke-dashoffset:0}
+.dg-cap{color:var(--ink-2);font-size:13.5px;margin-top:8px}
+.eco{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin-top:14px}
+.eco .card table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;font-size:14px;margin-top:6px}
+.eco .card td{padding:4px 0;border-bottom:1px solid var(--line)}
+.eco .card td.n{text-align:right;font-weight:600;white-space:nowrap}
+.eco .card tr.sum td{font-weight:700;border-bottom:0}
+@media (prefers-reduced-motion: reduce){.dg .s,.dg .branch{transition:none}}
 </style>
 </head>
 <body>
@@ -103,6 +145,144 @@ footer a{color:var(--muted)}
     <a href="#rules">Правила для обоих вопросов</a>
     <a href="#docs">Что нужно до решений</a>
   </nav>
+
+  <!-- КАРТИНКА -->
+  <section id="picture">
+    <h2>Как это выглядит</h2>
+    <p class="note">Два работающих бизнеса. От каждого растёт ветка — на наши деньги, по нашим правилам. Ветки встречаются в пилоте 70 / 30. Сработало — сливаем в новую чистую компанию. Нажмите «Play» или шаги.</p>
+
+    <div class="dg-controls" id="dgc" style="margin-top:12px">
+      <button type="button" class="play" data-play>▶ Play</button>
+      <button type="button" data-step-btn="1">1 · Two businesses</button>
+      <button type="button" data-step-btn="2">2 · Branches</button>
+      <button type="button" data-step-btn="3">3 · Pilot 70 / 30</button>
+      <button type="button" data-step-btn="4">4 · Merge</button>
+    </div>
+
+    <div class="dg-wrap">
+    <div id="dg" data-step="4">
+    <svg class="dg" viewBox="0 0 1000 660" role="img" aria-label="Diagram: two businesses, two branches, pilot 70/30, merge into a new company">
+      <!-- step 1: businesses -->
+      <g class="s s1">
+        <!-- MaxIn satellites -->
+        <g class="sat">
+          <circle cx="250" cy="100" r="15"/><circle cx="325" cy="120" r="15"/><circle cx="380" cy="175" r="15"/><circle cx="400" cy="250" r="15"/>
+          <circle cx="380" cy="325" r="15"/><circle cx="325" cy="380" r="15"/><circle cx="250" cy="400" r="15"/><circle cx="175" cy="380" r="15"/>
+          <circle cx="120" cy="325" r="15"/><circle cx="100" cy="250" r="15"/><circle cx="120" cy="175" r="15"/><circle cx="175" cy="120" r="15"/>
+        </g>
+        <circle class="planet maxin" cx="250" cy="250" r="96"/>
+        <text x="250" y="240" text-anchor="middle" class="big">MaxIn Group</text>
+        <text x="250" y="262" text-anchor="middle" class="tiny muted">Massage &amp; Spa · Russia</text>
+        <text x="250" y="284" text-anchor="middle" class="tiny muted">12 locations · 10 years</text>
+
+        <!-- LUNVO satellites -->
+        <g class="sat l">
+          <circle cx="750" cy="145" r="13"/><circle cx="841" cy="302" r="13"/><circle cx="659" cy="302" r="13"/>
+        </g>
+        <circle class="planet lunvo" cx="750" cy="250" r="62"/>
+        <text x="750" y="245" text-anchor="middle" class="big">LUNVO</text>
+        <text x="750" y="266" text-anchor="middle" class="tiny muted">Screen protection · Thailand</text>
+        <text x="750" y="332" text-anchor="middle" class="tiny muted">3 stores · Pattaya, Rayong</text>
+
+        <text x="500" y="52" text-anchor="middle" class="lbl muted">Two working businesses — each stays as it is. No shares bought, no debts shared.</text>
+      </g>
+
+      <!-- step 2: branches -->
+      <g class="s s2">
+        <path class="branch maxin" d="M 300 335 C 340 400, 360 430, 390 470"/>
+        <path class="branch lunvo" d="M 706 300 C 680 380, 650 430, 615 470"/>
+
+        <circle class="node maxin" cx="395" cy="505" r="42"/>
+        <text x="395" y="500" text-anchor="middle" class="mid">SenWay</text>
+        <text x="395" y="518" text-anchor="middle" class="tiny muted">massage · EV station</text>
+        <text x="395" y="566" text-anchor="middle" class="tiny muted">2 boxes: reception + massage</text>
+
+        <circle class="node lunvo" cx="610" cy="505" r="42"/>
+        <text x="610" y="500" text-anchor="middle" class="mid">Mobile point</text>
+        <text x="610" y="518" text-anchor="middle" class="tiny muted">Big C · Lotus's fairs</text>
+        <text x="610" y="566" text-anchor="middle" class="tiny muted">2×2 m stand · weekends</text>
+
+        <text x="500" y="392" text-anchor="middle" class="lbl">Step 2 · a branch grows from each business</text>
+        <text x="500" y="412" text-anchor="middle" class="tiny muted">own cash register, own rules, own people</text>
+      </g>
+
+      <!-- step 3: pilot -->
+      <g class="s s3">
+        <rect class="pilot" x="318" y="446" width="364" height="184" rx="18"/>
+        <text x="500" y="474" text-anchor="middle" class="lbl">PILOT · Oct 1 – Dec 31</text>
+        <!-- chips under nodes -->
+        <rect class="chip maxin" x="331" y="582" width="128" height="22" rx="11"/>
+        <text x="395" y="597" text-anchor="middle" class="tiny">capital: MaxIn</text>
+        <rect class="chip maxin" x="546" y="582" width="128" height="22" rx="11"/>
+        <text x="610" y="597" text-anchor="middle" class="tiny">capital: MaxIn</text>
+        <rect class="chip lunvo" x="331" y="608" width="128" height="22" rx="11" transform="translate(0,-2)"/>
+        <text x="395" y="621" text-anchor="middle" class="tiny">legal entity: LUNVO</text>
+        <rect class="chip lunvo" x="546" y="608" width="128" height="22" rx="11" transform="translate(0,-2)"/>
+        <text x="610" y="621" text-anchor="middle" class="tiny">brand + goods: LUNVO</text>
+
+        <!-- 70/30 badge -->
+        <circle cx="502" cy="530" r="34" fill="var(--surface)" stroke="var(--lime)" stroke-width="3"/>
+        <text x="502" y="526" text-anchor="middle" class="mid">70 / 30</text>
+        <text x="502" y="544" text-anchor="middle" class="tiny muted">net profit</text>
+
+        <text x="500" y="250" text-anchor="middle" class="tiny muted">MaxIn → money, seller, KPIs · LUNVO → legal entity, talks, HR</text>
+      </g>
+
+      <!-- step 4: merge -->
+      <g class="s s4">
+        <path class="merge" d="M 684 540 C 760 540, 800 560, 848 585"/>
+        <polygon points="848,585 836,577 838,592" fill="var(--ink-2)"/>
+        <circle class="newco" cx="895" cy="592" r="46"/>
+        <text x="895" y="588" text-anchor="middle" class="mid">NewCo</text>
+        <text x="895" y="606" text-anchor="middle" class="tiny muted">clean company</text>
+        <text x="895" y="655" text-anchor="middle" class="tiny muted">what worked → merges here</text>
+        <text x="895" y="520" text-anchor="middle" class="tiny muted">Dec 31 → Question 1 &amp; 2</text>
+      </g>
+    </svg>
+    </div>
+    </div>
+    <p class="dg-cap">Dots = locations. Branch = new project on MaxIn money with LUNVO know-how. 70 / 30 = split of each branch's net profit (MaxIn / LUNVO); MaxIn capital is repaid out of its 70 %. LUNVO's own stores, debts and taxes stay outside the picture.</p>
+
+    <div class="eco">
+      <div class="card">
+        <h3>Example month · Mobile point</h3>
+        <p class="note" style="margin:0">Illustration, not a forecast. Fairs on weekends.</p>
+        <table>
+          <tr><td>Revenue</td><td class="n">60 000 ฿</td></tr>
+          <tr><td>Rent (fair zone)</td><td class="n">−15 000</td></tr>
+          <tr><td>Seller, part-time + bonus</td><td class="n">−18 000</td></tr>
+          <tr><td>Film &amp; goods</td><td class="n">−12 000</td></tr>
+          <tr class="sum"><td>Net profit of the branch</td><td class="n">15 000</td></tr>
+          <tr><td>MaxIn 70 %</td><td class="n">10 500</td></tr>
+          <tr><td>LUNVO 30 %</td><td class="n">4 500</td></tr>
+        </table>
+        <p class="note">Start-up 100–150 k ฿ (stand, deposit, first goods) — MaxIn. Stop-rule: two months in a row below −20 k → close or move.</p>
+      </div>
+      <div class="card">
+        <h3>Example month · SenWay massage</h3>
+        <p class="note" style="margin:0">Illustration, not a forecast. 2 therapists, 0.5 sessions / hour.</p>
+        <table>
+          <tr><td>Revenue</td><td class="n">120 000 ฿</td></tr>
+          <tr><td>Rent (2 boxes)</td><td class="n">−20 000</td></tr>
+          <tr><td>2 therapists + admin</td><td class="n">−70 000</td></tr>
+          <tr><td>Supplies, utilities</td><td class="n">−6 000</td></tr>
+          <tr class="sum"><td>Net profit of the branch</td><td class="n">24 000</td></tr>
+          <tr><td>MaxIn 70 %</td><td class="n">16 800</td></tr>
+          <tr><td>LUNVO 30 %</td><td class="n">7 200</td></tr>
+        </table>
+        <p class="note">Start-up ≈ 660 k ฿ (chairs, fit-out, reserve) — MaxIn. Licence, lease and cash register — on LUNVO; equipment stays MaxIn's.</p>
+      </div>
+      <div class="card">
+        <h3>Who does what</h3>
+        <ul>
+          <li><b>MaxIn:</b> money and risk, seller / therapists, rules, pay schedule, KPIs, standards, training.</li>
+          <li><b>LUNVO:</b> brand and goods (mobile point), legal entity and licence, talks with malls and the EV station, Thai negotiator, HR channel.</li>
+          <li><b>Both:</b> one day a week of team time for each other; contributions logged weekly, reconciled monthly.</li>
+          <li><b>LUNVO's 30 %</b> = 15 % for what it brings at the start + 15 % for ongoing work.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
 
   <!-- ПИЛОТ -->
   <section class="q q3" id="pilot">
@@ -393,5 +573,19 @@ footer a{color:var(--muted)}
   </footer>
 
 </div>
+<script>
+(function(){
+  var dg=document.getElementById('dg'), ctl=document.getElementById('dgc'); if(!dg||!ctl) return;
+  var btns=ctl.querySelectorAll('[data-step-btn]'), timer=null;
+  function setStep(n){ dg.setAttribute('data-step',String(n)); btns.forEach(function(b){ b.setAttribute('aria-pressed', b.getAttribute('data-step-btn')===String(n)?'true':'false'); }); }
+  function stop(){ if(timer){ clearTimeout(timer); timer=null; } }
+  function play(){ stop(); var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches; if(reduce){ setStep(4); return; }
+    setStep(0); var n=0; (function next(){ n++; setStep(n); if(n<4) timer=setTimeout(next, n===1?1500:1700); })(); }
+  btns.forEach(function(b){ b.addEventListener('click', function(){ stop(); setStep(b.getAttribute('data-step-btn')); }); });
+  ctl.querySelector('[data-play]').addEventListener('click', play);
+  var seen=false, io=('IntersectionObserver' in window)?new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting&&!seen){ seen=true; play(); io.disconnect(); } }); },{threshold:.35}):null;
+  if(io){ setStep(0); io.observe(dg); } else { setStep(4); }
+})();
+</script>
 </body>
 </html>
