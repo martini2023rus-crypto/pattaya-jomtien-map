@@ -140,6 +140,26 @@ footer a{color:var(--muted)}
 body.editing [contenteditable="true"]{outline:1.5px dashed var(--frame);outline-offset:3px;border-radius:4px}
 body.editing [contenteditable="true"]:focus{outline:2px solid var(--frame);background:var(--frame-bg)}
 body.editing .dg-controls,body.editing nav.toc{pointer-events:none;opacity:.5}
+
+/* ---- comments ---- */
+.cm{margin-top:18px;border-top:1px dashed var(--line);padding-top:12px}
+.cm-head{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;justify-content:space-between}
+.cm-head b{font-family:Manrope,sans-serif;font-size:14px}
+.cm-tg{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:20px;padding:5px 12px;font-size:13px;text-decoration:none;color:var(--ink);background:var(--bg)}
+.cm-tg:hover{border-color:var(--accent)}
+.cm-list{display:grid;gap:8px;margin-top:10px}
+.cm-item{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 12px;font-size:14px}
+.cm-item .who{font-weight:600}
+.cm-item .when{color:var(--muted);font-size:12px;margin-left:6px}
+.cm-item p{margin:4px 0 0;white-space:pre-wrap}
+.cm-form{display:grid;grid-template-columns:minmax(120px,180px) 1fr auto;gap:8px;margin-top:10px}
+.cm-form input,.cm-form textarea{border:1px solid var(--line);border-radius:8px;padding:8px 10px;font:inherit;font-size:14px;background:var(--surface);color:var(--ink)}
+.cm-form textarea{min-height:40px;resize:vertical}
+.cm-form button{border:0;border-radius:8px;padding:8px 14px;font:inherit;font-weight:600;background:var(--accent);color:#fff;cursor:pointer}
+.cm-form button:disabled{opacity:.5}
+.cm-note{color:var(--muted);font-size:12.5px;margin-top:6px}
+@media (max-width:640px){.cm-form{grid-template-columns:1fr}}
+body.editing .cm{display:none}
 </style>
 </head>
 <body>
@@ -714,6 +734,7 @@ body.editing .dg-controls,body.editing nav.toc{pointer-events:none;opacity:.5}
 
   function serialize(){
     var doc=document.documentElement.cloneNode(true);
+    doc.querySelectorAll('.cm').forEach(function(el){ el.remove(); });
     doc.querySelectorAll('[contenteditable]').forEach(function(el){ el.removeAttribute('contenteditable'); });
     var b=doc.querySelector('body'); if(b) b.classList.remove('editing');
     var dg=doc.querySelector('#dg'); if(dg) dg.setAttribute('data-step','3');
@@ -741,6 +762,54 @@ body.editing .dg-controls,body.editing nav.toc{pointer-events:none;opacity:.5}
     }).catch(function(e){ say('Ошибка: '+e.message, true); return false; }).finally(function(){ pBtn.disabled=false; });
   };
   pBtn.addEventListener('click', function(){ window.__lunvoPublish(false); });
+})();
+</script>
+<script>
+/* Комментарии под разделами: хранятся в Google-таблице владельца через Apps Script (COMMENTS_URL).
+   Пока адрес пустой — показывается только кнопка «Написать в Telegram». */
+(function(){
+  var COMMENTS_URL='';
+  var PAGE='https://martini2023rus-crypto.github.io/pattaya-jomtien-map/lunvo/';
+  var SECTIONS=[['picture','Как это выглядит'],['pilot','Пилот: две ветки'],['economics','Экономика веток'],['q1','Вопрос 1'],['q2','Вопрос 2'],['rules','Правила'],['docs','Что нужно до решений']];
+  var NAME_KEY='lunvo_cm_name';
+  function esc(s){ return String(s).replace(/[&<>"]/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+  function tgLink(id,title){ return 'https://t.me/share/url?url='+encodeURIComponent(PAGE+'#'+id)+'&text='+encodeURIComponent('По разделу «'+title+'» страницы SenWay × LUNVO: '); }
+  function fmtDate(d){ try{ var x=new Date(d); return x.toLocaleDateString('ru-RU',{day:'numeric',month:'short'})+' '+x.toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'}); }catch(e){ return ''; } }
+  function savedName(){ try{ return localStorage.getItem(NAME_KEY)||''; }catch(e){ return ''; } }
+  function build(){
+    SECTIONS.forEach(function(s){
+      var sec=document.getElementById(s[0]); if(!sec||sec.querySelector('.cm')) return;
+      var box=document.createElement('div'); box.className='cm'; box.setAttribute('data-section',s[0]);
+      var html='<div class="cm-head"><b>💬 Комментарии · '+esc(s[1])+'</b><a class="cm-tg" target="_blank" rel="noopener" href="'+tgLink(s[0],s[1])+'">✈ Написать в Telegram</a></div><div class="cm-list"></div>';
+      if(COMMENTS_URL){
+        html+='<form class="cm-form"><input name="author" maxlength="60" placeholder="Имя" value="'+esc(savedName())+'"><textarea name="text" maxlength="2000" placeholder="Вопрос или замечание по этому разделу…" required></textarea><button type="submit">Отправить</button></form><div class="cm-note">Комментарий появится на странице сразу; владелец получит уведомление.</div>';
+      } else {
+        html+='<div class="cm-note">Комментарии на странице подключаются. Пока — кнопка Telegram справа.</div>';
+      }
+      box.innerHTML=html; sec.appendChild(box);
+      var form=box.querySelector('form'); if(form) form.addEventListener('submit', function(ev){ ev.preventDefault(); send(box,s); });
+    });
+  }
+  function item(c){ var d=document.createElement('div'); d.className='cm-item'; d.innerHTML='<span class="who">'+esc(c.author||'Гость')+'</span><span class="when">'+esc(fmtDate(c.date))+'</span><p>'+esc(c.text)+'</p>'; return d; }
+  function load(){
+    if(!COMMENTS_URL) return;
+    fetch(COMMENTS_URL+'?t='+Date.now()).then(function(r){ return r.json(); }).then(function(j){
+      if(!j||!j.ok) return;
+      j.comments.forEach(function(c){ var box=document.querySelector('.cm[data-section="'+c.section+'"]'); if(box) box.querySelector('.cm-list').appendChild(item(c)); });
+    }).catch(function(){});
+  }
+  function send(box,s){
+    var form=box.querySelector('form'), btn=form.querySelector('button'), author=form.author.value.trim()||'Гость', text=form.text.value.trim();
+    if(!text) return; btn.disabled=true;
+    try{ localStorage.setItem(NAME_KEY, author); }catch(e){}
+    fetch(COMMENTS_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({section:s[0],author:author,text:text})})
+      .then(function(r){ return r.json(); }).then(function(j){
+        if(j&&j.ok){ box.querySelector('.cm-list').appendChild(item({author:author,text:text,date:new Date().toISOString()})); form.text.value=''; }
+        else { alert('Не удалось отправить комментарий. Попробуйте ещё раз или напишите в Telegram.'); }
+      }).catch(function(){ alert('Не удалось отправить комментарий. Попробуйте ещё раз или напишите в Telegram.'); })
+      .finally(function(){ btn.disabled=false; });
+  }
+  build(); load();
 })();
 </script>
 </body>
