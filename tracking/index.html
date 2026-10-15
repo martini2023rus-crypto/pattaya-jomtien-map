@@ -1,0 +1,565 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Трекинг CREATORS · итоги 3 месяцев · Максим · SenWay</title>
+<style>
+  :root {
+    color-scheme: dark;
+    --surface: #141a24;        /* фон слайда */
+    --surface-2: #1d2533;      /* карточки */
+    --line: #2b3545;           /* сетка, рамки */
+    --text: #ffffff;
+    --text-2: #c3c2b7;
+    --text-3: #8d9099;
+    --accent: #c8f07a;         /* лайм SenWay — заголовки-акценты, не данные */
+    --series-1: #3987e5;       /* слот 1 — синий */
+    --series-2: #d95926;       /* слот 2 — оранжевый */
+    --series-3: #199e70;       /* слот 3 — аква */
+    --good: #0ca30c;
+    --warn: #fab219;
+    --crit: #d03b3b;
+    --nodata: #5a6170;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--surface); color: var(--text);
+    font-family: Arial, Helvetica, "Segoe UI", sans-serif; }
+  body { overflow: hidden; }
+
+  .deck { position: fixed; inset: 0; }
+  .slide {
+    position: absolute; left: 50%; top: 50%; width: 1920px; height: 1080px;
+    transform: translate(-50%, -50%) scale(var(--k, 1)); transform-origin: center center;
+    background: var(--surface); padding: 56px 80px 72px; display: none;
+  }
+  .slide.active { display: block; }
+  .slide h1 { margin: 0 0 10px; font-size: 54px; line-height: 1.1; font-weight: 700; }
+  .slide h1 .num { color: var(--accent); margin-right: 14px; }
+  .sub { color: var(--text-2); font-size: 28px; margin: 0 0 28px; }
+  .foot { position: absolute; left: 80px; right: 80px; bottom: 26px; display: flex;
+    justify-content: space-between; color: var(--text-3); font-size: 20px; }
+  .cols { display: grid; gap: 36px; }
+  .cols-2 { grid-template-columns: 1fr 1fr; }
+  .cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+  .card { background: var(--surface-2); border-radius: 16px; padding: 28px 32px; }
+  .card h2 { margin: 0 0 14px; font-size: 32px; line-height: 1.2; }
+  .card h2 .tag { display: inline-block; font-size: 20px; color: var(--surface);
+    background: var(--accent); border-radius: 8px; padding: 2px 10px; margin-right: 10px; vertical-align: middle; }
+  .big { font-size: 30px; line-height: 1.35; }
+  .md { font-size: 27px; line-height: 1.35; }
+  .sm { font-size: 23px; line-height: 1.35; }
+  .xs { font-size: 20px; line-height: 1.3; }
+  ul { margin: 0; padding-left: 30px; }
+  li { margin: 0 0 10px; }
+  li::marker { color: var(--accent); }
+  .muted { color: var(--text-2); }
+  .dim { color: var(--text-3); }
+  .hero { font-size: 92px; font-weight: 700; line-height: 1; }
+  .kpi { display: grid; grid-template-columns: repeat(7, 1fr); gap: 18px; margin-bottom: 24px; }
+  .kpi .tile { background: var(--surface-2); border-radius: 14px; padding: 16px 20px; }
+  .kpi .lab { color: var(--text-2); font-size: 21px; margin-bottom: 6px; }
+  .kpi .val { font-size: 50px; font-weight: 700; line-height: 1; white-space: nowrap; }
+  .kpi .val small { font-size: 21px; color: var(--text-2); font-weight: 400; }
+  .arrow { display: flex; align-items: center; justify-content: center; }
+  .path { background: var(--surface-2); border-radius: 16px; padding: 24px 32px; margin-top: 28px; }
+  .path .step { display: inline-block; margin-right: 10px; }
+  .path .step b { color: var(--accent); }
+  .path .sep { color: var(--text-3); margin: 0 8px; }
+  table.t { border-collapse: collapse; width: 100%; }
+  table.t th, table.t td { text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  table.t th { color: var(--text-2); font-weight: 400; }
+  table.t td.r, table.t th.r { text-align: right; white-space: nowrap; }
+  .legend { display: flex; gap: 28px; flex-wrap: wrap; color: var(--text-2); font-size: 22px; margin: 6px 0 0; }
+  .legend span.sw { display: inline-block; width: 18px; height: 18px; border-radius: 4px; vertical-align: -2px; margin-right: 8px; }
+  .legend span.ln { display: inline-block; width: 28px; height: 0; border-top: 3px solid; vertical-align: 5px; margin-right: 8px; }
+  svg text { font-family: Arial, Helvetica, sans-serif; }
+  .tip { position: fixed; z-index: 10; pointer-events: none; display: none; background: #0b0f16; color: #fff;
+    border: 1px solid var(--line); border-radius: 10px; padding: 10px 14px; font-size: 16px; max-width: 520px; line-height: 1.35; }
+  .st { display: inline-block; min-width: 26px; text-align: center; border-radius: 6px; padding: 0 6px; color: #fff; font-size: 18px; }
+  .st.done { background: var(--good); } .st.partial { background: var(--warn); color: #111; }
+  .st.notdone { background: var(--crit); } .st.nodata { background: var(--nodata); }
+  .help { position: fixed; right: 18px; bottom: 10px; color: var(--text-3); font-size: 13px; z-index: 5; }
+  .mark { color: var(--accent); font-weight: 700; }
+  .warnbox { border-left: 6px solid var(--warn); padding-left: 18px; }
+
+  @media print {
+    @page { size: 13.333in 7.5in; margin: 0; }
+    html, body { overflow: visible; background: var(--surface); }
+    .deck { position: static; }
+    .slide { display: block; position: relative; left: 0; top: 0; transform: none; width: 1920px; height: 1080px;
+      page-break-after: always; break-after: page; zoom: 0.6667; overflow: hidden; }
+    .slide:last-child { page-break-after: auto; }
+    .help, .tip { display: none !important; }
+  }
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+
+<!-- ===================== СЛАЙД 1 ===================== -->
+<section class="slide active" data-n="1">
+  <h1><span class="num">1</span>Точка А → Точка Б</h1>
+  <p class="sub">Максим · сеть спа-салонов с мастерами из Таиланда и Индонезии · новое направление SenWay (сухой массаж) и ОАЭ</p>
+  <div class="cols" style="grid-template-columns: 1fr 110px 1fr;">
+    <div class="card">
+      <h2>Точка А · 17 июля</h2>
+      <ul class="md">
+        <li>Салоны в России работают, но всё держится на владельце: операционка, госорганы, найм, поездки в Индонезию.</li>
+        <li>Миграционная реформа в РФ бьёт по мастерам → нужен новый продукт и вторая страна.</li>
+        <li>Первая цель (17.07): «делегировать операционку, найти управляющего». Трекер отклонил: <i>«для этого я тебе не нужен»</i>.</li>
+      </ul>
+    </div>
+    <div class="arrow"><div style="font-size:90px;color:var(--accent)">→</div></div>
+    <div class="card">
+      <h2>Точка Б · 15 октября</h2>
+      <ul class="md">
+        <li><b>Точка не открыта, помещение не выбрано.</b> Кандидат EV SPACE (2 бокса, 10 500 ฿/мес) отпал в октябре.</li>
+        <li>Пройдено: <b>12</b> площадок рассмотрено · <b>6</b> осмотрено лично · <b>2</b> переговоров · экономика посчитана (цель 140 тыс. ฿/мес) · легализация оценена (≈150 тыс. ฿) · <b>1</b> кастдев в ОАЭ.</li>
+        <li>Достижение цели: <span class="hero" style="font-size:64px">0 %</span> <span class="muted">по обеим формулировкам. Срок цели — 31.10, осталось 2 недели.</span></li>
+      </ul>
+    </div>
+  </div>
+  <div class="path md">
+    <div class="dim sm" style="margin-bottom:8px">Как менялась цель (окончательная — на 7-й неделе из 13)</div>
+    <span class="step">17.07 операционка</span><span class="sep">→</span>
+    <span class="step">25.07 финансовый аудит</span><span class="sep">→</span>
+    <span class="step">09.08 три варианта: RealThai ×2 часов · Спа-код · партнёр за рубежом</span><span class="sep">→</span>
+    <span class="step"><b>28.08 · нед. 7: точка массажа SenWay в Таиланде, ≤ 1 млн ฿, 160 ฿ за 20 мин</b></span><span class="sep">→</span>
+    <span class="step">18.09 «или хаб»</span><span class="sep">→</span>
+    <span class="step">26.09 · нед. 11: «готово, когда выбрано помещение»</span>
+  </div>
+  <div class="foot"><span>Трекинг CREATORS · итоги 3 месяцев · 16.10.2026</span><span>слайд 1 / 7</span></div>
+</section>
+
+<!-- ===================== СЛАЙД 2 ===================== -->
+<section class="slide" data-n="2">
+  <h1><span class="num">2</span>Что обещали и что сделали · 13 недель</h1>
+  <div class="kpi" id="kpi"></div>
+  <div class="cols" style="grid-template-columns: 1240px 1fr; gap: 40px;">
+    <div>
+      <div id="bars"></div>
+      <div class="legend">
+        <span><span class="sw" style="background:var(--good)"></span>✅ сделано</span>
+        <span><span class="sw" style="background:var(--warn)"></span>◐ частично</span>
+        <span><span class="sw" style="background:var(--crit)"></span>✖ не сделано</span>
+        <span><span class="sw" style="background:var(--nodata)"></span>? нет отметки «сделано»</span>
+      </div>
+    </div>
+    <div class="card sm">
+      <h2 style="font-size:28px">Как считал</h2>
+      <ul>
+        <li>Обещание = пункт недельного плана в чате группы. Всего <b>54</b> пункта за 13 недель.</li>
+        <li>«Сделано» — только если это видно в чате или в моих рабочих файлах. Без отметки — «нет данных», в процент не идёт.</li>
+        <li><b>До цели</b> (нед. 1–6): сделано <b>0 из 15</b>. Планы про операционку, аудит и Тайвань трекер отклонял.</li>
+        <li><b>После цели</b> (нед. 7–13): сделано <b>13 из 39</b> (33 %), ещё 4 частично.</li>
+        <li>Гипотезы «если … то …»: первая — на 10-й неделе. Из 7: подтвердилась 1 (кастдев ОАЭ), не подтвердилась 1 (условия EV SPACE), не проверены 3, в работе 2 (срок 18.10).</li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot"><span>Процент = сделано ÷ обещано × 100. Наведите на столбик — список пунктов.</span><span>слайд 2 / 7</span></div>
+</section>
+
+<!-- ===================== СЛАЙД 3 ===================== -->
+<section class="slide" data-n="3">
+  <h1><span class="num">3</span>Как менялись результаты · воронка площадок</h1>
+  <p class="sub">Главная метрика цели «выбрано помещение»: сколько площадок нашли, осмотрели и довели до переговоров. Выручки нет — точка не открыта.</p>
+  <div class="cols" style="grid-template-columns: 1150px 1fr; gap: 40px;">
+    <div>
+      <div id="funnel"></div>
+      <div class="legend">
+        <span><span class="ln" style="border-color:var(--series-1)"></span>рассмотрено (накопительно)</span>
+        <span><span class="ln" style="border-color:var(--series-3)"></span>осмотрено лично</span>
+        <span><span class="ln" style="border-color:var(--series-2)"></span>переговоры с хозяином</span>
+      </div>
+    </div>
+    <div class="card sm">
+      <h2 style="font-size:28px">Цены, которые узнали (฿ в месяц)</h2>
+      <table class="t sm">
+        <tr><th>Нед.</th><th>Площадка</th><th class="r">Аренда</th></tr>
+        <tr><td>7</td><td>Здание Ватбун / Джомтьен, целиком</td><td class="r">80 000</td></tr>
+        <tr><td>7</td><td>Caltex, юнит 32 м² на АЗС</td><td class="r">9 600</td></tr>
+        <tr><td>7</td><td>Второй этаж у заправки</td><td class="r">5 000</td></tr>
+        <tr><td>9</td><td>Здание SAM, 3 этажа — только продажа</td><td class="r">4 287 000</td></tr>
+        <tr><td>9</td><td>Tara Home, площадь рядом</td><td class="r">36 000</td></tr>
+        <tr><td>10</td><td>Земля у 7/11, Ватбун</td><td class="r">50 000</td></tr>
+        <tr><td>12</td><td>EV SPACE, 2 бокса по 16 м²</td><td class="r">10 500</td></tr>
+      </table>
+      <p class="xs muted" style="margin:14px 0 0">Легализация (15.09): регистрация компании 25 000 · лицензия на массаж ≈50 000 · разрешение на работу 75 000 · бухгалтерия 3 500/мес.</p>
+    </div>
+  </div>
+  <div class="foot"><span>Начало (нед. 1): 0 площадок · Сегодня (нед. 14): 12 рассмотрено · 6 осмотрено · 2 переговоров · 0 выбрано</span><span>слайд 3 / 7</span></div>
+</section>
+
+<!-- ===================== СЛАЙД 4 ===================== -->
+<section class="slide" data-n="4">
+  <h1><span class="num">4</span>Что действительно сработало · три проверки</h1>
+  <p class="sub">Две из трёх — «нет», и это тоже результат: сэкономили деньги и недели.</p>
+  <div class="cols cols-3">
+    <div class="card">
+      <h2><span class="tag">нед. 7</span>АЗС как якорь — проверил ногами</h2>
+      <ul class="sm">
+        <li><b>Решили:</b> открыть точку массажа на заправке (цель 28.08).</li>
+        <li><b>Сделали:</b> встреча с управляющей компанией Caltex (6 АЗС в Паттайе), разговор на тайском; ассистент объехал заправки.</li>
+        <li><b>Результат:</b> юнит 32 м² — 9 600 ฿/мес, но все места заняты арендаторами по 3–7 лет; на других АЗС — «закрыто» или «дали контакт».</li>
+        <li><b>Вывод по данным:</b> формат дешёвый, а мест нет → 04.09 цель переписана: «АЗС <i>или другой якорь</i>». Опровергнуто за одну неделю, без вложений.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h2><span class="tag">нед. 8 · 12</span>Экономика раньше аренды</h2>
+      <ul class="sm">
+        <li><b>Решили:</b> не арендовать, пока касса не сходится на бумаге.</li>
+        <li><b>Сделали:</b> разбор 3 салонов-аналогов на АЗС по их журналам (03–04.09): Me Time — 13 клиентов и 9 049 ฿ в день, загрузка 37 %; Arokah — пусто после 12:20. Расчёт EV SPACE (28.09): 2 бокса, 3 мастера.</li>
+        <li><b>Результат:</b> прибыль 1,5 / 54,5 / 100,5 тыс. ฿ при загрузке 0,3 / 0,5 / 0,7; вход 42 тыс. + отделка ≈330 тыс. Порог решения: ≥ 40 зарядок в день.</li>
+        <li><b>Вывод по данным:</b> без замера потока договор на 3 года не подписан; площадка отпала при 0 ฿ вложений.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h2><span class="tag">нед. 11–13</span>ОАЭ — разведка и первый кастдев</h2>
+      <ul class="sm">
+        <li><b>Решили:</b> проверить вторую страну для мастеров.</li>
+        <li><b>Сделали:</b> отчёт 25.09 — 117 контактов, 3 способа входа, мастер для работодателя 4,5–7,5 тыс. AED на 2 года; кастдев с Олегом (Дубай) 05.10.</li>
+        <li><b>Результат:</b> «потенциал хороший»; потребность ОАЭ ≈ 6 000 индонезийских мастеров, 5 000 — отели. Минусы: туризм −44 % за январь–август, WhatsApp-аккаунты блокируют (07.10).</li>
+        <li><b>Вывод по данным:</b> входить через салон-партнёр, без своего салона (200–600 тыс. AED). Это стало целью до 31.12.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot"><span>Источники: чат группы, отчёты 03.09 · 25.09 · 02.10, журналы салонов, звонок хозяйке EV SPACE 29.09</span><span>слайд 4 / 7</span></div>
+</section>
+
+<!-- ===================== СЛАЙД 5 ===================== -->
+<section class="slide" data-n="5">
+  <h1><span class="num">5</span>Что не получилось и почему</h1>
+  <div class="cols cols-2">
+    <div class="card">
+      <h2>Не выполнено</h2>
+      <ul class="sm">
+        <li><b>0 из 15</b> обещаний до постановки цели (нед. 1–6): операционка, аудит за 4 квартала, Тайвань — трекер отклонил трижды.</li>
+        <li>Заявка на товарный знак (DIP), объявление о найме тайцев, 3 встречи с АЗС (была 1), бренд-бук с подрядчиком — <b>нет отметки «сделано»</b>.</li>
+        <li>Маникюр: <b>0 кандидатов из 2</b>. Шесть писем партнёрам в ОАЭ — <b>не отправлены с 25.09</b>. Замер потока на EV SPACE — <b>не сделан</b>.</li>
+        <li>Гипотезы не проверены: Залив / Казахстан (срок 25.09 — 0 писем), страница хаба 5 кандидатам, экономика 4 кресел.</li>
+        <li>Неделя 41–42: встреча по условиям EV SPACE, кофейня (Игорь и Таня), ответ Sushi Station, интервью по Дубаю — <b>подтверждения нет</b>; поездка в Дубай только планируется.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h2>Почему — без оправданий</h2>
+      <ul class="sm">
+        <li><b>Цель искал 7 недель из 13.</b> Половина срока без мерила — и 0 выполненных пунктов за это время.</li>
+        <li><b>Планы «блоками».</b> Нед. 9 — 11 пунктов, 8 из них без цифры («маркетолог», «лазадолог»). Такие пункты нельзя ни сделать, ни проверить.</li>
+        <li><b>Сменил 4 направления:</b> Тайвань → АЗС → хаб у Dusit 3 (сдача 2028) → EV SPACE → ОАЭ. Каждый раз разведка заново.</li>
+        <li><b>6 из 13 планов отправлены в 23:5х</b>; 8 замечаний трекера из 13: «это задачи, не гипотезы».</li>
+        <li><b>Параллельно — суды, боты, зарплаты в РФ.</b> Трекинг получал остаток дня, а не первый час.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="cols cols-2" style="margin-top:28px">
+    <div class="card warnbox">
+      <h2 style="font-size:28px">Потерянное время ≈ 7 недель из 13</h2>
+      <p class="sm" style="margin:0">6 недель до цели + неделя на хаб у Dusit 3, который сдаётся в 2028 году и к 31.10 не успевал. Плюс письма и замер, которые лежали готовыми и не отправлялись.</p>
+    </div>
+    <div class="card">
+      <h2 style="font-size:28px">Сделал бы иначе</h2>
+      <p class="sm" style="margin:0">Цель с цифрой на 1-й неделе · одна площадка в неделю с замером потока <i>до</i> переговоров · не больше 5 задач, у каждой «готово, когда …» · отчёт по дням в среду, а не в 23:59 четверга.</p>
+    </div>
+  </div>
+  <div class="foot"><span>Все 54 пункта и статусы — в приложении (слайды А1–А5)</span><span>слайд 5 / 7</span></div>
+</section>
+
+<!-- ===================== СЛАЙД 6 ===================== -->
+<section class="slide" data-n="6">
+  <h1><span class="num">6</span>Главные выводы</h1>
+  <div class="cols cols-2">
+    <div class="card">
+      <h2>1 · Как повлияла скорость определения цели</h2>
+      <p class="big" style="margin:0">Прямо. До цели — <b>0 из 15</b> обещаний, после — <b>13 из 39</b>, 6 осмотров и 2 переговоров. Семь недель выбора — ровно те недели, которых не хватило, чтобы открыть точку к 31.10.</p>
+    </div>
+    <div class="card">
+      <h2>2 · Связь обязательств и результата</h2>
+      <p class="big" style="margin:0">Есть. Недели с конкретными задачами и цифрами (7, 9, 12) дали факты: цены аренды, расчёт, кастдев. Недели с «блоками» (9 — маркетинг, 10, 11) дали почти ничего проверяемого. Что записано цифрой — то и сделано.</p>
+    </div>
+    <div class="card">
+      <h2>3 · Что действительно помогало двигаться</h2>
+      <p class="big" style="margin:0">Осмотр и разговор с хозяином в ту же неделю. Расчёт экономики до переговоров. Отчёт по дням (нед. 12 — единственный, который трекер не вернул на переделку). Группа: Артём — 3 локации, Саша Лозовик — тайка для звонка, Саша Жилин — подсказки по зданиям.</p>
+    </div>
+    <div class="card">
+      <h2>4 · Что поняли о себе как о предпринимателе и команде</h2>
+      <p class="big" style="margin:0">Сильны в разведке и расчётах: 6 отчётов, 425 источников, 117 контактов. Слабы в доведении до «да / нет»: 12 кандидатов — 0 решений. Привычка ставить «блоки» и сдавать в 23:59. ИИ ускорил разведку в разы, но не заменил звонок хозяину и отправку письма.</p>
+    </div>
+  </div>
+  <div class="foot"><span>Главный ответ: результат такой, потому что полсрока ушло на выбор цели, а вторая половина — на разведку без решений</span><span>слайд 6 / 7</span></div>
+</section>
+
+<!-- ===================== СЛАЙД 7 ===================== -->
+<section class="slide" data-n="7">
+  <h1><span class="num">7</span>Что дальше · цель до 31.12.2026</h1>
+  <div class="card" style="margin-bottom:26px">
+    <div class="dim sm">Следующая измеримая цель</div>
+    <div class="big" style="font-size:40px;font-weight:700;margin:6px 0 10px">Первые мастера работают у салона-партнёра в ОАЭ</div>
+    <div class="md muted">Мерило: ≥ 2 запроса на мастеров от салонов и отелей (из 10 предложений) · 1 кадровая компания с письменными условиями · первые 2–5 мастеров оформлены у партнёра до 31.12. Точка SenWay в Паттайе — вторая линия: план Б по площадке (3 секции у PR Fresh Market, SenWay Box), решение только с замером потока.</div>
+  </div>
+  <div class="cols cols-3">
+    <div class="card">
+      <h2><span class="tag">1</span>Поездка в Дубай и 10 предложений</h2>
+      <p class="sm" style="margin:0">Встречи: Cherish Spa, Blaj Spa, Юлия Подгорная, Олег. Предложение подбора мастеров 10 салонам и отелям. Результат недели — 2 запроса с бюджетом и сроком найма, а не «интересно».</p>
+    </div>
+    <div class="card">
+      <h2><span class="tag">2</span>Юрист и кадровая компания</h2>
+      <p class="sm" style="margin:0">LYLAW — 5 вопросов, законная форма договора с салоном-партнёром. Переговоры с 3 кадровыми компаниями → 1 письменные условия оформления и сопровождения мастеров.</p>
+    </div>
+    <div class="card">
+      <h2><span class="tag">3</span>Канал оформления мастеров</h2>
+      <p class="sm" style="margin:0">Тайский мастер — прямой наём с заверением договора в посольстве Таиланда в Абу-Даби. Индонезийский — только через лицензированное агентство P3MI (PT Anugerah Tujuh Samudra). Первые 2–5 мастеров — до 31.12.</p>
+    </div>
+  </div>
+  <div class="card" style="margin-top:26px">
+    <h2 style="font-size:28px">Что меняю в планировании и проверке гипотез</h2>
+    <p class="sm" style="margin:0">Одна цель с цифрой · не больше 5 задач в неделю, у каждой «готово, когда …» · гипотеза = число + срок, проверка в ту же неделю · отчёт по дням в среду · письмо отправляется в день, когда написано (6 писем лежат с 25.09) · замер потока до любых переговоров об аренде.</p>
+  </div>
+  <div class="foot"><span>Трекинг CREATORS · итоги 3 месяцев · 16.10.2026</span><span>слайд 7 / 7</span></div>
+</section>
+
+<!-- ===================== ПРИЛОЖЕНИЕ ===================== -->
+<section class="slide" data-n="A1" data-app="0"></section>
+<section class="slide" data-n="A2" data-app="1"></section>
+<section class="slide" data-n="A3" data-app="2"></section>
+<section class="slide" data-n="A4" data-app="3"></section>
+<section class="slide" data-n="A5" data-hyp="1"></section>
+
+</div>
+<div class="tip" id="tip"></div>
+<div class="help">← → листать · F — на весь экран · 1–7 — слайд · A — приложение · <a href="deck.pdf" style="color:#c8f07a">скачать PDF</a></div>
+
+<script>
+// ---------- ДАННЫЕ: обещания по неделям (источник — чат группы, # = номер сообщения) ----------
+// s: done / partial / notdone / nodata
+const WEEKS = [
+ {n:1, date:"17.07", src:"#83581", title:"План на 29 неделю (операционка)", rem:"трекер: «не подходит, для этого я тебе не нужен»", items:[
+  {t:"Метрики и инструменты учёта рабочего времени", s:"nodata", note:"в чате больше не упоминается"},
+  {t:"Улучшить процесс найма, расширить воронку кандидатов", s:"nodata", note:""},
+  {t:"Оценить сотрудников на потенциал к обучению и делегированию", s:"nodata", note:""},
+  {t:"Определить операционные задачи, которые можно делегировать немедленно", s:"nodata", note:"18.07: «готовлю человека, который полетит в Индонезию вместо меня» — без итога"},
+  {t:"Профиль кандидата на роль управляющего партнёра", s:"nodata", note:""}]},
+ {n:2, date:"25.07", src:"#84376", title:"Операционка и финансовый аудит", rem:"трекер: «нет конечно, для этого я тебе не нужен»; штраф 500 ฿ за план не в срок", items:[
+  {t:"Сравнительный анализ 30–31 недели по операционке", s:"nodata", note:""},
+  {t:"Дочитать «Спроси маму» (156 стр.)", s:"partial", note:"на 25.07 прочитано ≈100 из 156; дочитана ли — нет данных"},
+  {t:"Финансовый аудит компании за 4 квартала", s:"nodata", note:"повторён 01.08, дальше не упоминается"}]},
+ {n:3, date:"01.08", src:"#84730", title:"Аудит и цель для организации", rem:"", items:[
+  {t:"Анализ финансовых показателей за 4 квартала", s:"nodata", note:""},
+  {t:"Выставить цель для организации", s:"notdone", note:"07.08 трекер: «это не цели, это задачи»; цель появилась 28.08"}]},
+ {n:4, date:"07.08", src:"#85173", title:"Спа-код, Тайвань, нетворкинг", rem:"трекер: «очень плохо… у тебя своя программа»", items:[
+  {t:"КП по продаже бизнеса «Спа-код», оффер", s:"nodata", note:""},
+  {t:"Тайвань: миграционное право, 5 контактов, консультации", s:"nodata", note:"поездка 19–21.08 состоялась; контакты не названы"},
+  {t:"Объявление на FB о нетворкинге 23.08 в Тайбэе", s:"nodata", note:"24.08 пришли 200 ручек, кружки и пакеты — подготовка шла; факт объявления не виден"}]},
+ {n:5, date:"14.08", src:"#85694", title:"«Цели выбрать одну из трёх»", rem:"трекер 09.08: «нужно выбрать 1 цель»", items:[
+  {t:"Выбрать одну цель из трёх (RealThai · Спа-код · партнёр за рубежом)", s:"notdone", note:"выбрана только 28.08 — и не из этих трёх"}]},
+ {n:6, date:"21.08", src:"#86138", title:"Потенциал Тайваня", rem:"трекер: «что-то очень странное, ну ладно»", items:[
+  {t:"Определить потенциал Тайваня для входа на рынок", s:"partial", note:"вывод в чате не опубликован; с 28.08 Тайвань в планах не появляется — направление снято"}]},
+ {n:7, date:"28.08", src:"#86475", title:"НОВАЯ ЦЕЛЬ: точка на АЗС по SenWay · план на нед. 36", rem:"трекер: «23:59 ))»", items:[
+  {t:"Бизнес-план точки (юнит-экономика)", s:"done", note:"смета открытия Caltex ≈754 тыс. ฿ (03.09); экономика EV SPACE (28.09)"},
+  {t:"КП по франшизе", s:"done", note:"презентации v1 27.08, v2 28.08; пакет 2 млн ฿"},
+  {t:"Каналы по потребителям", s:"nodata", note:""},
+  {t:"Юридическая обвязка", s:"done", note:"исследование 03.09 (TISO, порог 2 млн ฿, 4 тайца); цены регистрации и лицензии 15.09"},
+  {t:"АЗС: минимум 3 встречи, переговоры за аренду", s:"partial", note:"1 встреча — Caltex 28.08 (32 м² = 9 600 ฿); объезд заправок ассистентом"},
+  {t:"Бренд-бук — исполнитель", s:"partial", note:"дизайн-система 28.08 есть; подрядчик — нет данных"},
+  {t:"Заявка в DIP на товарный знак (классы 44, 35, 41, 3)", s:"nodata", note:""},
+  {t:"Перевести всех сотрудников на Android и Windows", s:"nodata", note:""},
+  {t:"Объявление о поиске сотрудников-тайцев, собрать отклики", s:"nodata", note:""},
+  {t:"Изучить франшизы, подписки, истории роста", s:"done", note:"отчёт 03.09: Café Amazon, Otteri, 425 источников"}]},
+ {n:8, date:"04.09", src:"#87243", title:"План на нед. 37", rem:"", items:[
+  {t:"Сметы на металлоконструкции с фабрик Районга, личное посещение", s:"partial", note:"прайсы домиков получены 05.09 и 10.09; посещение — нет данных"},
+  {t:"Готовый бизнес: получить предложение о продаже салона", s:"done", note:"11.09: найдено 15 салонов на продаже, готовый — от 360 тыс. ฿"},
+  {t:"Подобрать хвосты 36 недели", s:"nodata", note:""}]},
+ {n:9, date:"11.09", src:"#87946", title:"План на нед. 38: локация + маркетинг", rem:"трекер: «Спасибо )»", items:[
+  {t:"База продаж готового бизнеса и коммерческих помещений", s:"done", note:"15 салонов; здание SAM 12.09; карта объявлений Джомтьена — 172 карточки (17.09)"},
+  {t:"Минимум одно помещение под аренду осмотреть очно", s:"done", note:"Tara Home 12.09; Хуа Яй 18.09"},
+  {t:"Минимум один бизнес под продажу осмотреть очно", s:"partial", note:"осмотрено здание SAM 16.09 (продажа здания, не бизнеса)"},
+  {t:"Маркетинг: каналы привлечения", s:"nodata", note:""},
+  {t:"Маркетинг: лидогенерация", s:"nodata", note:""},
+  {t:"Маркетинг: оценка конкурентов", s:"done", note:"разбор загрузки 3 салонов по журналам 03–04.09"},
+  {t:"Маркетинг: подарочные сертификаты", s:"nodata", note:""},
+  {t:"Маркетинг: дизайнер", s:"nodata", note:""},
+  {t:"Маркетинг: маркетолог", s:"nodata", note:""},
+  {t:"Маркетинг: лазадолог", s:"nodata", note:""},
+  {t:"Маркетинг: шопииолог", s:"nodata", note:""}]},
+ {n:10, date:"18.09", src:"#88568 #88571", title:"План на нед. 39: хаб · Залив · альтернативы", rem:"трекер: «прочитай ещё раз, что такое гипотеза»", items:[
+  {t:"Тай как инфраструктурный хаб (массаж, школа, офис): локация, стоимость, легализация", s:"done", note:"презентация хаба у Pristine Park III 24.09; цены легализации 15.09"},
+  {t:"Гипотеза: услуги спа в страны Залива и Казахстан → согласие на КП до 25.09, ≥10 звонков или писем", s:"notdone", note:"0 писем до 25.09; разведка ОАЭ 25.09 и 6 черновиков писем — не отправлены"},
+  {t:"Альтернативы массажу: биохакинг, капсулы сна, светотерапия, криосауна", s:"nodata", note:""}]},
+ {n:11, date:"25–26.09", src:"#89181 #89187", title:"План на нед. 40: соседи по хабу · ОАЭ", rem:"трекер: «тут не понимаю, что делать»; переписано 26.09", items:[
+  {t:"Переговоры с Sushi Station", s:"done", note:"разговор с поваром Айказом; ответ руководства — нет"},
+  {t:"Переговоры с Savillo", s:"done", note:"ответ — нет, ищут другое"},
+  {t:"Маникюр: найти 2 кандидатов", s:"notdone", note:"0 кандидатов"},
+  {t:"ОАЭ: минимум 1 кастдев до 02.10", s:"notdone", note:"не проведён в срок; проведён 05.10"}]},
+ {n:12, date:"01–02.10", src:"#89846 #89911", title:"План на нед. 41: EV SPACE · кофейня · ОАЭ", rem:"трекер: «это не гипотезы, это задачи»", items:[
+  {t:"05.10 — встреча с хозяйкой EV SPACE по условиям договора", s:"nodata", note:"подтверждения нет; площадка отпала (ответ 15.10)"},
+  {t:"Игорь и Таня: встреча по условиям кофейни", s:"nodata", note:""},
+  {t:"Sushi Station: получить ответ руководства", s:"nodata", note:""},
+  {t:"Найти 2 кандидатов nail и 1 lashes", s:"nodata", note:""},
+  {t:"ОАЭ: кастдев с потенциальным партнёром", s:"done", note:"05.10 — Олег, «потенциал хороший»"}]},
+ {n:13, date:"09.10", src:"#90670", title:"План на нед. 42: Дубай · финал", rem:"отправлено в 23:59", items:[
+  {t:"Интервью по Дубаю", s:"notdone", note:"к 15.10 не проведены"},
+  {t:"Поездка в Дубай", s:"notdone", note:"планируется, не состоялась"},
+  {t:"Подготовка к финалу трекинга", s:"done", note:"эта презентация"}]}
+];
+
+const HYP = [
+ {w:10, d:"18.09", t:"Если предложу услуги спа в страны Персидского залива и Казахстан, то получу согласие на КП до 25.09 (≥10 звонков/писем)", r:"не проверена", note:"0 писем в срок; 6 черновиков с 25.09 не отправлены"},
+ {w:12, d:"01.10", t:"Если предложить EV SPACE условия (3 года + продление, бронь всех боксов), то ответ «да»", r:"не подтвердилась", note:"площадка отпала в октябре"},
+ {w:12, d:"01.10", t:"Если показать страницу хаба 5 кандидатам, то ≥2 выйдут на осмотр и дадут «да / думаем»", r:"не проверена", note:"нет данных"},
+ {w:12, d:"01.10", t:"Если Валера сведёт с Олегом, то до 09.10 проведу 1 кастдев", r:"подтвердилась", note:"кастдев 05.10"},
+ {w:13, d:"09.10", t:"Если предложить подбор мастеров 10 спа и отелям в ОАЭ, то ≥2 запросят кандидатов с бюджетом и сроком (к 18.10)", r:"в работе", note:"срок 18.10"},
+ {w:13, d:"09.10", t:"Если провести переговоры с 3 кадровыми компаниями ОАЭ, то ≥1 даст письменные условия (к 18.10)", r:"в работе", note:"срок 18.10"},
+ {w:13, d:"09.10", t:"Если ограничить старт 4 креслами без кофейни, то безубыточность при загрузке ≤50 % кресло-часов", r:"не проверена", note:"расчёт не опубликован"}
+];
+
+// воронка площадок — накопительно по неделям трекинга (1 = 17.07 … 14 = 15.10)
+const FUN = [
+ {w:1, c:0, v:0, n:0}, {w:2, c:0, v:0, n:0}, {w:3, c:0, v:0, n:0},
+ {w:4, c:1, v:0, n:0, ev:"09.08: земля у Pristine 3 за Topps — звонок тайки"},
+ {w:5, c:1, v:0, n:0}, {w:6, c:1, v:0, n:0},
+ {w:7, c:4, v:2, n:1, ev:"26–28.08: здание Ватбун (80 000), Caltex (9 600, мест нет), 2-й этаж (5 000)"},
+ {w:8, c:5, v:2, n:1, ev:"02.09: участок у Лагуны 3 (Артём); 03–04.09 разбор 3 салонов-аналогов"},
+ {w:9, c:8, v:3, n:1, ev:"11–12.09: 15 салонов на продаже, здание SAM (4,29 млн), Tara Home (36 000)"},
+ {w:10, c:10, v:5, n:1, ev:"16–19.09: осмотр SAM и Хуа Яй; земля у 7/11 (50 000)"},
+ {w:11, c:11, v:6, n:1, ev:"24–26.09: презентация хаба у Pristine Park III (2028); осмотр EV SPACE"},
+ {w:12, c:12, v:6, n:2, ev:"29.09–02.10: звонок хозяйке EV SPACE (10 500 за 2 бокса), письмо; 3 секции у PR Fresh Market"},
+ {w:13, c:12, v:6, n:2, ev:"05–09.10: кастдев ОАЭ; EV SPACE — ждём ответа"},
+ {w:14, c:12, v:6, n:2, ev:"15.10: EV SPACE отпал; выбранных площадок 0"}
+];
+
+// ---------- СЧЁТ ----------
+const ST = {done:"сделано", partial:"частично", notdone:"не сделано", nodata:"нет данных"};
+const COL = {done:"var(--good)", partial:"var(--warn)", notdone:"var(--crit)", nodata:"var(--nodata)"};
+function tally(ws){ const t={done:0,partial:0,notdone:0,nodata:0,total:0}; ws.forEach(w=>w.items.forEach(i=>{t[i.s]++; t.total++;})); return t; }
+const ALL = tally(WEEKS), BEFORE = tally(WEEKS.filter(w=>w.n<=6)), AFTER = tally(WEEKS.filter(w=>w.n>=7));
+const pct = (d,t)=>Math.round(d/t*100);
+
+// ---------- KPI ----------
+(function(){
+  const hc = {conf:HYP.filter(h=>h.r==="подтвердилась").length, no:HYP.filter(h=>h.r==="не подтвердилась").length,
+              un:HYP.filter(h=>h.r==="не проверена").length, run:HYP.filter(h=>h.r==="в работе").length};
+  const tiles = [
+    ["Задач обещано", ALL.total, ""],
+    ["Сделано", ALL.done, `<small>+${ALL.partial} частично</small>`],
+    ["Выполнение", pct(ALL.done,ALL.total)+" %", `<small>${pct(ALL.done+ALL.partial/2,ALL.total)} % с частичн.</small>`],
+    ["Гипотез «если — то»", HYP.length, ""],
+    ["Проверено", hc.conf+hc.no, `<small>${hc.un} не провер.</small>`],
+    ["Подтвердилась / нет", hc.conf+" / "+hc.no, ""],
+    ["В работе", hc.run, "<small>срок 18.10</small>"]
+  ];
+  document.getElementById("kpi").innerHTML = tiles.map(t=>`<div class="tile"><div class="lab">${t[0]}</div><div class="val">${t[1]} ${t[2]}</div></div>`).join("");
+})();
+
+// ---------- ТУЛТИП ----------
+const tip = document.getElementById("tip");
+function showTip(html, e){ tip.innerHTML = html; tip.style.display="block"; moveTip(e); }
+function moveTip(e){ const w=tip.offsetWidth, h=tip.offsetHeight; let x=e.clientX+18, y=e.clientY+18;
+  if(x+w>window.innerWidth-10) x=e.clientX-w-18; if(y+h>window.innerHeight-10) y=e.clientY-h-18; tip.style.left=x+"px"; tip.style.top=y+"px"; }
+function hideTip(){ tip.style.display="none"; }
+function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;"); }
+
+// ---------- СЛАЙД 2: столбики по неделям ----------
+(function(){
+  const W=1240, rowH=46, left=250, right=90, barH=24, top=16, maxN=11;
+  const H=top+WEEKS.length*rowH+20;
+  const sx=(W-left-right)/maxN;
+  let g=`<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">`;
+  // сетка
+  for(let v=0; v<=maxN; v+=2){ const x=left+v*sx; g+=`<line x1="${x}" y1="${top}" x2="${x}" y2="${H-20}" stroke="#2b3545" stroke-width="1"/>`;
+    g+=`<text x="${x}" y="${H-4}" fill="#8d9099" font-size="15" text-anchor="middle">${v}</text>`; }
+  WEEKS.forEach((w,i)=>{
+    const y=top+i*rowH, cy=y+rowH/2;
+    const lab = `нед. ${w.n} · ${w.date}` + (w.n===7?" ★":"");
+    g+=`<text x="${left-14}" y="${cy+6}" fill="${w.n===7?'#c8f07a':'#c3c2b7'}" font-size="19" text-anchor="end">${lab}</text>`;
+    let x=left; const order=["done","partial","notdone","nodata"];
+    order.forEach(s=>{
+      const items=w.items.filter(it=>it.s===s); if(!items.length) return;
+      const wdt=items.length*sx-2;
+      const list=items.map(it=>`<div>${s==="done"?"✅":s==="partial"?"◐":s==="notdone"?"✖":"?"} ${esc(it.t)}${it.note?` <span style="color:#c3c2b7">— ${esc(it.note)}</span>`:""}</div>`).join("");
+      g+=`<rect x="${x}" y="${cy-barH/2}" width="${wdt}" height="${barH}" rx="0" fill="${COL[s]}" class="seg" data-tip="${esc(`<b>Неделя ${w.n} (${w.date}) — ${w.title}</b><div style='color:#c3c2b7;margin-bottom:6px'>${ST[s]}: ${items.length}${w.rem?' · '+w.rem:''}</div>`+list).replace(/"/g,'&quot;')}"/>`;
+      x+=items.length*sx;
+    });
+    // скруглённый конец столбика: маска через последний сегмент не нужна — рисуем кап
+    const total=w.items.length; const xe=left+total*sx-2;
+    g+=`<text x="${xe+10}" y="${cy+6}" fill="#ffffff" font-size="18">${w.items.filter(i=>i.s==="done").length} / ${total}</text>`;
+  });
+  // маркер цели
+  const yg=top+6*rowH-2; g+=`<line x1="${left-240}" y1="${yg}" x2="${W-right+40}" y2="${yg}" stroke="#c8f07a" stroke-width="2" stroke-dasharray="0"/>`;
+  g+=`<text x="${W-right+40}" y="${yg-8}" fill="#c8f07a" font-size="17" text-anchor="end">★ 28.08 — поставлена цель</text>`;
+  g+=`</svg>`;
+  const box=document.getElementById("bars"); box.innerHTML=g;
+  box.querySelectorAll(".seg").forEach(r=>{ r.addEventListener("mousemove",e=>showTip(r.getAttribute("data-tip"),e)); r.addEventListener("mouseleave",hideTip); });
+})();
+
+// ---------- СЛАЙД 3: воронка ----------
+(function(){
+  const W=1150, H=560, left=70, right=260, top=30, bottom=60;
+  const pw=W-left-right, ph=H-top-bottom, maxY=12, n=FUN.length;
+  const X=i=>left+i*(pw/(n-1)), Y=v=>top+ph-(v/maxY)*ph;
+  let g=`<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">`;
+  for(let v=0; v<=maxY; v+=2){ g+=`<line x1="${left}" y1="${Y(v)}" x2="${W-right}" y2="${Y(v)}" stroke="#2b3545"/><text x="${left-12}" y="${Y(v)+6}" fill="#8d9099" font-size="16" text-anchor="end">${v}</text>`; }
+  FUN.forEach((p,i)=>{ g+=`<text x="${X(i)}" y="${H-28}" fill="${p.w===7||p.w===14?'#c8f07a':'#8d9099'}" font-size="16" text-anchor="middle">${p.w}</text>`; });
+  g+=`<text x="${W/2}" y="${H-6}" fill="#8d9099" font-size="16" text-anchor="middle">неделя трекинга (1 = 17.07 · 7 = 28.08 цель · 14 = 15.10)</text>`;
+  // линия цели
+  g+=`<line x1="${X(6)}" y1="${top}" x2="${X(6)}" y2="${top+ph}" stroke="#c8f07a" stroke-width="1.5"/><text x="${X(6)+8}" y="${top+16}" fill="#c8f07a" font-size="16">цель поставлена</text>`;
+  g+=`<line x1="${X(13)}" y1="${top}" x2="${X(13)}" y2="${top+ph}" stroke="#c8f07a" stroke-width="1.5"/><text x="${X(13)-8}" y="${top+16}" fill="#c8f07a" font-size="16" text-anchor="end">EV SPACE отпал</text>`;
+  const series=[["c","#3987e5","рассмотрено"],["v","#199e70","осмотрено лично"],["n","#d95926","переговоры"]];
+  series.forEach(([k,col,name])=>{
+    const d=FUN.map((p,i)=>`${i?"L":"M"}${X(i)},${Y(p[k])}`).join(" ");
+    g+=`<path d="${d}" fill="none" stroke="${col}" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>`;
+    FUN.forEach((p,i)=>{ g+=`<circle cx="${X(i)}" cy="${Y(p[k])}" r="6" fill="${col}" stroke="#141a24" stroke-width="2"/>`; });
+    const last=FUN[n-1]; g+=`<text x="${X(n-1)+14}" y="${Y(last[k])+6}" fill="#ffffff" font-size="19">${last[k]} ${name}</text>`;
+  });
+  // невидимые колонки для тултипа
+  FUN.forEach((p,i)=>{ g+=`<rect x="${X(i)-pw/(n-1)/2}" y="${top}" width="${pw/(n-1)}" height="${ph}" fill="transparent" class="col" data-i="${i}"/>`; });
+  g+=`</svg>`;
+  const box=document.getElementById("funnel"); box.innerHTML=g;
+  box.querySelectorAll(".col").forEach(r=>{ r.addEventListener("mousemove",e=>{ const p=FUN[+r.getAttribute("data-i")];
+    showTip(`<b>Неделя ${p.w}</b><div>рассмотрено: ${p.c} · осмотрено: ${p.v} · переговоры: ${p.n}</div>${p.ev?`<div style="color:#c3c2b7">${esc(p.ev)}</div>`:""}`, e); }); r.addEventListener("mouseleave",hideTip); });
+})();
+
+// ---------- ПРИЛОЖЕНИЕ ----------
+(function(){
+  const groups=[[1,2,3,4,5,6],[7,8],[9],[10,11,12,13]];
+  document.querySelectorAll("[data-app]").forEach(sec=>{
+    const gi=+sec.getAttribute("data-app"); const ws=WEEKS.filter(w=>groups[gi].includes(w.n));
+    let rows=""; ws.forEach(w=>{ w.items.forEach((it,j)=>{ rows+=`<tr>${j===0?`<td rowspan="${w.items.length}" style="white-space:nowrap"><b>нед. ${w.n}</b><br><span class="dim">${w.date}<br>${w.src}</span></td>`:""}<td>${esc(it.t)}</td><td class="r"><span class="st ${it.s}">${it.s==="done"?"✅":it.s==="partial"?"◐":it.s==="notdone"?"✖":"?"}</span></td><td class="dim">${esc(it.note||"")}</td></tr>`; }); });
+    const t=tally(ws);
+    sec.innerHTML=`<h1><span class="num">А${gi+1}</span>Приложение · все обещания ${groups[gi].length>1?`по неделям ${groups[gi][0]}–${groups[gi][groups[gi].length-1]}`:`за неделю ${groups[gi][0]}`}</h1>
+      <p class="sub">Источник — посты в чате группы (номера сообщений). Статус: ✅ сделано · ◐ частично · ✖ не сделано · ? нет отметки «сделано». В этой группе недель: ${t.done} сделано, ${t.partial} частично, ${t.notdone} не сделано, ${t.nodata} нет данных — из ${t.total}.</p>
+      <table class="t xs">${rows}</table>
+      <div class="foot"><span>Приложение — не для показа, на случай вопросов по цифрам</span><span>приложение А${gi+1}</span></div>`;
+  });
+  const hs=document.querySelector("[data-hyp]");
+  let rows=HYP.map(h=>`<tr><td style="white-space:nowrap">нед. ${h.w}<br><span class="dim">${h.d}</span></td><td>${esc(h.t)}</td><td class="r"><b>${h.r}</b></td><td class="dim">${esc(h.note)}</td></tr>`).join("");
+  hs.innerHTML=`<h1><span class="num">А5</span>Приложение · гипотезы в формате «если … то …»</h1>
+    <p class="sub">Первая гипотеза с цифрой и сроком — на 10-й неделе (18.09). До неё планы были задачами и «блоками», трекер вернул на переделку 8 планов из 13.</p>
+    <table class="t sm">${rows}</table>
+    <p class="sm muted" style="margin-top:18px">Неформальные проверки направлений, все четыре — «нет»: Тайвань (нед. 4–6, снято) · АЗС как якорь (нед. 7, Caltex — мест нет) · хаб у Dusit 3 (нед. 10–11, сдача 2028) · EV SPACE (нед. 11–14, отпал).</p>
+    <div class="foot"><span>Приложение — не для показа</span><span>приложение А5</span></div>`;
+})();
+
+// ---------- НАВИГАЦИЯ ----------
+(function(){
+  const slides=[...document.querySelectorAll(".slide")]; let cur=0;
+  function fit(){ const k=Math.min(window.innerWidth/1920, window.innerHeight/1080); document.documentElement.style.setProperty("--k", k); }
+  function go(i){ cur=Math.max(0,Math.min(slides.length-1,i)); slides.forEach((s,j)=>s.classList.toggle("active",j===cur)); hideTip(); location.hash="s"+(cur+1); }
+  window.addEventListener("resize",fit); fit();
+  const h=parseInt((location.hash||"").replace("#s",""),10); go(isNaN(h)?0:h-1);
+  document.addEventListener("keydown",e=>{
+    if(["ArrowRight","PageDown"," "].includes(e.key)){ e.preventDefault(); go(cur+1); }
+    else if(["ArrowLeft","PageUp"].includes(e.key)){ e.preventDefault(); go(cur-1); }
+    else if(e.key==="Home"){ go(0); } else if(e.key==="End"){ go(slides.length-1); }
+    else if(/^[1-7]$/.test(e.key)){ go(+e.key-1); }
+    else if(e.key==="a"||e.key==="A"||e.key==="ф"||e.key==="Ф"){ go(7); }
+    else if(e.key==="f"||e.key==="F"||e.key==="а"||e.key==="А"){ document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen(); }
+    else if(e.key==="p"||e.key==="P"||e.key==="з"||e.key==="З"){ window.print(); }
+  });
+  document.getElementById("deck").addEventListener("click",e=>{ if(e.target.closest("svg")) return; const x=e.clientX/window.innerWidth; if(x>0.66) go(cur+1); else if(x<0.2) go(cur-1); });
+  window.addEventListener("beforeprint",()=>slides.forEach(s=>s.classList.add("active")));
+  window.addEventListener("afterprint",()=>go(cur));
+})();
+</script>
+</body>
+</html>
