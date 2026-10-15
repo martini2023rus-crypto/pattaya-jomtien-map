@@ -35,7 +35,7 @@
     background: var(--surface); padding: 56px 80px 72px; display: none;
   }
   .slide.active { display: block; }
-  .slide h1 { margin: 0 0 10px; font-size: 54px; line-height: 1.1; font-weight: 700; }
+  .slide h1 { margin: 0 0 12px; font-size: 58px; line-height: 1.1; font-weight: 700; }
   .slide h1 .num { color: var(--accent); margin-right: 14px; }
   .sub { color: var(--text-2); font-size: 28px; margin: 0 0 28px; }
   .foot { position: absolute; left: 80px; right: 80px; bottom: 26px; display: flex;
@@ -44,11 +44,11 @@
   .cols-2 { grid-template-columns: 1fr 1fr; }
   .cols-3 { grid-template-columns: 1fr 1fr 1fr; }
   .card { background: var(--surface-2); border-radius: 16px; padding: 28px 32px; }
-  .card h2 { margin: 0 0 14px; font-size: 32px; line-height: 1.2; }
+  .card h2 { margin: 0 0 14px; font-size: 34px; line-height: 1.2; }
   .card h2 .tag { display: inline-block; font-size: 20px; color: var(--surface);
     background: var(--accent); border-radius: 8px; padding: 2px 10px; margin-right: 10px; vertical-align: middle; }
-  .big { font-size: 30px; line-height: 1.35; }
-  .md { font-size: 27px; line-height: 1.35; }
+  .big { font-size: 32px; line-height: 1.35; }
+  .md { font-size: 29px; line-height: 1.35; }
   .sm { font-size: 23px; line-height: 1.35; }
   .xs { font-size: 20px; line-height: 1.3; }
   ul { margin: 0; padding-left: 30px; }
@@ -57,7 +57,7 @@
   .muted { color: var(--text-2); }
   .dim { color: var(--text-3); }
   .hero { font-size: 92px; font-weight: 700; line-height: 1; }
-  .kpi { display: grid; grid-template-columns: repeat(7, 1fr); gap: 18px; margin-bottom: 24px; }
+  .kpi { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-bottom: 24px; }
   .kpi .tile { background: var(--surface-2); border-radius: 14px; padding: 16px 20px; }
   .kpi .lab { color: var(--text-2); font-size: 21px; margin-bottom: 6px; }
   .kpi .val { font-size: 50px; font-weight: 700; line-height: 1; white-space: nowrap; }
@@ -134,54 +134,51 @@
     @page { size: 13.333in 7.5in; margin: 0; }
     html, body { overflow: visible; background: var(--surface); }
     .deck { position: static; }
-    .slide { display: block; position: relative; left: 0; top: 0; transform: none; width: 1920px; height: 1080px;
+    .slide { display: block; position: relative; left: 0; top: 0; transform: none; width: 1920px; height: 1074px;
       page-break-after: always; break-after: page; zoom: 0.6667; overflow: hidden; }
+    .mnav { display: none !important; }
     .slide:last-child { page-break-after: auto; }
     .help, .tip { display: none !important; }
   }
 </style>
 </head>
 <body>
-<nav class="mnav" id="mnav"><a href="#s1" data-go="0">1</a><a href="#s2" data-go="1">2</a><a href="#s3" data-go="2">3</a><a href="#s4" data-go="3">4</a><a href="#s5" data-go="4">5</a><a href="#s6" data-go="5">6</a><a href="#s7" data-go="6">7</a><a href="#s8" data-go="7">Прил.</a><a class="pdf" href="deck.pdf">PDF</a></nav>
+<nav class="mnav" id="mnav"><a href="#s1" data-go="0">1</a><a href="#s2" data-go="1">2</a><a href="#s3" data-go="2">3</a><a href="#s4" data-go="3">4</a><a href="#s5" data-go="4">5</a><a href="#s6" data-go="5">6</a><a href="#s7" data-go="6">7</a><a class="pdf" href="deck.pdf">PDF</a></nav>
 <div class="deck" id="deck">
 
-<!-- ===================== СЛАЙД 1 ===================== -->
 <section class="slide active" data-n="1">
   <h1><span class="num">1</span>Точка А → Точка Б</h1>
-  <p class="sub">Максим · сеть спа-салонов с мастерами из Таиланда и Индонезии · новое направление SenWay (сухой массаж) и ОАЭ</p>
+  <p class="sub">Максим · спа-салоны в России с мастерами из Таиланда и Индонезии · новое: массаж SenWay в Таиланде, мастера в ОАЭ</p>
   <div class="cols" style="grid-template-columns: 1fr 110px 1fr;">
     <div class="card">
       <h2>Точка А · 17 июля</h2>
-      <ul class="sm">
-        <li>Салоны в России работают, но всё держится на владельце: 50–70 часов в неделю, из них 35 — в Telegram; 85 % обсуждений не доходят до задач; 40 мастеров переоформлять к реформе (запись 24.07).</li>
-        <li>Миграционная реформа в РФ бьёт по мастерам → нужен новый продукт и вторая страна.</li>
-        <li>Первая цель (17.07): «делегировать операционку, найти управляющего». Трекер отклонил: <i>«для этого я тебе не нужен»</i>.</li>
+      <ul class="big">
+        <li>Всё держится на мне: 50–70 часов в неделю, 35 из них — в Telegram.</li>
+        <li>Реформа по мигрантам в России бьёт по мастерам.</li>
+        <li>Нужны новый продукт и вторая страна.</li>
       </ul>
     </div>
     <div class="arrow"><div style="font-size:90px;color:var(--accent)">→</div></div>
     <div class="card">
       <h2>Точка Б · 15 октября</h2>
-      <ul class="sm">
-        <li><b>Точка не открыта, помещение не выбрано.</b> Кандидат EV SPACE (2 бокса, 10 500 ฿/мес) отпал в октябре.</li>
-        <li>Пройдено: <b>12</b> площадок рассмотрено · <b>6</b> осмотрено лично · <b>5</b> переговоров по условиям · <b>20</b> записанных встреч и разговоров по цели · экономика посчитана (цель 140 тыс. ฿/мес) · легализация оценена (≈150 тыс. ฿) · <b>1</b> кастдев в ОАЭ.</li>
-        <li>Сдвиг в управлении (самооценка на встрече 09.10): доля стратегических задач против операционки — с 20 % до 60 %. «Без трекинга работал бы в два раза меньше» (25.09).</li>
-        <li>Достижение цели: <span class="hero" style="font-size:64px">0 %</span> <span class="muted">по обеим формулировкам. Срок цели — 31.10, осталось 2 недели.</span></li>
+      <ul class="big">
+        <li><b>Точка не открыта, помещение не выбрано.</b></li>
+        <li>12 площадок рассмотрено · 6 осмотрено · 5 переговоров.</li>
+        <li>Стратегии в моём времени: было 20 %, стало 60 % (самооценка).</li>
+        <li>Цель достигнута на <span class="hero" style="font-size:64px">0 %</span></li>
       </ul>
     </div>
   </div>
-  <div class="path sm">
-    <div class="dim sm" style="margin-bottom:8px">Как менялась цель (окончательная — на 7-й неделе из 13)</div>
-    <span class="step">17.07 операционка</span><span class="sep">→</span>
-    <span class="step">25.07 финансовый аудит</span><span class="sep">→</span>
-    <span class="step">09.08 три варианта: RealThai ×2 часов · Спа-код · партнёр за рубежом</span><span class="sep">→</span>
-    <span class="step"><b>28.08 · нед. 7: точка массажа SenWay в Таиланде, ≤ 1 млн ฿, 160 ฿ за 20 мин</b></span><span class="sep">→</span>
-    <span class="step">18.09 «или хаб»</span><span class="sep">→</span>
-    <span class="step">26.09 · нед. 11: «готово, когда выбрано помещение»</span>
+  <div class="path big">
+    <div class="dim sm" style="margin-bottom:8px">Цель — окончательно поставлена на 7-й неделе из 13</div>
+    <span class="step">17.07 «меньше операционки»</span><span class="sep">→</span>
+    <span class="step">09.08 три варианта</span><span class="sep">→</span>
+    <span class="step"><b>28.08 точка массажа SenWay в Таиланде до 31.10</b></span><span class="sep">→</span>
+    <span class="step">26.09 «готово, когда выбрано помещение»</span>
   </div>
   <div class="foot"><span>Трекинг CREATORS · итоги 3 месяцев · 16.10.2026</span><span>слайд 1 / 7</span></div>
 </section>
 
-<!-- ===================== СЛАЙД 2 ===================== -->
 <section class="slide" data-n="2">
   <h1><span class="num">2</span>Что обещали и что сделали · 13 недель</h1>
   <div class="kpi" id="kpi"></div>
@@ -192,194 +189,145 @@
         <span><span class="sw" style="background:var(--good)"></span>✅ сделано</span>
         <span><span class="sw" style="background:var(--warn)"></span>◐ частично</span>
         <span><span class="sw" style="background:var(--crit)"></span>✖ не сделано</span>
-        <span><span class="sw" style="background:var(--nodata)"></span>? нет отметки «сделано»</span>
+        <span><span class="sw" style="background:var(--nodata)"></span>? нет данных</span>
       </div>
     </div>
-    <div class="card sm">
-      <h2 style="font-size:28px">Как считал</h2>
-      <ul>
-        <li>Обещание = пункт недельного плана в чате группы. Всего <b>54</b> пункта за 13 недель.</li>
-        <li>«Сделано» — только если это видно в чате, в моих файлах или в записях Plaud (28 записей встреч и переговоров за период). Без отметки — «нет данных», в процент не идёт.</li>
-        <li><b>До цели</b> (нед. 1–6): сделано <b>0 из 15</b>. Планы про операционку, аудит и Тайвань трекер отклонял.</li>
-        <li><b>После цели</b> (нед. 7–13): сделано <b>14 из 39</b> (36 %), ещё 3 частично.</li>
-        <li>Гипотезы «если … то …»: первая — на 10-й неделе. Из 7: подтвердилась 1 (кастдев ОАЭ), не подтвердилась 1 (условия EV SPACE), не проверены 3, в работе 2 (срок 18.10).</li>
+    <div class="card">
+      <ul class="big">
+        <li><b>До цели</b> (недели 1–6): сделано <b>0 из 15</b>.</li>
+        <li><b>После цели</b> (недели 7–13): <b>14 из 39</b>.</li>
+        <li>Первая гипотеза «если — то» — на 10-й неделе.</li>
+        <li>Считал только подтверждённое: чат, файлы, записи встреч.</li>
       </ul>
     </div>
   </div>
-  <div class="foot"><span>Процент = сделано ÷ обещано × 100. Наведите на столбик — список пунктов.</span><span>слайд 2 / 7</span></div>
+  <div class="foot"><span>Трекинг CREATORS · итоги 3 месяцев · 16.10.2026</span><span>слайд 2 / 7</span></div>
 </section>
 
-<!-- ===================== СЛАЙД 3 ===================== -->
 <section class="slide" data-n="3">
-  <h1><span class="num">3</span>Как менялись результаты · воронка площадок</h1>
-  <p class="sub">Главная метрика цели «выбрано помещение»: сколько площадок нашли, осмотрели и довели до переговоров. Выручки нет — точка не открыта.</p>
+  <h1><span class="num">3</span>Как менялись результаты</h1>
+  <p class="sub">Выручки нет — точка не открыта. Метрика цели — площадки: нашли → осмотрели → договаривались → выбрали.</p>
   <div class="cols" style="grid-template-columns: 1150px 1fr; gap: 40px;">
     <div>
       <div id="funnel"></div>
       <div class="legend">
-        <span><span class="ln" style="border-color:var(--series-1)"></span>рассмотрено (накопительно)</span>
+        <span><span class="ln" style="border-color:var(--series-1)"></span>рассмотрено</span>
         <span><span class="ln" style="border-color:var(--series-3)"></span>осмотрено лично</span>
-        <span><span class="ln" style="border-color:var(--series-2)"></span>переговоры: условия получены</span>
+        <span><span class="ln" style="border-color:var(--series-2)"></span>переговоры</span>
       </div>
     </div>
-    <div class="card sm">
-      <h2 style="font-size:28px">Цены, которые узнали (฿ в месяц)</h2>
-      <table class="t sm">
-        <tr><th>Нед.</th><th>Площадка</th><th class="r">Аренда</th></tr>
-        <tr><td>7</td><td>Здание Ватбун / Джомтьен, целиком</td><td class="r">80 000</td></tr>
-        <tr><td>7</td><td>Caltex, юнит 32 м² на АЗС</td><td class="r">9 600</td></tr>
-        <tr><td>7</td><td>Второй этаж у заправки</td><td class="r">5 000</td></tr>
-        <tr><td>9</td><td>Здание SAM, 3 этажа — только продажа</td><td class="r">4 287 000</td></tr>
-        <tr><td>9</td><td>Tara Home, площадь рядом</td><td class="r">36 000</td></tr>
-        <tr><td>10</td><td>Земля у 7/11, Ватбун</td><td class="r">50 000</td></tr>
-        <tr><td>12</td><td>EV SPACE, 2 бокса по 16 м²</td><td class="r">10 500</td></tr>
-      </table>
-      <p class="xs muted" style="margin:14px 0 0">Легализация (15.09): регистрация компании 25 000 · лицензия на массаж ≈50 000 · разрешение на работу 75 000 · бухгалтерия 3 500/мес.</p>
+    <div class="card">
+      <ul class="big">
+        <li>Старт: 0 площадок.</li>
+        <li>Сегодня: 12 рассмотрено · 6 осмотрено · 5 переговоров · <b>0 выбрано</b>.</li>
+        <li>Аренда: от 5 000 до 80 000 ฿ в месяц. Место на АЗС — 9 600, боксы у зарядки — 10 500.</li>
+        <li>Легализация: ≈150 тыс. ฿ разово.</li>
+      </ul>
     </div>
   </div>
-  <div class="foot"><span>Начало (нед. 1): 0 площадок · Сегодня (нед. 14): 12 рассмотрено · 6 осмотрено · 5 переговоров · 0 выбрано · 20 записанных разговоров по цели</span><span>слайд 3 / 7</span></div>
+  <div class="foot"><span>Трекинг CREATORS · итоги 3 месяцев · 16.10.2026</span><span>слайд 3 / 7</span></div>
 </section>
 
-<!-- ===================== СЛАЙД 4 ===================== -->
 <section class="slide" data-n="4">
-  <h1><span class="num">4</span>Что действительно сработало · три проверки</h1>
-  <p class="sub">Две из трёх — «нет», и это тоже результат: сэкономили деньги и недели.</p>
+  <h1><span class="num">4</span>Что сработало · три проверки</h1>
+  <p class="sub">Две дали «нет» — и это тоже результат: сэкономлены деньги и недели.</p>
   <div class="cols cols-3">
     <div class="card">
-      <h2><span class="tag">нед. 7</span>АЗС как якорь — проверил ногами</h2>
-      <ul class="sm">
-        <li><b>Решили:</b> открыть точку массажа на заправке (цель 28.08).</li>
-        <li><b>Сделали:</b> встреча с управляющей компанией Caltex (6 АЗС в Паттайе), разговор на тайском; ассистент объехал заправки.</li>
-        <li><b>Результат:</b> юнит 32 м² — 9 600 ฿/мес, но все места заняты арендаторами по 3–7 лет; на других АЗС — «закрыто» или «дали контакт».</li>
-        <li><b>Проверка у коллег (02.09):</b> показал концепцию клубу CREATORS — главный риск: нет привычки идти на массаж на заправке; $1 000 в месяц требует 20 клиентов в день; конверсия массажа ≈1 % против 10–15 % у еды.</li>
-        <li><b>Вывод по данным:</b> формат дешёвый, а мест нет и спрос не доказан → 04.09 цель переписана: «АЗС <i>или другой якорь</i>». Опровергнуто за неделю, без вложений.</li>
+      <h2><span class="tag">нед. 7</span>АЗС как якорь</h2>
+      <ul class="md">
+        <li>Проверил: Caltex, 6 заправок — свободных мест нет.</li>
+        <li>Аренда 9 600 ฿ за 32 м² — дёшево.</li>
+        <li>Клуб 02.09: спрос на массаж на заправке не доказан.</li>
+        <li><b>Итог:</b> цель переписана, потрачено 0 ฿.</li>
       </ul>
     </div>
     <div class="card">
-      <h2><span class="tag">нед. 8 · 12</span>Экономика раньше аренды</h2>
-      <ul class="sm">
-        <li><b>Решили:</b> не арендовать, пока касса не сходится на бумаге.</li>
-        <li><b>Сделали:</b> разбор 3 салонов-аналогов на АЗС по их журналам (03–04.09): Me Time — 13 клиентов и 9 049 ฿ в день, загрузка 37 %; Arokah — пусто после 12:20. Расчёт EV SPACE (28.09): 2 бокса, 3 мастера.</li>
-        <li><b>Результат:</b> прибыль 1,5 / 54,5 / 100,5 тыс. ฿ при загрузке 0,3 / 0,5 / 0,7; вход 42 тыс. + отделка ≈330 тыс. Порог решения: ≥ 40 зарядок в день. Единственный замер (09.09, среда 10:00): 25 машин на парковке, 2 на зарядке.</li>
-        <li><b>Вывод по данным:</b> без замера потока договор на 3 года не подписан; площадка отпала при 0 ฿ вложений.</li>
+      <h2><span class="tag">нед. 8–12</span>Экономика до аренды</h2>
+      <ul class="md">
+        <li>Салоны-аналоги: 13 клиентов и 9 049 ฿ в день, загрузка 37 %.</li>
+        <li>Боксы у зарядки: прибыль 1,5 / 54,5 / 100,5 тыс. ฿ при загрузке 0,3 / 0,5 / 0,7.</li>
+        <li>Порог «40 машин в день» не проверен.</li>
+        <li><b>Итог:</b> договор на 3 года не подписал, потрачено 0 ฿.</li>
       </ul>
     </div>
     <div class="card">
-      <h2><span class="tag">нед. 11–13</span>ОАЭ — разведка и первый кастдев</h2>
-      <ul class="sm">
-        <li><b>Решили:</b> проверить вторую страну для мастеров.</li>
-        <li><b>Сделали:</b> отчёт 25.09 — 117 контактов, 3 способа входа, мастер для работодателя 4,5–7,5 тыс. AED на 2 года; кастдев с Олегом (Дубай) 05.10.</li>
-        <li><b>Результат:</b> экономика с Олегом: салон платит ≈$2 000 за мастера в месяц, себестоимость ≈$1 200, маржа $800 пополам с партнёром; потребность ОАЭ ≈ 6 000 индонезийских мастеров, 5 000 — отели. Минусы: туризм −44 %, WhatsApp-аккаунты блокируют (07.10).</li>
-        <li><b>Вывод по данным:</b> входить через салон-партнёр, без своего салона (200–600 тыс. AED). Это стало целью до 31.12.</li>
+      <h2><span class="tag">нед. 11–13</span>ОАЭ</h2>
+      <ul class="md">
+        <li>Разведка: 117 контактов, 3 способа входа.</li>
+        <li>Разговор с партнёром 05.10: салон платит $2 000, себестоимость $1 200, маржа $800.</li>
+        <li>Спрос: ≈6 000 индонезийских мастеров, 5 000 — в отелях.</li>
+        <li><b>Итог:</b> входим через партнёра — это цель до 31.12.</li>
       </ul>
     </div>
   </div>
-  <div class="foot"><span>Источники: чат группы, отчёты 03.09 · 25.09 · 02.10, журналы салонов, звонок хозяйке EV SPACE 29.09</span><span>слайд 4 / 7</span></div>
+  <div class="foot"><span>Трекинг CREATORS · итоги 3 месяцев · 16.10.2026</span><span>слайд 4 / 7</span></div>
 </section>
 
-<!-- ===================== СЛАЙД 5 ===================== -->
 <section class="slide" data-n="5">
   <h1><span class="num">5</span>Что не получилось и почему</h1>
   <div class="cols cols-2">
     <div class="card">
-      <h2>Не выполнено</h2>
-      <ul class="sm">
-        <li><b>0 из 15</b> обещаний до постановки цели (нед. 1–6): операционка, аудит за 4 квартала, Тайвань — трекер отклонил трижды.</li>
-        <li>Товарный знак (DIP), объявление о найме тайцев, 3 встречи с АЗС (была 1) — <b>нет отметки «сделано»</b>. Маникюр: <b>0 из 2</b>. Шесть писем в ОАЭ — <b>не отправлены с 25.09</b>. Замер потока на EV SPACE — <b>не сделан</b>.</li>
-        <li>Гипотезы не проверены: Залив / Казахстан (срок 25.09 — 0 писем), страница хаба 5 кандидатам, экономика 4 кресел.</li>
-        <li>Ориентиры с встреч трекинга (по записям): «первый филиал к 1 октября» (04.09) — нет; «купить или строить» (11.09) — решено только 09.10; 20 задач с датами 05–16.10 от 02.10 — <b>подтверждения нет</b>.</li>
-        <li>Недели 41–42: встреча по EV SPACE, кофейня (Игорь и Таня), ответ Sushi Station, интервью по Дубаю — <b>подтверждения нет</b>; поездка в Дубай назначена на 2–13 ноября.</li>
+      <h2>Не сделано</h2>
+      <ul class="md">
+        <li>До цели: 0 из 15 обещаний.</li>
+        <li>Товарный знак, найм тайцев, 3 встречи с АЗС (была 1) — нет данных.</li>
+        <li>6 писем в ОАЭ лежат с 25.09.</li>
+        <li>Замер потока у зарядки не сделан.</li>
+        <li>«Первый филиал к 1 октября» — нет.</li>
       </ul>
     </div>
     <div class="card">
-      <h2>Почему — без оправданий</h2>
-      <ul class="sm">
-        <li><b>Цель искал 7 недель из 13.</b> Половина срока без мерила — и 0 выполненных пунктов за это время.</li>
-        <li><b>Планы «блоками».</b> Нед. 9 — 11 пунктов, 8 из них без цифры («маркетолог», «лазадолог»). Такие пункты нельзя ни сделать, ни проверить.</li>
-        <li><b>Сменил 4 направления:</b> Тайвань → АЗС → хаб у Dusit 3 (сдача 2028) → EV SPACE → ОАЭ. Трекер 02.10: «расфокусировка — хабы, спа, аренда, три географии».</li>
-        <li><b>6 из 13 планов отправлены в 23:5х</b>; 8 замечаний трекера из 13: «это задачи, не гипотезы».</li>
-        <li><b>Параллельно — суды, боты, зарплаты в РФ.</b> Трекинг получал остаток дня, а не первый час.</li>
+      <h2>Почему</h2>
+      <ul class="md">
+        <li>Цель искал 7 недель из 13.</li>
+        <li>Планы «блоками» без цифр: неделя 9 — 11 пунктов.</li>
+        <li>4 смены курса: Тайвань → АЗС → хаб → зарядка → ОАЭ.</li>
+        <li>6 из 13 планов отправлял в 23:59.</li>
+        <li>Параллельно — суды и зарплаты в России.</li>
       </ul>
     </div>
   </div>
   <div class="cols cols-2" style="margin-top:28px">
-    <div class="card warnbox">
-      <h2 style="font-size:28px">Потерянное время ≈ 7 недель из 13</h2>
-      <p class="sm" style="margin:0">6 недель до цели + неделя на хаб у Dusit 3, который сдаётся в 2028 году и к 31.10 не успевал. Плюс письма и замер, которые лежали готовыми и не отправлялись.</p>
-    </div>
-    <div class="card">
-      <h2 style="font-size:28px">Сделал бы иначе</h2>
-      <p class="sm" style="margin:0">Цель с цифрой на 1-й неделе · одна площадка в неделю с замером потока <i>до</i> переговоров · не больше 5 задач, у каждой «готово, когда …» · отчёт по дням в среду, а не в 23:59 четверга.</p>
-    </div>
+    <div class="card warnbox"><h2 style="font-size:30px">Потеряно ≈ 7 недель из 13</h2><p class="md" style="margin:0">6 недель без цели + неделя на хаб со сдачей в 2028 году.</p></div>
+    <div class="card"><h2 style="font-size:30px">Сделал бы иначе</h2><p class="md" style="margin:0">Цель с цифрой на 1-й неделе · замер потока до переговоров · не больше 5 задач, у каждой «готово, когда …».</p></div>
   </div>
-  <div class="foot"><span>Все 54 пункта и статусы — в приложении (слайды А1–А5), переговоры по записям — А6–А7</span><span>слайд 5 / 7</span></div>
+  <div class="foot"><span>Трекинг CREATORS · итоги 3 месяцев · 16.10.2026</span><span>слайд 5 / 7</span></div>
 </section>
 
-<!-- ===================== СЛАЙД 6 ===================== -->
 <section class="slide" data-n="6">
   <h1><span class="num">6</span>Главные выводы</h1>
   <div class="cols cols-2">
-    <div class="card">
-      <h2>1 · Как повлияла скорость определения цели</h2>
-      <p class="big" style="margin:0">Прямо. До цели — <b>0 из 15</b> обещаний, после — <b>14 из 39</b>, 6 осмотров и 5 переговоров. Семь недель выбора — ровно те недели, которых не хватило, чтобы открыть точку к 31.10.</p>
-    </div>
-    <div class="card">
-      <h2>2 · Связь обязательств и результата</h2>
-      <p class="big" style="margin:0">Есть. Недели с конкретными задачами и цифрами (7, 9, 12) дали факты: цены аренды, расчёт, кастдев. Недели с «блоками» (9 — маркетинг, 10, 11) дали почти ничего проверяемого. Что записано цифрой — то и сделано.</p>
-    </div>
-    <div class="card">
-      <h2>3 · Что действительно помогало двигаться</h2>
-      <p class="big" style="margin:0">Осмотр и разговор с хозяином в ту же неделю. Расчёт экономики до переговоров. Отчёт по дням (нед. 12 — единственный, который трекер не вернул на переделку). Группа: Артём — 3 локации, Саша Лозовик — тайка для звонка, Саша Жилин — подсказки по зданиям.</p>
-    </div>
-    <div class="card">
-      <h2>4 · Что поняли о себе как о предпринимателе и команде</h2>
-      <p class="big" style="margin:0">Сильны в разведке и расчётах: 6 отчётов, 425 источников, 117 контактов, 20 записанных разговоров. Слабы в доведении до «да / нет»: 12 кандидатов — 0 решений. Свои слова на встречах: «ёжик в тумане» (25.09), «марафон, а не спринт — второй круг поиска модели» (09.10). ИИ ускорил разведку, но не заменил звонок хозяину и отправку письма.</p>
-    </div>
+    <div class="card"><h2>1 · Скорость цели</h2><p class="big" style="margin:0">Решает. До цели — 0 из 15. После — 14 из 39. Семь недель выбора — те самые, которых не хватило.</p></div>
+    <div class="card"><h2>2 · Обещания и результат</h2><p class="big" style="margin:0">Что записано цифрой — сделано. Что записано «блоком» — нет.</p></div>
+    <div class="card"><h2>3 · Что помогало</h2><p class="big" style="margin:0">Осмотр и разговор с хозяином в ту же неделю. Расчёт до аренды. Подсказки группы: 3 локации и звонок на тайском.</p></div>
+    <div class="card"><h2>4 · О себе</h2><p class="big" style="margin:0">Сильны в разведке: 6 отчётов, 20 записанных встреч. Слабы в решении «да / нет»: 12 кандидатов — 0 решений.</p></div>
   </div>
-  <div class="foot"><span>Главный ответ: результат такой, потому что полсрока ушло на выбор цели, а вторая половина — на разведку без решений</span><span>слайд 6 / 7</span></div>
+  <div class="card" style="margin-top:28px"><p class="big" style="margin:0"><b>Главный ответ:</b> полсрока ушло на выбор цели, вторая половина — на разведку без решений.</p></div>
+  <div class="foot"><span>Трекинг CREATORS · итоги 3 месяцев · 16.10.2026</span><span>слайд 6 / 7</span></div>
 </section>
 
-<!-- ===================== СЛАЙД 7 ===================== -->
 <section class="slide" data-n="7">
-  <h1><span class="num">7</span>Что дальше · цель до 31.12.2026</h1>
+  <h1><span class="num">7</span>Что дальше · до 31.12.2026</h1>
   <div class="card" style="margin-bottom:26px">
-    <div class="dim sm">Следующая измеримая цель</div>
-    <div class="big goal" style="font-size:40px;font-weight:700;margin:6px 0 10px">Первые мастера работают у салона-партнёра в ОАЭ</div>
-    <div class="md muted">Мерило: ≥ 2 запроса на мастеров от салонов и отелей (из 10 предложений) · 1 кадровая компания с письменными условиями · первая арабская компания на регулярной основе · первые 2–5 мастеров оформлены у партнёра до 31.12 (маржа ≈$800 с мастера в месяц, пополам с партнёром). Точка SenWay в Паттайе — вторая линия: план Б по площадке (3 секции у PR Fresh Market, SenWay Box), решение только с замером потока.</div>
+    <div class="dim sm">Цель</div>
+    <div class="big goal" style="font-size:44px;font-weight:700;margin:6px 0 12px">Первые 2–5 мастеров работают у партнёра в ОАЭ</div>
+    <div class="big muted">Мерило: 2 запроса от салонов · 1 партнёр с письменными условиями · 1 компания на регулярной основе.</div>
   </div>
   <div class="cols cols-3">
-    <div class="card">
-      <h2><span class="tag">1</span>Поездка в Дубай 2–13 ноября и 10 предложений</h2>
-      <p class="sm" style="margin:0">Встречи: Cherish Spa, Blaj Spa, Юлия Подгорная, Олег. Предложение подбора мастеров 10 салонам и отелям. Результат недели — 2 запроса с бюджетом и сроком найма, а не «интересно».</p>
-    </div>
-    <div class="card">
-      <h2><span class="tag">2</span>Юрист и кадровая компания</h2>
-      <p class="sm" style="margin:0">LYLAW — 5 вопросов, законная форма договора с салоном-партнёром. Переговоры с 3 кадровыми компаниями → 1 письменные условия оформления и сопровождения мастеров.</p>
-    </div>
-    <div class="card">
-      <h2><span class="tag">3</span>Канал оформления мастеров</h2>
-      <p class="sm" style="margin:0">Тайский мастер — прямой наём с заверением договора в посольстве Таиланда в Абу-Даби. Индонезийский — только через лицензированное агентство P3MI (PT Anugerah Tujuh Samudra). Первые 2–5 мастеров — до 31.12.</p>
-    </div>
+    <div class="card"><h2><span class="tag">1</span>Дубай, 2–13 ноября</h2><p class="big" style="margin:0">10 предложений салонам и отелям.</p></div>
+    <div class="card"><h2><span class="tag">2</span>Юрист и кадровики</h2><p class="big" style="margin:0">Форма договора. 3 кадровые компании → 1 с условиями.</p></div>
+    <div class="card"><h2><span class="tag">3</span>Оформление мастеров</h2><p class="big" style="margin:0">Тайцы — напрямую через посольство. Индонезийцы — через агентство.</p></div>
   </div>
   <div class="card" style="margin-top:26px">
-    <h2 style="font-size:28px">Что меняю в планировании и проверке гипотез</h2>
-    <p class="sm" style="margin:0">Одна цель с цифрой · не больше 5 задач в неделю, у каждой «готово, когда …» · гипотеза = число + срок, проверка в ту же неделю · отчёт по дням в среду · письмо отправляется в день, когда написано (6 писем лежат с 25.09) · замер потока до любых переговоров об аренде.</p>
+    <h2 style="font-size:30px">Что меняю в планировании</h2>
+    <p class="big" style="margin:0">Одна цель с цифрой · не больше 5 задач в неделю · гипотеза = число + срок · отчёт в среду, а не в 23:59.</p>
   </div>
   <div class="foot"><span>Трекинг CREATORS · итоги 3 месяцев · 16.10.2026</span><span>слайд 7 / 7</span></div>
 </section>
 
-<!-- ===================== ПРИЛОЖЕНИЕ ===================== -->
-<section class="slide" data-n="A1" data-app="0"></section>
-<section class="slide" data-n="A2" data-app="1"></section>
-<section class="slide" data-n="A3" data-app="2"></section>
-<section class="slide" data-n="A4" data-app="3"></section>
-<section class="slide" data-n="A5" data-hyp="1"></section>
-<section class="slide" data-n="A6" data-plaud="0"></section>
-<section class="slide" data-n="A7" data-plaud="1"></section>
-
 </div>
 <div class="tip" id="tip"></div>
-<div class="help">← → листать · F — на весь экран · 1–7 — слайд · A — приложение · <a href="deck.pdf" style="color:#c8f07a">скачать PDF</a></div>
+<div class="help">← → листать · F — на весь экран · 1–7 — слайд · <a href="deck.pdf" style="color:#c8f07a">скачать PDF</a></div>
 
 <script>
 // ---------- ДАННЫЕ: обещания по неделям (источник — чат группы, # = номер сообщения) ----------
@@ -513,18 +461,14 @@ const pct = (d,t)=>Math.round(d/t*100);
 
 // ---------- KPI ----------
 (function(){
-  const hc = {conf:HYP.filter(h=>h.r==="подтвердилась").length, no:HYP.filter(h=>h.r==="не подтвердилась").length,
-              un:HYP.filter(h=>h.r==="не проверена").length, run:HYP.filter(h=>h.r==="в работе").length};
+  const conf=HYP.filter(h=>h.r==="подтвердилась").length, no=HYP.filter(h=>h.r==="не подтвердилась").length;
   const tiles = [
-    ["Задач обещано", ALL.total, ""],
-    ["Сделано", ALL.done, `<small>+${ALL.partial} частично</small>`],
-    ["Выполнение", pct(ALL.done,ALL.total)+" %", `<small>${pct(ALL.done+ALL.partial/2,ALL.total)} % с частичн.</small>`],
-    ["Гипотез «если — то»", HYP.length, ""],
-    ["Проверено", hc.conf+hc.no, `<small>${hc.un} не провер.</small>`],
-    ["Подтвердилась / нет", hc.conf+" / "+hc.no, ""],
-    ["В работе", hc.run, "<small>срок 18.10</small>"]
+    ["Обещано задач", `${ALL.total}`],
+    ["Сделано", `${ALL.done} <small>· ${pct(ALL.done,ALL.total)} %</small>`],
+    ["Гипотез «если — то»", `${HYP.length}`],
+    ["Проверено гипотез", `${conf+no} <small>· ${conf} да / ${no} нет</small>`]
   ];
-  document.getElementById("kpi").innerHTML = tiles.map(t=>`<div class="tile"><div class="lab">${t[0]}</div><div class="val">${t[1]} ${t[2]}</div></div>`).join("");
+  document.getElementById("kpi").innerHTML = tiles.map(t=>`<div class="tile"><div class="lab">${t[0]}</div><div class="val">${t[1]}</div></div>`).join("");
 })();
 
 // ---------- ТУЛТИП (мышь и палец) ----------
@@ -603,35 +547,6 @@ function buildFunnel(){
     return `<b>Неделя ${p.w}</b><div>рассмотрено: ${p.c} · осмотрено: ${p.v} · переговоры: ${p.n}</div>${p.ev?`<div style="color:#c3c2b7">${esc(p.ev)}</div>`:""}`; }));
 }
 
-// ---------- ПРИЛОЖЕНИЕ ----------
-(function(){
-  const groups=[[1,2,3,4,5,6],[7,8],[9],[10,11,12,13]];
-  document.querySelectorAll("[data-app]").forEach(sec=>{
-    const gi=+sec.getAttribute("data-app"); const ws=WEEKS.filter(w=>groups[gi].includes(w.n));
-    let rows=""; ws.forEach(w=>{ w.items.forEach((it,j)=>{ rows+=`<tr>${j===0?`<td rowspan="${w.items.length}" style="white-space:nowrap"><b>нед. ${w.n}</b><br><span class="dim">${w.date}<br>${w.src}</span></td>`:""}<td>${esc(it.t)}</td><td class="r"><span class="st ${it.s}">${it.s==="done"?"✅":it.s==="partial"?"◐":it.s==="notdone"?"✖":"?"}</span></td><td class="dim">${esc(it.note||"")}</td></tr>`; }); });
-    const t=tally(ws);
-    sec.innerHTML=`<h1><span class="num">А${gi+1}</span>Приложение · все обещания ${groups[gi].length>1?`по неделям ${groups[gi][0]}–${groups[gi][groups[gi].length-1]}`:`за неделю ${groups[gi][0]}`}</h1>
-      <p class="sub">Источник — посты в чате группы (номера сообщений). Статус: ✅ сделано · ◐ частично · ✖ не сделано · ? нет отметки «сделано». В этой группе недель: ${t.done} сделано, ${t.partial} частично, ${t.notdone} не сделано, ${t.nodata} нет данных — из ${t.total}.</p>
-      <table class="t xs">${rows}</table>
-      <div class="foot"><span>Приложение — не для показа, на случай вопросов по цифрам</span><span>приложение А${gi+1}</span></div>`;
-  });
-  const hs=document.querySelector("[data-hyp]");
-  let rows=HYP.map(h=>`<tr><td style="white-space:nowrap">нед. ${h.w}<br><span class="dim">${h.d}</span></td><td>${esc(h.t)}</td><td class="r"><b>${h.r}</b></td><td class="dim">${esc(h.note)}</td></tr>`).join("");
-  hs.innerHTML=`<h1><span class="num">А5</span>Приложение · гипотезы в формате «если … то …»</h1>
-    <p class="sub">Первая гипотеза с цифрой и сроком — на 10-й неделе (18.09). До неё планы были задачами и «блоками», трекер вернул на переделку 8 планов из 13.</p>
-    <table class="t sm">${rows}</table>
-    <p class="sm muted" style="margin-top:18px">Неформальные проверки направлений, все четыре — «нет»: Тайвань (нед. 4–6, снято) · АЗС как якорь (нед. 7, Caltex — мест нет) · хаб у Dusit 3 (нед. 10–11, сдача 2028) · EV SPACE (нед. 11–14, отпал).</p>
-    <div class="foot"><span>Приложение — не для показа</span><span>приложение А5</span></div>`;
-  const halves=[PLAUD.slice(0,10), PLAUD.slice(10)];
-  document.querySelectorAll("[data-plaud]").forEach(sec=>{
-    const gi=+sec.getAttribute("data-plaud"); const rows=halves[gi].map(p=>`<tr><td style="white-space:nowrap">${p.d}<br><span class="dim">нед. ${p.w}</span></td><td>${esc(p.who)}<br><span class="dim">${esc(p.t)}</span></td><td>${esc(p.r)}</td></tr>`).join("");
-    sec.innerHTML=`<h1><span class="num">А${6+gi}</span>Приложение · переговоры и встречи по записям Plaud ${gi?"(2 из 2)":"(1 из 2)"}</h1>
-      <p class="sub">Источник — сводки записей диктофона Plaud (186 записей за 17.07–15.10, по теме цели — 28). Здесь ${gi?"":"первые "}${halves[gi].length} ${gi?"остальных":""} разговоров: с кем, о чём, что узнали.</p>
-      <table class="t xs">${rows}</table>
-      <div class="foot"><span>Приложение — не для показа</span><span>приложение А${6+gi}</span></div>`;
-  });
-})();
-
 // ---------- НАВИГАЦИЯ (экран: слайды, телефон: лента) ----------
 (function(){
   const slides=[...document.querySelectorAll(".slide")]; let cur=0;
@@ -655,7 +570,6 @@ function buildFunnel(){
     else if(["ArrowLeft","PageUp"].includes(e.key)){ e.preventDefault(); go(cur-1); }
     else if(e.key==="Home"){ go(0); } else if(e.key==="End"){ go(slides.length-1); }
     else if(/^[1-7]$/.test(e.key)){ go(+e.key-1); }
-    else if(e.key==="a"||e.key==="A"||e.key==="ф"||e.key==="Ф"){ go(7); }
     else if(e.key==="f"||e.key==="F"||e.key==="а"||e.key==="А"){ document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen(); }
     else if(e.key==="p"||e.key==="P"||e.key==="з"||e.key==="З"){ window.print(); }
   });
