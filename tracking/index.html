@@ -84,6 +84,52 @@
   .mark { color: var(--accent); font-weight: 700; }
   .warnbox { border-left: 6px solid var(--warn); padding-left: 18px; }
 
+
+  .mnav { display: none; position: sticky; top: 0; z-index: 6; background: rgba(20,26,36,.97); border-bottom: 1px solid var(--line);
+    gap: 6px; padding: 8px 10px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .mnav a { color: var(--text); text-decoration: none; border: 1px solid var(--line); border-radius: 8px; padding: 4px 10px; font-size: 14px; white-space: nowrap; }
+  .mnav a.pdf { color: var(--accent); border-color: var(--accent); }
+  @media (max-width: 900px) {
+    html, body { overflow: auto; -webkit-text-size-adjust: 100%; }
+    .deck { position: static; }
+    .slide { display: block !important; position: static; width: auto; height: auto; transform: none; padding: 16px 14px 20px; border-bottom: 1px solid var(--line); }
+    .slide h1 { font-size: 23px; line-height: 1.15; margin: 0 0 8px; }
+    .slide h1 .num { margin-right: 8px; }
+    .sub { font-size: 15px; margin: 0 0 12px; }
+    .cols { display: block !important; }
+    .card { padding: 12px 13px; margin-bottom: 10px; border-radius: 12px; }
+    .card h2 { font-size: 18px !important; margin: 0 0 8px; line-height: 1.2; }
+    .card h2 .tag { font-size: 12px; padding: 1px 7px; margin-right: 6px; }
+    .big, .md, .sm, .xs { font-size: 15px !important; line-height: 1.4; }
+    .goal { font-size: 20px !important; }
+    ul { padding-left: 20px; } li { margin: 0 0 7px; }
+    .hero { font-size: 34px !important; }
+    .arrow { display: none; }
+    .path { padding: 12px 13px; margin-top: 10px; }
+    .path .step { display: block; margin: 3px 0; padding-left: 16px; text-indent: -16px; }
+    .path .step::before { content: "↓ "; color: var(--text-3); }
+    .path span.step:first-of-type::before { content: ""; }
+    .path .sep { display: none; }
+    .kpi { grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 12px; }
+    .kpi .tile { padding: 9px 11px; border-radius: 10px; }
+    .kpi .lab { font-size: 12px; margin-bottom: 2px; }
+    .kpi .val { font-size: 24px; white-space: normal; }
+    .kpi .val small { font-size: 12px; display: block; }
+    .legend { gap: 8px 14px; font-size: 13px; margin-top: 4px; }
+    .legend span.sw { width: 12px; height: 12px; margin-right: 5px; }
+    .legend span.ln { width: 18px; margin-right: 5px; }
+    table.t { font-size: 12px !important; }
+    table.t th, table.t td { padding: 5px 5px; white-space: normal !important; }
+    .foot { position: static; display: block; margin-top: 12px; font-size: 11px; }
+    .foot span { display: block; }
+    .help { display: none; }
+    .tip { max-width: 88vw; font-size: 13px; }
+    .st { font-size: 12px; min-width: 20px; }
+    .warnbox { border-left-width: 4px; padding-left: 10px; }
+    .mnav { display: flex; }
+    #bars svg, #funnel svg { max-width: 100%; height: auto; }
+  }
+
   @media print {
     @page { size: 13.333in 7.5in; margin: 0; }
     html, body { overflow: visible; background: var(--surface); }
@@ -96,6 +142,7 @@
 </style>
 </head>
 <body>
+<nav class="mnav" id="mnav"><a href="#s1" data-go="0">1</a><a href="#s2" data-go="1">2</a><a href="#s3" data-go="2">3</a><a href="#s4" data-go="3">4</a><a href="#s5" data-go="4">5</a><a href="#s6" data-go="5">6</a><a href="#s7" data-go="6">7</a><a href="#s8" data-go="7">Прил.</a><a class="pdf" href="deck.pdf">PDF</a></nav>
 <div class="deck" id="deck">
 
 <!-- ===================== СЛАЙД 1 ===================== -->
@@ -297,7 +344,7 @@
   <h1><span class="num">7</span>Что дальше · цель до 31.12.2026</h1>
   <div class="card" style="margin-bottom:26px">
     <div class="dim sm">Следующая измеримая цель</div>
-    <div class="big" style="font-size:40px;font-weight:700;margin:6px 0 10px">Первые мастера работают у салона-партнёра в ОАЭ</div>
+    <div class="big goal" style="font-size:40px;font-weight:700;margin:6px 0 10px">Первые мастера работают у салона-партнёра в ОАЭ</div>
     <div class="md muted">Мерило: ≥ 2 запроса на мастеров от салонов и отелей (из 10 предложений) · 1 кадровая компания с письменными условиями · первая арабская компания на регулярной основе · первые 2–5 мастеров оформлены у партнёра до 31.12 (маржа ≈$800 с мастера в месяц, пополам с партнёром). Точка SenWay в Паттайе — вторая линия: план Б по площадке (3 секции у PR Fresh Market, SenWay Box), решение только с замером потока.</div>
   </div>
   <div class="cols cols-3">
@@ -480,73 +527,81 @@ const pct = (d,t)=>Math.round(d/t*100);
   document.getElementById("kpi").innerHTML = tiles.map(t=>`<div class="tile"><div class="lab">${t[0]}</div><div class="val">${t[1]} ${t[2]}</div></div>`).join("");
 })();
 
-// ---------- ТУЛТИП ----------
+// ---------- ТУЛТИП (мышь и палец) ----------
 const tip = document.getElementById("tip");
+const MOBILE = () => window.matchMedia("(max-width: 900px)").matches;
+function pt(e){ return (e.touches && e.touches[0]) || (e.changedTouches && e.changedTouches[0]) || e; }
 function showTip(html, e){ tip.innerHTML = html; tip.style.display="block"; moveTip(e); }
-function moveTip(e){ const w=tip.offsetWidth, h=tip.offsetHeight; let x=e.clientX+18, y=e.clientY+18;
-  if(x+w>window.innerWidth-10) x=e.clientX-w-18; if(y+h>window.innerHeight-10) y=e.clientY-h-18; tip.style.left=x+"px"; tip.style.top=y+"px"; }
+function moveTip(e){ const p=pt(e); const w=tip.offsetWidth, h=tip.offsetHeight; let x=p.clientX+18, y=p.clientY+18;
+  if(x+w>window.innerWidth-10) x=Math.max(6, p.clientX-w-18); if(y+h>window.innerHeight-10) y=Math.max(6, p.clientY-h-18); tip.style.left=x+"px"; tip.style.top=y+"px"; }
 function hideTip(){ tip.style.display="none"; }
 function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;"); }
+function bindTip(el, htmlFn){
+  el.addEventListener("mousemove", e=>showTip(htmlFn(), e)); el.addEventListener("mouseleave", hideTip);
+  el.addEventListener("touchstart", e=>showTip(htmlFn(), e), {passive:true});
+}
+document.addEventListener("touchstart", e=>{ if(!e.target.closest(".seg,.col")) hideTip(); }, {passive:true});
 
-// ---------- СЛАЙД 2: столбики по неделям ----------
-(function(){
-  const W=1240, rowH=46, left=250, right=90, barH=24, top=16, maxN=11;
-  const H=top+WEEKS.length*rowH+20;
+// ---------- СЛАЙД 2: столбики по неделям (экран и телефон) ----------
+function buildBars(){
+  const m=MOBILE(); const box=document.getElementById("bars");
+  const W=m?Math.max(300,Math.min(box.clientWidth||360,440)):1240, rowH=m?30:46, left=m?100:250, right=m?46:90, barH=m?16:24, top=m?12:16, maxN=11;
+  const fL=m?11:19, fC=m?11:18, fA=m?10:15, fG=m?10:17;
+  const H=top+WEEKS.length*rowH+(m?16:20);
   const sx=(W-left-right)/maxN;
   let g=`<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">`;
-  // сетка
-  for(let v=0; v<=maxN; v+=2){ const x=left+v*sx; g+=`<line x1="${x}" y1="${top}" x2="${x}" y2="${H-20}" stroke="#2b3545" stroke-width="1"/>`;
-    g+=`<text x="${x}" y="${H-4}" fill="#8d9099" font-size="15" text-anchor="middle">${v}</text>`; }
+  for(let v=0; v<=maxN; v+=2){ const x=left+v*sx; g+=`<line x1="${x}" y1="${top}" x2="${x}" y2="${H-(m?14:20)}" stroke="#2b3545" stroke-width="1"/>`;
+    g+=`<text x="${x}" y="${H-3}" fill="#8d9099" font-size="${fA}" text-anchor="middle">${v}</text>`; }
   WEEKS.forEach((w,i)=>{
     const y=top+i*rowH, cy=y+rowH/2;
     const lab = `нед. ${w.n} · ${w.date}` + (w.n===7?" ★":"");
-    g+=`<text x="${left-14}" y="${cy+6}" fill="${w.n===7?'#c8f07a':'#c3c2b7'}" font-size="19" text-anchor="end">${lab}</text>`;
+    g+=`<text x="${left-8}" y="${cy+fL*0.35}" fill="${w.n===7?'#c8f07a':'#c3c2b7'}" font-size="${fL}" text-anchor="end">${lab}</text>`;
     let x=left; const order=["done","partial","notdone","nodata"];
-    order.forEach(s=>{
-      const items=w.items.filter(it=>it.s===s); if(!items.length) return;
-      const wdt=items.length*sx-2;
-      const list=items.map(it=>`<div>${s==="done"?"✅":s==="partial"?"◐":s==="notdone"?"✖":"?"} ${esc(it.t)}${it.note?` <span style="color:#c3c2b7">— ${esc(it.note)}</span>`:""}</div>`).join("");
-      g+=`<rect x="${x}" y="${cy-barH/2}" width="${wdt}" height="${barH}" rx="0" fill="${COL[s]}" class="seg" data-tip="${esc(`<b>Неделя ${w.n} (${w.date}) — ${w.title}</b><div style='color:#c3c2b7;margin-bottom:6px'>${ST[s]}: ${items.length}${w.rem?' · '+w.rem:''}</div>`+list).replace(/"/g,'&quot;')}"/>`;
+    order.forEach(st=>{
+      const items=w.items.filter(it=>it.s===st); if(!items.length) return;
+      const wdt=Math.max(1, items.length*sx-2);
+      const list=items.map(it=>`<div>${st==="done"?"✅":st==="partial"?"◐":st==="notdone"?"✖":"?"} ${esc(it.t)}${it.note?` <span style="color:#c3c2b7">— ${esc(it.note)}</span>`:""}</div>`).join("");
+      const tipHtml=`<b>Неделя ${w.n} (${w.date}) — ${esc(w.title)}</b><div style='color:#c3c2b7;margin-bottom:6px'>${ST[st]}: ${items.length}${w.rem?' · '+esc(w.rem):''}</div>`+list;
+      g+=`<rect x="${x}" y="${cy-barH/2}" width="${wdt}" height="${barH}" fill="${COL[st]}" class="seg" data-tip="${tipHtml.replace(/"/g,'&quot;')}"/>`;
       x+=items.length*sx;
     });
-    // скруглённый конец столбика: маска через последний сегмент не нужна — рисуем кап
     const total=w.items.length; const xe=left+total*sx-2;
-    g+=`<text x="${xe+10}" y="${cy+6}" fill="#ffffff" font-size="18">${w.items.filter(i=>i.s==="done").length} / ${total}</text>`;
+    g+=`<text x="${xe+6}" y="${cy+fC*0.35}" fill="#ffffff" font-size="${fC}">${w.items.filter(i=>i.s==="done").length} / ${total}</text>`;
   });
-  // маркер цели
-  const yg=top+6*rowH-2; g+=`<line x1="${left-240}" y1="${yg}" x2="${W-right+40}" y2="${yg}" stroke="#c8f07a" stroke-width="2" stroke-dasharray="0"/>`;
-  g+=`<text x="${W-right+40}" y="${yg-8}" fill="#c8f07a" font-size="17" text-anchor="end">★ 28.08 — поставлена цель</text>`;
+  const yg=top+6*rowH-2; const gx1=m?4:left-240, gx2=W-(m?4:right-40);
+  g+=`<line x1="${gx1}" y1="${yg}" x2="${gx2}" y2="${yg}" stroke="#c8f07a" stroke-width="2"/>`;
+  g+=`<text x="${gx2}" y="${yg-6}" fill="#c8f07a" font-size="${fG}" text-anchor="end">${m?"★ цель поставлена 28.08":"★ 28.08 — поставлена цель"}</text>`;
   g+=`</svg>`;
-  const box=document.getElementById("bars"); box.innerHTML=g;
-  box.querySelectorAll(".seg").forEach(r=>{ r.addEventListener("mousemove",e=>showTip(r.getAttribute("data-tip"),e)); r.addEventListener("mouseleave",hideTip); });
-})();
+  box.innerHTML=g;
+  box.querySelectorAll(".seg").forEach(r=>bindTip(r, ()=>r.getAttribute("data-tip")));
+}
 
-// ---------- СЛАЙД 3: воронка ----------
-(function(){
-  const W=1150, H=560, left=70, right=260, top=30, bottom=60;
+// ---------- СЛАЙД 3: воронка (экран и телефон) ----------
+function buildFunnel(){
+  const m=MOBILE(); const box=document.getElementById("funnel");
+  const W=m?Math.max(300,Math.min(box.clientWidth||360,440)):1150, H=m?290:560, left=m?26:70, right=m?96:260, top=m?26:30, bottom=m?44:60;
+  const fA=m?10:16, fE=m?11:19, fN=m?10:16, rr=m?3.5:6, sw=m?2:2.5;
   const pw=W-left-right, ph=H-top-bottom, maxY=12, n=FUN.length;
   const X=i=>left+i*(pw/(n-1)), Y=v=>top+ph-(v/maxY)*ph;
   let g=`<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">`;
-  for(let v=0; v<=maxY; v+=2){ g+=`<line x1="${left}" y1="${Y(v)}" x2="${W-right}" y2="${Y(v)}" stroke="#2b3545"/><text x="${left-12}" y="${Y(v)+6}" fill="#8d9099" font-size="16" text-anchor="end">${v}</text>`; }
-  FUN.forEach((p,i)=>{ g+=`<text x="${X(i)}" y="${H-28}" fill="${p.w===7||p.w===14?'#c8f07a':'#8d9099'}" font-size="16" text-anchor="middle">${p.w}</text>`; });
-  g+=`<text x="${W/2}" y="${H-6}" fill="#8d9099" font-size="16" text-anchor="middle">неделя трекинга (1 = 17.07 · 7 = 28.08 цель · 14 = 15.10)</text>`;
-  // линия цели
-  g+=`<line x1="${X(6)}" y1="${top}" x2="${X(6)}" y2="${top+ph}" stroke="#c8f07a" stroke-width="1.5"/><text x="${X(6)+8}" y="${top+16}" fill="#c8f07a" font-size="16">цель поставлена</text>`;
-  g+=`<line x1="${X(13)}" y1="${top}" x2="${X(13)}" y2="${top+ph}" stroke="#c8f07a" stroke-width="1.5"/><text x="${X(13)-8}" y="${top+16}" fill="#c8f07a" font-size="16" text-anchor="end">EV SPACE отпал</text>`;
-  const series=[["c","#3987e5","рассмотрено"],["v","#199e70","осмотрено лично"],["n","#d95926","переговоры"]];
+  for(let v=0; v<=maxY; v+=2){ g+=`<line x1="${left}" y1="${Y(v)}" x2="${W-right}" y2="${Y(v)}" stroke="#2b3545"/><text x="${left-6}" y="${Y(v)+fA*0.35}" fill="#8d9099" font-size="${fA}" text-anchor="end">${v}</text>`; }
+  FUN.forEach((p,i)=>{ if(m && !(p.w===1||p.w===7||p.w===14||p.w%2===0)) return; g+=`<text x="${X(i)}" y="${H-bottom+fA+6}" fill="${p.w===7||p.w===14?'#c8f07a':'#8d9099'}" font-size="${fA}" text-anchor="middle">${p.w}</text>`; });
+  g+=`<text x="${left+pw/2}" y="${H-4}" fill="#8d9099" font-size="${fA}" text-anchor="middle">${m?"неделя трекинга (7 — цель, 14 — сегодня)":"неделя трекинга (1 = 17.07 · 7 = 28.08 цель · 14 = 15.10)"}</text>`;
+  g+=`<line x1="${X(6)}" y1="${top}" x2="${X(6)}" y2="${top+ph}" stroke="#c8f07a" stroke-width="1.5"/><text x="${X(6)+5}" y="${top+fN}" fill="#c8f07a" font-size="${fN}">цель</text>`;
+  g+=`<line x1="${X(13)}" y1="${top}" x2="${X(13)}" y2="${top+ph}" stroke="#c8f07a" stroke-width="1.5"/><text x="${X(13)-5}" y="${top+fN}" fill="#c8f07a" font-size="${fN}" text-anchor="end">${m?"EV отпал":"EV SPACE отпал"}</text>`;
+  const series=[["c","#3987e5","рассмотрено"],["v","#199e70","осмотрено"],["n","#d95926","переговоры"]];
   series.forEach(([k,col,name])=>{
     const d=FUN.map((p,i)=>`${i?"L":"M"}${X(i)},${Y(p[k])}`).join(" ");
-    g+=`<path d="${d}" fill="none" stroke="${col}" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>`;
-    FUN.forEach((p,i)=>{ g+=`<circle cx="${X(i)}" cy="${Y(p[k])}" r="6" fill="${col}" stroke="#141a24" stroke-width="2"/>`; });
-    const last=FUN[n-1]; g+=`<text x="${X(n-1)+14}" y="${Y(last[k])+6}" fill="#ffffff" font-size="19">${last[k]} ${name}</text>`;
+    g+=`<path d="${d}" fill="none" stroke="${col}" stroke-width="${sw}" stroke-linejoin="round" stroke-linecap="round"/>`;
+    FUN.forEach((p,i)=>{ g+=`<circle cx="${X(i)}" cy="${Y(p[k])}" r="${rr}" fill="${col}" stroke="#141a24" stroke-width="2"/>`; });
+    const last=FUN[n-1]; g+=`<text x="${X(n-1)+(m?8:14)}" y="${Y(last[k])+fE*0.35}" fill="#ffffff" font-size="${fE}">${last[k]} ${name}</text>`;
   });
-  // невидимые колонки для тултипа
   FUN.forEach((p,i)=>{ g+=`<rect x="${X(i)-pw/(n-1)/2}" y="${top}" width="${pw/(n-1)}" height="${ph}" fill="transparent" class="col" data-i="${i}"/>`; });
   g+=`</svg>`;
-  const box=document.getElementById("funnel"); box.innerHTML=g;
-  box.querySelectorAll(".col").forEach(r=>{ r.addEventListener("mousemove",e=>{ const p=FUN[+r.getAttribute("data-i")];
-    showTip(`<b>Неделя ${p.w}</b><div>рассмотрено: ${p.c} · осмотрено: ${p.v} · переговоры: ${p.n}</div>${p.ev?`<div style="color:#c3c2b7">${esc(p.ev)}</div>`:""}`, e); }); r.addEventListener("mouseleave",hideTip); });
-})();
+  box.innerHTML=g;
+  box.querySelectorAll(".col").forEach(r=>bindTip(r, ()=>{ const p=FUN[+r.getAttribute("data-i")];
+    return `<b>Неделя ${p.w}</b><div>рассмотрено: ${p.c} · осмотрено: ${p.v} · переговоры: ${p.n}</div>${p.ev?`<div style="color:#c3c2b7">${esc(p.ev)}</div>`:""}`; }));
+}
 
 // ---------- ПРИЛОЖЕНИЕ ----------
 (function(){
@@ -577,14 +632,25 @@ function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;"); }
   });
 })();
 
-// ---------- НАВИГАЦИЯ ----------
+// ---------- НАВИГАЦИЯ (экран: слайды, телефон: лента) ----------
 (function(){
   const slides=[...document.querySelectorAll(".slide")]; let cur=0;
+  slides.forEach((sl,i)=>{ sl.id="s"+(i+1); });
   function fit(){ const k=Math.min(window.innerWidth/1920, window.innerHeight/1080); document.documentElement.style.setProperty("--k", k); }
-  function go(i){ cur=Math.max(0,Math.min(slides.length-1,i)); slides.forEach((s,j)=>s.classList.toggle("active",j===cur)); hideTip(); location.hash="s"+(cur+1); }
-  window.addEventListener("resize",fit); fit();
-  const h=parseInt((location.hash||"").replace("#s",""),10); go(isNaN(h)?0:h-1);
+  function go(i){
+    cur=Math.max(0,Math.min(slides.length-1,i)); hideTip();
+    if(MOBILE()){ slides[cur].scrollIntoView({behavior:"smooth", block:"start"}); return; }
+    slides.forEach((sl,j)=>sl.classList.toggle("active",j===cur)); history.replaceState(null,"","#s"+(cur+1));
+  }
+  let mode=MOBILE();
+  function rebuild(){ buildBars(); buildFunnel(); }
+  fit(); rebuild();
+  let t=null;
+  window.addEventListener("resize",()=>{ fit(); clearTimeout(t); t=setTimeout(()=>{ const nm=MOBILE(); if(nm!==mode){ mode=nm; rebuild(); if(!nm) go(cur); } else if(nm){ rebuild(); } },200); });
+  const h=parseInt((location.hash||"").replace("#s",""),10);
+  if(MOBILE()){ if(!isNaN(h)) setTimeout(()=>go(h-1),60); } else { go(isNaN(h)?0:h-1); }
   document.addEventListener("keydown",e=>{
+    if(MOBILE()) return;
     if(["ArrowRight","PageDown"," "].includes(e.key)){ e.preventDefault(); go(cur+1); }
     else if(["ArrowLeft","PageUp"].includes(e.key)){ e.preventDefault(); go(cur-1); }
     else if(e.key==="Home"){ go(0); } else if(e.key==="End"){ go(slides.length-1); }
@@ -593,8 +659,9 @@ function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;"); }
     else if(e.key==="f"||e.key==="F"||e.key==="а"||e.key==="А"){ document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen(); }
     else if(e.key==="p"||e.key==="P"||e.key==="з"||e.key==="З"){ window.print(); }
   });
-  document.getElementById("deck").addEventListener("click",e=>{ if(e.target.closest("svg")) return; const x=e.clientX/window.innerWidth; if(x>0.66) go(cur+1); else if(x<0.2) go(cur-1); });
-  window.addEventListener("beforeprint",()=>slides.forEach(s=>s.classList.add("active")));
+  document.getElementById("deck").addEventListener("click",e=>{ if(MOBILE()) return; if(e.target.closest("svg")) return; const x=e.clientX/window.innerWidth; if(x>0.66) go(cur+1); else if(x<0.2) go(cur-1); });
+  document.querySelectorAll(".mnav a[data-go]").forEach(a=>a.addEventListener("click",e=>{ e.preventDefault(); go(+a.getAttribute("data-go")); }));
+  window.addEventListener("beforeprint",()=>slides.forEach(sl=>sl.classList.add("active")));
   window.addEventListener("afterprint",()=>go(cur));
 })();
 </script>
