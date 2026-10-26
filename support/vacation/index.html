@@ -1,0 +1,83 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Саппорт: если отпуск</title><style>
+:root{--bg:#F5F7FA;--surface:#FFFFFF;--ink:#18212B;--ink-2:#4E5B6A;--muted:#8593A3;--line:#DCE3EA;
+--accent:#0E4A7E;--good:#1F7A4D;--bad:#B3261E;--same:#8593A3}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#12181F;--surface:#1A222B;--ink:#E9EEF3;
+--ink-2:#B4BFCA;--muted:#7D8A98;--line:#2B3641;--accent:#8FC3EE;--good:#6FCF97;--bad:#FF8A80;--same:#7D8A98}}
+:root[data-theme="dark"]{--bg:#12181F;--surface:#1A222B;--ink:#E9EEF3;--ink-2:#B4BFCA;--muted:#7D8A98;--line:#2B3641;
+--accent:#8FC3EE;--good:#6FCF97;--bad:#FF8A80;--same:#7D8A98}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+font-size:15px;line-height:1.5;margin:0;padding:28px 16px 48px}
+.wrap{max-width:1000px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1fr);gap:24px}
+h1,h2{font-family:Manrope,"IBM Plex Sans",system-ui,sans-serif;margin:0;text-wrap:balance}
+h1{font-size:clamp(24px,4vw,34px);font-weight:800;line-height:1.15}
+h2{font-size:19px;font-weight:700;margin-bottom:10px}
+.eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:6px}
+.lead,.note{color:var(--ink-2);max-width:72ch}
+.note{font-size:13px}
+nav a{color:var(--accent);margin-right:16px}
+section{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px}
+.verdict{border-left:5px solid var(--same)}
+.verdict.better{border-left-color:var(--good)}.verdict.worse{border-left-color:var(--bad)}
+.verdict.mixed{border-left-color:var(--accent)}
+.verdict b{font-size:20px}
+.scroll{overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:14px}
+th,td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+td.n,th.n{text-align:right;white-space:nowrap}
+.mark{font-weight:700;white-space:nowrap}
+.mark.better{color:var(--good)}.mark.worse{color:var(--bad)}.mark.same,.mark.na{color:var(--same)}
+tr.cur td{font-weight:700}
+ul{margin:6px 0 0;padding-left:20px}
+
+.jump{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.jump a{border:1px solid var(--line);border-radius:999px;padding:6px 14px;text-decoration:none;font-weight:600}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(118px,1fr));gap:8px;margin:12px 0}
+.tile{border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.tile b{display:block;font-family:Manrope,sans-serif;font-size:22px;font-weight:800;line-height:1.15}
+.tile span{color:var(--ink-2);font-size:12.5px;line-height:1.35;display:block}
+table.wk{min-width:600px}
+table.wk td{white-space:nowrap;line-height:1.45}
+td.chg{background:var(--chg-bg);color:var(--ink);font-weight:600}
+td.chg small{display:block;font-weight:400;color:var(--ink-2);font-size:12px}
+td.off{color:var(--muted)}
+pre.msg{white-space:pre-wrap;font:inherit;background:var(--bg);border-radius:8px;padding:14px;margin:10px 0}
+button.copy{font:inherit;font-weight:600;color:var(--accent);background:var(--surface);border:1px solid var(--line);
+border-radius:8px;padding:8px 14px;cursor:pointer}
+button.copy:focus-visible,.jump a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+section{scroll-margin-top:16px}
+:root{--chg-bg:rgba(14,74,126,.10)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--chg-bg:rgba(143,195,238,.16)}}
+:root[data-theme="dark"]{--chg-bg:rgba(143,195,238,.16)}
+</style></head><body><div class="wrap"><header><div class="eyebrow">Саппорт мастеров · если отпуск</div><h1>Если одна из помощниц уходит в отпуск</h1><p class="lead">Здесь готовый временный график на отпуск каждой: кто какие смены берёт, какие часы остаются без человека и сколько вопросов это затронет. Цифры — среднее за 4 недели 28.09–25.10, всего 122 вопросов саппорту в неделю. Время — Бангкок. Страница пересчитывается каждый понедельник, собрано 26 октября в 13:54.</p><nav class="jump" aria-label="Кто уходит в отпуск"><a href="#vac-marina">Марина в отпуске</a><a href="#vac-inna">Инна в отпуске</a><a href="#vac-nastya">Настя в отпуске</a></nav><nav style="margin-top:12px"><a href="../">← График и поток сообщений</a><a href="../weekly/">Итоги недели</a></nav></header><section><h2>Как подбирался график</h2><ul><li>Сначала смену сдвигают на час туда, где без отпускницы никого нет. Например, 11–14 вместо 10–13: в 10 утра вопросов почти не бывает.</li><li>Если сдвига мало, добавляют смену. Не больше одной в день и трёх в неделю на человека.</li><li>Выходные не отнимают. Исключение одно: в отпуск Инны Настя работает в субботу вместо воскресенья.</li><li>Часы, где вопросов совсем мало, остаются без человека. Вопрос ждёт ближайшую смену.</li></ul><p class="note">Как включить: напишите в Claude Code, например, «Настя в отпуске с 03.11 по 09.11». Недельный отчёт посчитает эти дни по её временному графику и пометит неделю. Доплату за добавленные смены страница не считает, это решение владельца.</p></section><section id="vac-marina"><h2>Марина в отпуске</h2><div class="tiles"><div class="tile"><b>50</b><span>вопросов в неделю приходят в её смены</span></div><div class="tile"><b>+3</b><span>смены добавлены остальным</span></div><div class="tile"><b>1</b><span>смена сдвинута</span></div><div class="tile"><b>78% → 74%</b><span>вопросов приходит, когда на месте живой человек</span></div></div><div class="scroll"><table class="wk"><thead><tr><th>Кто</th><th>Пн</th><th>Вт</th><th>Ср</th><th>Чт</th><th>Пт</th><th>Сб</th><th>Вс</th><th class="n">Часов</th></tr></thead><tbody><tr><td><b>Инна</b></td><td class=off>выходной</td><td class="chg">14–17<br>18–21<small>было<br>14–17</small></td><td>10–13<br>14–17<br>18–21</td><td>10–13<br>14–17<br>18–21</td><td class=off>выходной</td><td>14–17<br>18–21</td><td>14–17<br>18–21</td><td class="n">36 (+3)</td></tr><tr><td><b>Настя</b></td><td class="chg">11–14<br>15–18<br>18–21<small>было<br>11–14<br>15–18</small></td><td>11–14<br>15–18</td><td>11–14<br>15–18</td><td>11–14<br>15–18</td><td class="chg">11–14<br>14–17<br>18–21<small>было<br>11–14<br>15–18</small></td><td class=off>выходной</td><td>14–17</td><td class="n">39 (+6)</td></tr></tbody></table></div><p class="note">Выделены дни, которые меняются. Под сменой написано, как было.</p><p>Без человека остаются часы, где обычно работала она (в скобках — сколько вопросов в неделю приходит в этот час): Пт 17–18 (1,8), Вс 12–13 (1), Пн 14–15 (0,5), Вт 10–11 (0,5), Вс 11–12 (0,5), Вс 10–11 (0,2). Всего около 4 вопросов в неделю.</p><h3>Сообщение команде</h3><pre class="msg" id="msg-marina">Пока Марина в отпуске, график меняется так:
+Инна:
+  Вт 14–17, 18–21 (было 14–17)
+Настя:
+  Пн 11–14, 15–18, 18–21 (было 11–14, 15–18)
+  Пт 11–14, 14–17, 18–21 (было 11–14, 15–18)
+Без человека остаются: Пн 14–15, Вт 10–11, Пт 17–18, Вс 11–12, Вс 12–13. Вопросы в эти часы ждут ближайшую смену.
+Остальные смены как обычно.</pre><button type="button" class="copy" data-for="msg-marina">Скопировать сообщение</button> <span class="note" role="status"></span></section><section id="vac-inna"><h2>Инна в отпуске</h2><div class="tiles"><div class="tile"><b>38</b><span>вопросов в неделю приходят в её смены</span></div><div class="tile"><b>+2</b><span>смены добавлены остальным</span></div><div class="tile"><b>2</b><span>смены сдвинуты</span></div><div class="tile"><b>78% → 76%</b><span>вопросов приходит, когда на месте живой человек</span></div></div><div class="scroll"><table class="wk"><thead><tr><th>Кто</th><th>Пн</th><th>Вт</th><th>Ср</th><th>Чт</th><th>Пт</th><th>Сб</th><th>Вс</th><th class="n">Часов</th></tr></thead><tbody><tr><td><b>Марина</b></td><td>10–13<br>14–17<br>18–21</td><td>10–13<br>14–17<br>18–21</td><td class=off>выходной</td><td class="chg">14–17<br>18–21<small>было<br>14–17</small></td><td>14–17<br>18–21</td><td class=off>выходной</td><td>10–13<br>14–17</td><td class="n">36 (+3)</td></tr><tr><td><b>Настя</b></td><td>11–14<br>15–18</td><td>11–14<br>15–18</td><td class="chg">11–14<br>14–17<br>18–21<small>было<br>11–14<br>15–18</small></td><td>11–14<br>15–18</td><td>11–14<br>15–18</td><td class="chg">14–17<small>было<br>выходной</small></td><td class="chg">выходной<small>было<br>14–17</small></td><td class="n">36 (+3)</td></tr></tbody></table></div><p class="note">Выделены дни, которые меняются. Под сменой написано, как было.</p><p>Без человека остаются часы, где обычно работала она (в скобках — сколько вопросов в неделю приходит в этот час): Сб 19–20 (1), Ср 17–18 (0,5), Вс 18–19 (0,5), Вс 20–21 (0,5), Ср 10–11 (0,2), Сб 20–21 (0,2). Всего около 3 вопросов в неделю.</p><h3>Сообщение команде</h3><pre class="msg" id="msg-inna">Пока Инна в отпуске, график меняется так:
+Марина:
+  Чт 14–17, 18–21 (было 14–17)
+Настя:
+  Ср 11–14, 14–17, 18–21 (было 11–14, 15–18)
+  Сб 14–17 (было выходной)
+  Вс выходной (было 14–17)
+Без человека остаются: Ср 17–18, Сб 19–20, Вс 18–19, Вс 20–21. Вопросы в эти часы ждут ближайшую смену.
+Остальные смены как обычно.</pre><button type="button" class="copy" data-for="msg-inna">Скопировать сообщение</button> <span class="note" role="status"></span></section><section id="vac-nastya"><h2>Настя в отпуске</h2><div class="tiles"><div class="tile"><b>56</b><span>вопросов в неделю приходят в её смены</span></div><div class="tile"><b>+1</b><span>смена добавлена остальным</span></div><div class="tile"><b>7</b><span>смен сдвинуто</span></div><div class="tile"><b>78% → 75%</b><span>вопросов приходит, когда на месте живой человек</span></div></div><div class="scroll"><table class="wk"><thead><tr><th>Кто</th><th>Пн</th><th>Вт</th><th>Ср</th><th>Чт</th><th>Пт</th><th>Сб</th><th>Вс</th><th class="n">Часов</th></tr></thead><tbody><tr><td><b>Марина</b></td><td class="chg">11–14<br>15–18<br>18–21<small>было<br>10–13<br>14–17<br>18–21</small></td><td class="chg">11–14<br>15–18<br>18–21<small>было<br>10–13<br>14–17<br>18–21</small></td><td class=off>выходной</td><td class="chg">15–18<small>было<br>14–17</small></td><td class="chg">11–14<br>14–17<br>18–21<small>было<br>14–17<br>18–21</small></td><td class=off>выходной</td><td>10–13<br>14–17</td><td class="n">36 (+3)</td></tr><tr><td><b>Инна</b></td><td class=off>выходной</td><td>14–17</td><td class="chg">11–14<br>14–17<br>18–21<small>было<br>10–13<br>14–17<br>18–21</small></td><td class="chg">11–14<br>14–17<br>18–21<small>было<br>10–13<br>14–17<br>18–21</small></td><td class=off>выходной</td><td>14–17<br>18–21</td><td>14–17<br>18–21</td><td class="n">33</td></tr></tbody></table></div><p class="note">Выделены дни, которые меняются. Под сменой написано, как было.</p><p>Без человека остаются часы, где обычно работала она (в скобках — сколько вопросов в неделю приходит в этот час): Пт 17–18 (1,8), Пн 14–15 (0,5), Вт 10–11 (0,5), Ср 17–18 (0,5), Ср 10–11 (0,2). Всего около 4 вопросов в неделю.</p><h3>Сообщение команде</h3><pre class="msg" id="msg-nastya">Пока Настя в отпуске, график меняется так:
+Марина:
+  Пн 11–14, 15–18, 18–21 (было 10–13, 14–17, 18–21)
+  Вт 11–14, 15–18, 18–21 (было 10–13, 14–17, 18–21)
+  Чт 15–18 (было 14–17)
+  Пт 11–14, 14–17, 18–21 (было 14–17, 18–21)
+Инна:
+  Ср 11–14, 14–17, 18–21 (было 10–13, 14–17, 18–21)
+  Чт 11–14, 14–17, 18–21 (было 10–13, 14–17, 18–21)
+Без человека остаются: Пн 14–15, Вт 10–11, Ср 17–18, Пт 17–18. Вопросы в эти часы ждут ближайшую смену.
+Остальные смены как обычно.</pre><button type="button" class="copy" data-for="msg-nastya">Скопировать сообщение</button> <span class="note" role="status"></span></section><section><h2>Откуда цифры</h2><p class="note">Вопросы, которые бот мастеров передал саппорту, по часу их прихода. «Живой человек на месте» — час, в который по графику работает хотя бы одна помощница. Вопросы ночью и рано утром не покрыты и в обычную неделю, поэтому охват меньше 100%. В отпуск двух сразу готового графика нет: такой случай нужно решать отдельно.</p></section></div><script>
+document.querySelectorAll('button.copy').forEach(function(b){b.addEventListener('click',function(){
+var t=document.getElementById(b.dataset.for).innerText,s=b.nextElementSibling;
+var done=function(ok){s.textContent=ok?'Скопировано':'Не получилось, выделите текст и скопируйте вручную'};
+try{navigator.clipboard.writeText(t).then(function(){done(true)},function(){done(false)})}catch(e){done(false)}
+})})
+</script></body></html>
